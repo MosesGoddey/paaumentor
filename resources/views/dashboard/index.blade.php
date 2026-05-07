@@ -14,7 +14,9 @@
     </p>
   </div>
   <div style="display:flex;gap:10px">
+    @if($user->isMentee())
     <a href="{{ route('mentors.index') }}" class="btn btn-outline btn-sm">Find Mentor</a>
+    @endif
     <a href="{{ route('chat.index') }}"    class="btn btn-primary btn-sm">Messages</a>
   </div>
 </div>

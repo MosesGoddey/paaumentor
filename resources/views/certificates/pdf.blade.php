@@ -3,9 +3,44 @@
 <head>
 <meta charset="UTF-8">
 @php
-  $isMentor = $certificate->type === 'mentor';
-  $primary  = $isMentor ? '#1a5c2e' : '#1a3a6e';
-  $accent   = '#c9a227';
+  $isHackathon = $certificate->type === 'hackathon';
+  $isMentor    = $certificate->type === 'mentor';
+  $mentorTier  = $isMentor ? $certificate->user->mentor_tier : '';
+
+  if ($isHackathon) {
+      $placement = $certificate->placement ?? 'participant';
+      $certTitle = match($placement) {
+          '1st'   => 'Certificate of Excellence',
+          '2nd'   => 'Certificate of Achievement',
+          '3rd'   => 'Certificate of Merit',
+          default => 'Certificate of Participation',
+      };
+      $primary = match($placement) {
+          '1st'   => '#92400e',
+          '2nd'   => '#374151',
+          '3rd'   => '#78350f',
+          default => '#1a3a6e',
+      };
+      $accent  = match($placement) {
+          '1st'   => '#d97706',
+          '2nd'   => '#9ca3af',
+          '3rd'   => '#b45309',
+          default => '#c9a227',
+      };
+  } else {
+      $certTitle = match($mentorTier) {
+          'lead'   => 'Certificate of Mentorship Excellence',
+          'senior' => 'Certificate of Senior Mentorship',
+          default  => 'Certificate of Mentorship',
+      };
+      $primary = match(true) {
+          $isMentor && $mentorTier === 'lead'   => '#7c3a00',
+          $isMentor && $mentorTier === 'senior' => '#3b0764',
+          $isMentor                             => '#1a5c2e',
+          default                               => '#1a3a6e',
+      };
+      $accent = '#c9a227';
+  }
 @endphp
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -136,7 +171,36 @@ html, body {
       </table>
 
       {{-- Certificate body --}}
-      @if($isMentor)
+      @if($isHackathon)
+        @php $team = $certificate->hackathonTeam; $hackathon = $team->hackathon; @endphp
+        <div style="font-size:9pt;color:#555;font-style:italic;line-height:1.6;margin-bottom:1.5mm">
+          As a member of team
+        </div>
+        <div style="font-size:16pt;color:{{ $primary }};font-style:italic;letter-spacing:1px;line-height:1.2;margin-bottom:1.5mm">
+          {{ $team->name }}
+        </div>
+        <div style="font-size:9pt;color:#555;font-style:italic;line-height:1.4;margin-bottom:1.5mm">
+          @if($certificate->placement === 'participant')
+            having participated in
+          @else
+            having achieved <strong style="color:{{ $primary }}">{{ $certificate->placement }} Place</strong> in
+          @endif
+        </div>
+        <div style="font-size:20pt;color:{{ $primary }};font-style:italic;letter-spacing:1px;line-height:1.2;margin-bottom:2mm">
+          {{ $certTitle }}
+        </div>
+        <div style="font-size:8.5pt;color:#666;font-style:italic;line-height:1.4;margin-bottom:1.5mm">awarded for participation in</div>
+        <div style="font-family:Arial,Helvetica,sans-serif;font-size:11pt;font-weight:bold;color:{{ $primary }};text-transform:uppercase;letter-spacing:1px;line-height:1.4;margin-bottom:1.5mm">
+          {{ $hackathon->title }}
+        </div>
+        @if($hackathon->theme)
+        <div style="font-size:8.5pt;color:#666;font-style:italic;line-height:1.4;margin-bottom:1mm">Theme: {{ $hackathon->theme }}</div>
+        @endif
+        <div style="font-size:8pt;color:#666;line-height:1.6;margin-bottom:3.5mm">
+          Organised under the PAAUMENTOR Peer Mentorship Programme<br>
+          Prince Abubakar Audu University, Anyigba
+        </div>
+      @elseif($isMentor)
         <div style="font-size:9pt;color:#555;font-style:italic;line-height:1.6;margin-bottom:1.5mm">
           Having demonstrated exceptional dedication and commitment<br>
           in guiding and mentoring
@@ -148,7 +212,7 @@ html, body {
           has been awarded a
         </div>
         <div style="font-size:20pt;color:{{ $primary }};font-style:italic;letter-spacing:1px;line-height:1.2;margin-bottom:2mm">
-          Certificate of Mentorship
+          {{ $certTitle }}
         </div>
         <div style="font-size:8.5pt;color:#666;font-style:italic;line-height:1.4;margin-bottom:1.5mm">in</div>
         <div style="font-family:Arial,Helvetica,sans-serif;font-size:11pt;font-weight:bold;color:{{ $primary }};text-transform:uppercase;letter-spacing:1px;line-height:1.4;margin-bottom:1.5mm">

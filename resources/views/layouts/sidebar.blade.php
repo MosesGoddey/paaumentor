@@ -57,23 +57,13 @@
 @endphp
   <aside class="sidebar" style="border-left:4px solid {{ $accentColor }}">
 
-    {{-- Role identity card --}}
-    <div style="margin:-20px -12px 16px;padding:18px 16px;background:{{ $cardBg }};border-bottom:2px solid {{ $cardBorder }}">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="font-size:2.2rem;line-height:1">{{ $roleEmoji }}</div>
-        <div>
-          <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:{{ $accentColor }}">You are a</div>
-          <div style="font-size:1.25rem;font-weight:800;font-family:'Sora',sans-serif;color:{{ $accentColor }};line-height:1.2">{{ $roleLabel }}</div>
-          <div style="font-size:0.7rem;color:{{ $accentColor }};opacity:0.8;margin-top:2px">{{ $roleSub }}</div>
-        </div>
-      </div>
-      @if($isPending)
-      <div style="margin-top:10px;padding:7px 10px;background:#fef3c7;border:1px solid #fde68a;border-radius:8px;font-size:0.72rem;color:#92400e;font-weight:600">
-        ⏳ Pending portfolio verification — you'll be notified once approved.
-      </div>
-      @endif
+    @if($isPending)
+    <div style="margin:-20px -12px 12px;padding:10px 16px;background:#fef3c7;border-bottom:1px solid #fde68a;font-size:0.72rem;color:#92400e;font-weight:600">
+      ⏳ Pending portfolio verification — you'll be notified once approved.
     </div>
+    @endif
 
+<div style="flex:1;overflow-y:auto;padding-right:2px;overscroll-behavior:contain">
     <div class="sidebar-label">Main</div>
     <a href="{{ route('dashboard') }}"      class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"><span class="icon">🏠</span> Dashboard</a>
     @if($authUser->isMentee())
@@ -105,6 +95,7 @@
       @if($unread) <span class="count">{{ $unread }}</span> @endif
     </a>
     <div class="sidebar-label">Collaborate</div>
+    <a href="{{ route('hackathons.index') }}" class="sidebar-link {{ request()->routeIs('hackathons.*') ? 'active' : '' }}"><span class="icon">🚀</span> Hackathons</a>
     <a href="{{ route('study-groups.index') }}"   class="sidebar-link {{ request()->routeIs('study-groups.*') ? 'active' : '' }}"><span class="icon">🧑‍🤝‍🧑</span> Study Groups</a>
     <a href="{{ route('skill-exchange.index') }}" class="sidebar-link {{ request()->routeIs('skill-exchange.*') ? 'active' : '' }}"><span class="icon">🔄</span> Skill Exchange</a>
     <a href="{{ route('resources.index') }}"      class="sidebar-link {{ request()->routeIs('resources.*') ? 'active' : '' }}"><span class="icon">📁</span> Resources</a>
@@ -125,20 +116,21 @@
     <a href="{{ route('upgrade.admin') }}" class="sidebar-link {{ request()->routeIs('upgrade.admin') ? 'active' : '' }}"><span class="icon">🛡️</span> Upgrade Requests</a>
     @endif
     <a href="{{ route('profile.edit') }}" class="sidebar-link"><span class="icon">⚙️</span> Settings</a>
-    <div style="margin-top:auto;padding:12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px">
+    </div>{{-- end scrollable nav --}}
+    <a href="{{ route('profile.show', auth()->user()) }}" style="padding:8px 12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;text-decoration:none;transition:background 0.15s;border-radius:0" onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background='transparent'">
       @if(auth()->user()->avatar_url)
-      <img src="{{ auth()->user()->avatar_url }}" alt="" style="width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0">
+      <img src="{{ auth()->user()->avatar_url }}" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0">
       @else
-      <div class="avatar" style="width:38px;height:38px;font-size:0.85rem;flex-shrink:0">{{ auth()->user()->initials }}</div>
+      <div class="avatar" style="width:32px;height:32px;font-size:0.78rem;flex-shrink:0">{{ auth()->user()->initials }}</div>
       @endif
       <div style="min-width:0">
-        <div style="font-weight:700;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ auth()->user()->full_name }}</div>
+        <div style="font-weight:700;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)">{{ auth()->user()->full_name }}</div>
         <span style="background:var(--blue-500);color:#fff;border-radius:4px;padding:1px 6px;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em">{{ auth()->user()->role }}</span>
       </div>
-    </div>
+    </a>
     <form method="POST" action="{{ route('logout') }}">
       @csrf
-      <button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:none;border:none;cursor:pointer"><span class="icon">🚪</span> Sign Out</button>
+      <button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:#fecdd3;border:none;cursor:pointer;color:#9f1239;font-weight:600;border-radius:10px"><span class="icon">🚪</span> Sign Out</button>
     </form>
   </aside>
 

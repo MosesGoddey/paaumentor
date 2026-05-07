@@ -6,14 +6,27 @@
   <div style="height:100px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));border-radius:16px 16px 0 0;margin:-24px -24px 0"></div>
   <div style="margin-top:-50px;padding:0 0 20px">
     <div class="avatar avatar-xl" style="border:4px solid var(--surface);margin-bottom:12px">{{ $mentor->initials }}</div>
-    <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:4px">{{ $mentor->full_name }}</h1>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px">
+      <h1 style="font-size:1.5rem;font-weight:800;margin:0">{{ $mentor->full_name }}</h1>
+      @php $tier = $mentor->mentor_tier; @endphp
+      <span style="font-size:0.72rem;font-weight:700;padding:3px 10px;border-radius:99px;letter-spacing:0.05em;
+        background:{{ $tier==='lead' ? '#fef3c7' : ($tier==='senior' ? '#ede9fe' : '#dbeafe') }};
+        color:{{ $tier==='lead' ? '#92400e' : ($tier==='senior' ? '#5b21b6' : '#1d4ed8') }}">
+        {{ $mentor->mentor_tier_icon }} {{ $mentor->mentor_tier_label }}
+      </span>
+    </div>
     <p style="color:var(--text-3);font-size:0.9rem;margin-bottom:12px">{{ $mentor->level }} · {{ $mentor->department }}</p>
     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
       @foreach($mentor->hasSkills as $s)<span class="badge badge-blue">{{ $s->name }}</span>@endforeach
     </div>
     @if($mentor->bio)<p style="font-size:0.9rem;color:var(--text-2);line-height:1.7;margin-bottom:16px">{{ $mentor->bio }}</p>@endif
     <div style="display:flex;gap:20px;margin-bottom:20px">
-      <div><div style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.3rem">{{ $mentor->average_rating }}</div><div style="font-size:0.75rem;color:var(--text-3)">Avg Rating</div></div>
+      <div>
+        <div style="color:#f59e0b;font-size:1rem;letter-spacing:1px">
+          @for($s = 1; $s <= 5; $s++){{ $s <= round($mentor->average_rating) ? '★' : '☆' }}@endfor
+        </div>
+        <div style="font-size:0.75rem;color:var(--text-3)">{{ $mentor->average_rating > 0 ? number_format($mentor->average_rating,1).' / 5' : 'No ratings yet' }}</div>
+      </div>
       <div><div style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.3rem">{{ $mentor->mentorMentorships->count() }}</div><div style="font-size:0.75rem;color:var(--text-3)">Mentees</div></div>
     </div>
 

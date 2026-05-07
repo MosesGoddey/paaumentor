@@ -43,11 +43,14 @@ class MentorController extends Controller
             );
         }
 
+        $tierOrder = ['lead' => 3, 'senior' => 2, 'junior' => 1];
+
         $mentors = $query->get()->map(fn($m) => [
             'mentor' => $m,
             'score'  => $m->matchScore($user),
             'rating' => $m->average_rating,
-        ])->sortByDesc(fn($m) => $m['score'])->values();
+            'tier'   => $tierOrder[$m->mentor_tier] ?? 1,
+        ])->sortByDesc(fn($m) => [$m['tier'], $m['score']])->values();
 
         $skills = Skill::orderBy('name')->get();
 

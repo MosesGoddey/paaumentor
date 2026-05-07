@@ -124,6 +124,40 @@ class User extends Authenticatable
         return round($this->ratings()->avg('score') ?? 0, 1);
     }
 
+    public function getCompletedMenteesCountAttribute(): int
+    {
+        return \App\Models\Certificate::whereHas('learningPath', fn($q) => $q->where('mentor_id', $this->id))
+            ->where('type', 'mentee')
+            ->count();
+    }
+
+    public function getMentorTierAttribute(): string
+    {
+        if (!$this->isMentor()) return '';
+        $count = $this->completed_mentees_count;
+        if ($count >= 15) return 'lead';
+        if ($count >= 5)  return 'senior';
+        return 'junior';
+    }
+
+    public function getMentorTierLabelAttribute(): string
+    {
+        return match($this->mentor_tier) {
+            'lead'   => 'Lead Mentor',
+            'senior' => 'Senior Mentor',
+            default  => 'Junior Mentor',
+        };
+    }
+
+    public function getMentorTierIconAttribute(): string
+    {
+        return match($this->mentor_tier) {
+            'lead'   => '👑',
+            'senior' => '⭐',
+            default  => '🔵',
+        };
+    }
+
     public function getTotalSessionsAttribute(): int
     {
         return $this->mentorMentorships()

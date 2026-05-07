@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Certificate;
+use App\Models\{Certificate, Rating, Mentorship};
 use Barryvdh\DomPDF\Facade\Pdf;
 use chillerlan\QRCode\{QRCode, QROptions};
 use chillerlan\QRCode\Output\QRStringJSON;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CertificateController extends Controller
@@ -14,11 +15,40 @@ class CertificateController extends Controller
     {
         $user = Auth::user();
         $certificates = $user->certificates()
-                             ->with('learningPath.mentor', 'learningPath.mentee')
+                             ->with('learningPath.mentor', 'learningPath.mentee', 'hackathonTeam.hackathon')
                              ->latest('issued_at')
                              ->get();
 
-        return view('certificates.index', compact('user', 'certificates'));
+        // Map of mentor_id => Rating already submitted by this mentee
+        $ratedMentorIds = Rating::where('rater_id', $user->id)
+            ->pluck('mentorship_id', 'ratee_id');
+
+        return view('certificates.index', compact('user', 'certificates', 'ratedMentorIds'));
+    }
+
+    public function rateMentor(Request $request, Certificate $certificate)
+    {
+        $user = Auth::user();
+        abort_unless($certificate->user_id === $user->id && $certificate->type === 'mentee', 403);
+
+        $data = $request->validate([
+            'score'  => 'required|integer|min:1|max:5',
+            'review' => 'nullable|string|max:500',
+        ]);
+
+        $path       = $certificate->learningPath;
+        $mentorship = Mentorship::where('mentor_id', $path->mentor_id)
+                                ->where('mentee_id', $user->id)
+                                ->first();
+
+        abort_unless($mentorship, 422);
+
+        Rating::updateOrCreate(
+            ['rater_id' => $user->id, 'ratee_id' => $path->mentor_id],
+            ['mentorship_id' => $mentorship->id, 'score' => $data['score'], 'review' => $data['review'] ?? null]
+        );
+
+        return back()->with('success', 'Thank you for rating your mentor!');
     }
 
     public function download(Certificate $certificate)
@@ -28,7 +58,11 @@ class CertificateController extends Controller
             403
         );
 
-        $certificate->load(['user', 'learningPath.mentor', 'learningPath.mentee']);
+        if ($certificate->type === 'hackathon') {
+            $certificate->load(['user', 'hackathonTeam.hackathon', 'hackathonTeam.users']);
+        } else {
+            $certificate->load(['user', 'learningPath.mentor', 'learningPath.mentee']);
+        }
 
         $verifyUrl = route('certificates.verify', $certificate->certificate_id);
         $qrCode    = $this->generateQr($verifyUrl);

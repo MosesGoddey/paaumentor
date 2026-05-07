@@ -25,6 +25,15 @@
 }
 .chat-back{display:none;align-items:center;gap:8px;background:none;border:none;cursor:pointer;font-size:0.9rem;color:var(--blue-500);font-weight:600;padding:0}
 @keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+@keyframes recPulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes vnBounce{0%,100%{transform:scaleY(0.3)}50%{transform:scaleY(1)}}
+.vn-player{display:flex;align-items:center;gap:8px;padding:2px 0 4px;min-width:200px}
+.vn-play{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.15s}
+.vn-play:hover{opacity:0.85}
+.vn-wave{display:flex;align-items:center;gap:2px;flex:1;height:28px}
+.vn-bar{width:3px;border-radius:2px;transition:background 0.08s}
+.vn-time{font-size:0.7rem;font-weight:600;font-variant-numeric:tabular-nums;min-width:30px;text-align:right;flex-shrink:0}
+.rec-bar{width:3px;border-radius:2px;background:#dc2626;transform-origin:center}
 </style>
 
 <div class="chat-wrap" style="position:relative">
@@ -101,10 +110,19 @@
               $isImage = in_array($ext, ['jpg','jpeg','png','gif','webp','svg']);
               $isPdf   = $ext === 'pdf';
               $isDocx  = $ext === 'docx';
+              $isAudio = in_array($ext, ['webm','mp3','ogg','wav','m4a','aac']);
               $icons   = ['doc'=>'📝','docx'=>'📝','xls'=>'📊','xlsx'=>'📊','ppt'=>'📊','pptx'=>'📊','zip'=>'🗜️','rar'=>'🗜️','txt'=>'📃'];
               $icon    = $icons[$ext] ?? '📎';
             @endphp
-            @if($isImage)
+            @if($isAudio)
+              <div class="vn-player" data-src="{{ $url }}" data-mine="{{ $mine ? '1' : '0' }}">
+                <button class="vn-play" onclick="vnToggle(this)" type="button"
+                        style="background:{{ $mine ? '#fff' : 'var(--blue-500)' }};color:{{ $mine ? 'var(--blue-500)' : '#fff' }}">▶</button>
+                <div class="vn-wave"></div>
+                <span class="vn-time" style="color:{{ $mine ? 'rgba(255,255,255,0.75)' : 'var(--text-3)' }}">0:00</span>
+                <audio src="{{ $url }}" preload="metadata" style="display:none"></audio>
+              </div>
+            @elseif($isImage)
               <img src="{{ $url }}" alt="{{ $msg->file_name }}"
                    style="max-width:220px;max-height:180px;border-radius:10px;display:block;cursor:pointer;margin-bottom:4px"
                    onclick="openPreview('{{ $url }}','{{ $msg->file_name }}','image')">
@@ -173,9 +191,19 @@
         <span id="filePreviewName" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
         <button type="button" onclick="clearFile()" style="background:none;border:none;cursor:pointer;font-size:1rem;color:var(--text-3)">✕</button>
       </div>
+      <div id="recordingStrip" style="display:none;align-items:center;gap:10px;background:var(--surface-2);border:1px solid #fecaca;border-radius:14px;padding:8px 14px;margin-bottom:8px">
+        <button type="button" onclick="cancelRecording()" title="Cancel"
+                style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:1.1rem;padding:0;line-height:1;flex-shrink:0">🗑️</button>
+        <div id="recWave" style="display:flex;align-items:center;gap:2px;flex:1;height:28px"></div>
+        <span id="recordTimer" style="font-size:0.8rem;font-weight:700;color:#dc2626;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">0:00</span>
+        <button type="button" onclick="stopRecording()" title="Send voice note"
+                style="width:36px;height:36px;border-radius:50%;background:#dc2626;color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">➤</button>
+      </div>
       <div style="display:flex;gap:8px;align-items:center">
         <button type="button" onclick="document.getElementById('chatFile').click()" title="Attach file"
                 style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">📎</button>
+        <button type="button" id="micBtn" onclick="toggleRecording()" title="Voice note"
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">🎙️</button>
         <button type="button" onclick="startCall('video')" title="Start video call"
                 style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">📹</button>
         <button type="button" onclick="startCall('voice')" title="Start voice call"
@@ -544,5 +572,185 @@ function closePreview(e) {
   document.getElementById('modalBody').innerHTML = '';
   document.body.style.overflow = '';
 }
+
+// ── Voice note player ─────────────────────────────────────────────
+const VN_BARS   = 28;
+const VN_SEED   = (s) => { let x = Math.sin(s) * 10000; return x - Math.floor(x); };
+
+function vnInit(container) {
+  const mine  = container.dataset.mine === '1';
+  const audio = container.querySelector('audio');
+  const wave  = container.querySelector('.vn-wave');
+  const timeEl = container.querySelector('.vn-time');
+  const btn   = container.querySelector('.vn-play');
+
+  const seed = container.dataset.src.length;
+  const heights = Array.from({ length: VN_BARS }, (_, i) => Math.max(4, Math.round(VN_SEED(seed + i) * 22) + 4));
+
+  wave.innerHTML = heights.map((h, i) =>
+    `<span class="vn-bar" data-i="${i}" style="height:${h}px;background:${mine ? 'rgba(255,255,255,0.35)' : '#cbd5e1'}"></span>`
+  ).join('');
+
+  const bars = wave.querySelectorAll('.vn-bar');
+
+  audio.addEventListener('loadedmetadata', () => {
+    timeEl.textContent = vnFmt(audio.duration);
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    const pct = audio.currentTime / (audio.duration || 1);
+    bars.forEach((bar, i) => {
+      bar.style.background = i / VN_BARS <= pct
+        ? (mine ? '#fff' : 'var(--blue-500)')
+        : (mine ? 'rgba(255,255,255,0.35)' : '#cbd5e1');
+    });
+    const left = (audio.duration || 0) - audio.currentTime;
+    timeEl.textContent = vnFmt(left);
+  });
+
+  audio.addEventListener('ended', () => {
+    btn.innerHTML = '▶';
+    bars.forEach(b => b.style.background = mine ? 'rgba(255,255,255,0.35)' : '#cbd5e1');
+    timeEl.textContent = vnFmt(audio.duration);
+  });
+}
+
+function vnToggle(btn) {
+  const container = btn.closest('.vn-player');
+  const audio = container.querySelector('audio');
+  if (audio.paused) {
+    document.querySelectorAll('.vn-player audio').forEach(a => {
+      if (a !== audio && !a.paused) {
+        a.pause();
+        a.closest('.vn-player').querySelector('.vn-play').innerHTML = '▶';
+      }
+    });
+    audio.play();
+    btn.innerHTML = '⏸';
+  } else {
+    audio.pause();
+    btn.innerHTML = '▶';
+  }
+}
+
+function vnFmt(s) {
+  if (!s || isNaN(s)) return '0:00';
+  return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+}
+
+document.querySelectorAll('.vn-player').forEach(vnInit);
+
+// ── Voice recording ───────────────────────────────────────────────
+@isset($activeConversation)
+let _mediaRecorder  = null;
+let _audioChunks    = [];
+let _recordInterval = null;
+let _recordSeconds  = 0;
+let _recAnimFrame   = null;
+
+function _buildRecWave() {
+  const wave = document.getElementById('recWave');
+  wave.innerHTML = Array.from({ length: 24 }, (_, i) =>
+    `<span class="rec-bar" style="height:4px;animation:vnBounce ${0.4 + (i % 5) * 0.1}s ease-in-out infinite alternate;animation-delay:${(i % 6) * 0.07}s"></span>`
+  ).join('');
+}
+
+async function toggleRecording() {
+  if (_mediaRecorder && _mediaRecorder.state === 'recording') {
+    stopRecording();
+  } else {
+    await startRecording();
+  }
+}
+
+async function startRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    _audioChunks   = [];
+    _recordSeconds = 0;
+    _mediaRecorder = new MediaRecorder(stream);
+    _mediaRecorder.ondataavailable = e => { if (e.data.size > 0) _audioChunks.push(e.data); };
+    _mediaRecorder.onstop = sendVoiceNote;
+    _mediaRecorder.start(100);
+
+    _buildRecWave();
+    document.getElementById('recordingStrip').style.display = 'flex';
+    document.getElementById('micBtn').style.color = '#dc2626';
+
+    _recordInterval = setInterval(() => {
+      _recordSeconds++;
+      document.getElementById('recordTimer').textContent =
+        Math.floor(_recordSeconds / 60) + ':' + String(_recordSeconds % 60).padStart(2, '0');
+      if (_recordSeconds >= 120) stopRecording();
+    }, 1000);
+  } catch (e) {
+    alert('Microphone access denied. Please allow microphone permission in your browser.');
+  }
+}
+
+function stopRecording() {
+  if (_mediaRecorder && _mediaRecorder.state === 'recording') {
+    _mediaRecorder.stop();
+    _mediaRecorder.stream.getTracks().forEach(t => t.stop());
+  }
+  clearInterval(_recordInterval);
+  document.getElementById('recordingStrip').style.display = 'none';
+  document.getElementById('micBtn').style.color = 'var(--text-3)';
+}
+
+function cancelRecording() {
+  if (_mediaRecorder && _mediaRecorder.state === 'recording') {
+    _mediaRecorder.onstop = null;
+    _mediaRecorder.stop();
+    _mediaRecorder.stream.getTracks().forEach(t => t.stop());
+  }
+  _audioChunks = [];
+  clearInterval(_recordInterval);
+  document.getElementById('recordingStrip').style.display = 'none';
+  document.getElementById('micBtn').style.color = 'var(--text-3)';
+}
+
+async function sendVoiceNote() {
+  if (!_audioChunks.length) return;
+  const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
+  const ext      = mimeType === 'audio/webm' ? 'webm' : 'ogg';
+  const blob     = new Blob(_audioChunks, { type: mimeType });
+  const filename = `voice-note-${Date.now()}.${ext}`;
+  const form = new FormData();
+  form.append('_token', _csrfToken);
+  form.append('file', blob, filename);
+  try {
+    const res  = await fetch('{{ route("chat.send", $activeConversation) }}', {
+      method: 'POST', headers: { 'Accept': 'application/json' }, body: form,
+    });
+    const data = await res.json();
+    if (data.message) appendVoiceMessage(data.message);
+  } catch (e) {
+    alert('Failed to send voice note. Please try again.');
+  }
+  _audioChunks = [];
+}
+
+function appendVoiceMessage(msg) {
+  const area = document.getElementById('messageArea');
+  const url  = msg.file_path ? `/storage/${msg.file_path}` : '';
+  const time = new Date(msg.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const div  = document.createElement('div');
+  div.style.cssText = 'display:flex;justify-content:flex-end';
+  div.innerHTML = `
+    <div style="max-width:65%;background:var(--blue-500);color:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.88rem;line-height:1.5">
+      <div class="vn-player" data-src="${url}" data-mine="1">
+        <button class="vn-play" onclick="vnToggle(this)" type="button" style="background:#fff;color:var(--blue-500)">▶</button>
+        <div class="vn-wave"></div>
+        <span class="vn-time" style="color:rgba(255,255,255,0.75)">0:00</span>
+        <audio src="${url}" preload="metadata" style="display:none"></audio>
+      </div>
+      <div style="font-size:0.68rem;margin-top:2px;text-align:right;opacity:0.75">${time} <span style="opacity:0.55;font-size:0.75rem;font-weight:700">✓</span></div>
+    </div>`;
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+  vnInit(div.querySelector('.vn-player'));
+}
+@endisset
 </script>
 @endpush

@@ -67,7 +67,15 @@
       <div style="margin-top:-28px;margin-bottom:12px">
         <div class="avatar avatar-lg" style="border:3px solid var(--surface)">{{ $mentor->initials }}</div>
       </div>
-      <div style="font-weight:800;font-size:1rem;margin-bottom:2px">{{ $mentor->full_name }}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap">
+        <div style="font-weight:800;font-size:1rem">{{ $mentor->full_name }}</div>
+        @php $tier = $mentor->mentor_tier; @endphp
+        <span style="font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:0.05em;
+          background:{{ $tier==='lead' ? '#fef3c7' : ($tier==='senior' ? '#ede9fe' : '#dbeafe') }};
+          color:{{ $tier==='lead' ? '#92400e' : ($tier==='senior' ? '#5b21b6' : '#1d4ed8') }}">
+          {{ $mentor->mentor_tier_icon }} {{ $mentor->mentor_tier_label }}
+        </span>
+      </div>
       <div style="font-size:0.8rem;color:var(--text-3);margin-bottom:10px">{{ $mentor->level }} · {{ $mentor->department }}</div>
       <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px">
         @foreach($mentor->hasSkills->take(4) as $skill)
@@ -75,7 +83,14 @@
         @endforeach
       </div>
       <div style="display:flex;gap:16px;margin-bottom:14px">
-        <div style="text-align:center"><div style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem">{{ $mentor->average_rating }}</div><div style="font-size:0.7rem;color:var(--text-3)">Rating</div></div>
+        <div style="text-align:center">
+          <div style="color:#f59e0b;font-size:0.9rem;letter-spacing:1px;line-height:1">
+            @for($s = 1; $s <= 5; $s++)
+              {{ $s <= round($mentor->average_rating) ? '★' : '☆' }}
+            @endfor
+          </div>
+          <div style="font-size:0.68rem;color:var(--text-3);margin-top:2px">{{ $mentor->average_rating > 0 ? number_format($mentor->average_rating,1) : 'No ratings' }}</div>
+        </div>
         <div style="width:1px;background:var(--border)"></div>
         <div style="text-align:center"><div style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem">{{ $mentor->mentorMentorships->count() }}</div><div style="font-size:0.7rem;color:var(--text-3)">Mentees</div></div>
       </div>

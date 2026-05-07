@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
@@ -71,6 +73,10 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+
+        try {
+            Mail::to($user->email)->send(new WelcomeMail($user));
+        } catch (\Throwable) {}
 
         $message = $isMentor
             ? 'Welcome! Your mentor account is pending portfolio verification. You will be notified once approved.'

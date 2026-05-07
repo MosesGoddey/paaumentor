@@ -92,9 +92,12 @@
               <button type="button" onclick="togglePw('loginPw')" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:0.78rem;color:var(--text-3);font-weight:600">Show</button>
             </div>
           </div>
-          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer">
-            <input type="checkbox" name="remember" style="accent-color:var(--blue-500)"> Remember me for 30 days
-          </label>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer">
+              <input type="checkbox" name="remember" style="accent-color:var(--blue-500)"> Remember me
+            </label>
+            <a href="{{ route('password.request') }}" style="font-size:0.82rem;color:var(--blue-500);text-decoration:none;font-weight:600">Forgot password?</a>
+          </div>
           <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Sign In to PAAUMENTOR</button>
         </form>
         <p style="font-size:0.85rem;color:var(--text-3);text-align:center;margin-top:16px">Don't have an account? <a onclick="switchTab('register')" style="color:var(--blue-500);font-weight:600;cursor:pointer">Create one free →</a></p>
@@ -149,7 +152,7 @@
           </div>
 
           <div class="form-group"><label class="form-label">Password</label><div class="input-wrap"><input type="password" name="password" id="regPw" class="form-input" placeholder="Minimum 8 characters" required><button type="button" onclick="togglePw('regPw')" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:0.78rem;color:var(--text-3);font-weight:600">Show</button></div></div>
-          <input type="password" name="password_confirmation" class="form-input" placeholder="Confirm password" required>
+          <div class="form-group"><label class="form-label">Confirm Password</label><div class="input-wrap"><input type="password" name="password_confirmation" id="regPwConfirm" class="form-input" placeholder="Confirm password" required><button type="button" onclick="togglePw('regPwConfirm')" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:0.78rem;color:var(--text-3);font-weight:600">Show</button></div></div>
           <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Create My Account</button>
         </form>
         <p style="font-size:0.85rem;color:var(--text-3);text-align:center;margin-top:16px">Already have an account? <a onclick="switchTab('login')" style="color:var(--blue-500);font-weight:600;cursor:pointer">Sign in →</a></p>

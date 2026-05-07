@@ -147,21 +147,12 @@ class VerifierController extends Controller
         $year         = date('Y');
         $padded       = str_pad($path->id, 5, '0', STR_PAD_LEFT);
         $menteeCertId = 'PAAU-' . $year . '-' . $padded;
-        $mentorCertId = 'PAAU-M-' . $year . '-' . $padded;
 
         Certificate::create([
             'user_id'          => $mentee->id,
             'learning_path_id' => $path->id,
             'type'             => 'mentee',
             'certificate_id'   => $menteeCertId,
-            'issued_at'        => now(),
-        ]);
-
-        Certificate::create([
-            'user_id'          => $path->mentor_id,
-            'learning_path_id' => $path->id,
-            'type'             => 'mentor',
-            'certificate_id'   => $mentorCertId,
             'issued_at'        => now(),
         ]);
 
@@ -175,12 +166,40 @@ class VerifierController extends Controller
             'data'    => ['certificate_id' => $menteeCertId],
         ]);
 
-        Notification::create([
-            'user_id' => $path->mentor_id,
-            'type'    => 'certificate_issued',
-            'title'   => 'Mentorship Certificate Issued!',
-            'body'    => "{$mentee->full_name} completed \"{$path->title}\" and was verified. Your Certificate of Mentorship is ready.",
-            'data'    => ['certificate_id' => $mentorCertId],
-        ]);
+        // Count how many mentees this mentor has guided to completion (including this one)
+        $completedCount = Certificate::whereHas('learningPath', fn($q) => $q->where('mentor_id', $path->mentor_id))
+            ->where('type', 'mentee')
+            ->count();
+
+        // Mentor certificate issued only at every 3rd completed mentee
+        if ($completedCount % 3 === 0) {
+            $milestone    = $completedCount / 3;
+            $mentorCertId = 'PAAU-M-' . $year . '-' . str_pad($milestone, 5, '0', STR_PAD_LEFT);
+
+            Certificate::create([
+                'user_id'          => $path->mentor_id,
+                'learning_path_id' => $path->id,
+                'type'             => 'mentor',
+                'certificate_id'   => $mentorCertId,
+                'issued_at'        => now(),
+            ]);
+
+            Notification::create([
+                'user_id' => $path->mentor_id,
+                'type'    => 'certificate_issued',
+                'title'   => 'Mentor Milestone Certificate Earned! 🏆',
+                'body'    => "You have successfully guided {$completedCount} mentees to completion. Your Certificate of Mentorship Excellence has been issued.",
+                'data'    => ['certificate_id' => $mentorCertId],
+            ]);
+        } else {
+            $remaining = 3 - ($completedCount % 3);
+            Notification::create([
+                'user_id' => $path->mentor_id,
+                'type'    => 'mentee_completed',
+                'title'   => 'Mentee Completed Their Path',
+                'body'    => "{$mentee->full_name} completed \"{$path->title}\" and received their certificate. Guide {$remaining} more mentee(s) to completion to earn your next mentor certificate.",
+                'data'    => [],
+            ]);
+        }
     }
 }

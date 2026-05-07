@@ -19,6 +19,7 @@ use App\Http\Controllers\{
     AssessmentController,
     CertificateRequestController,
     UpgradeAssessmentController,
+    HackathonController,
 };
 use Illuminate\Support\Facades\{Route, Auth};
 
@@ -34,6 +35,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/login',    [AuthController::class, 'login']);
     Route::get('/register',  [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
+
+    // Forgot / reset password
+    Route::get('/forgot-password',        [\App\Http\Controllers\Auth\PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('/forgot-password',       [\App\Http\Controllers\Auth\PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('/reset-password/{token}', [\App\Http\Controllers\Auth\NewPasswordController::class,       'create'])->name('password.reset');
+    Route::post('/reset-password',        [\App\Http\Controllers\Auth\NewPasswordController::class,       'store'])->name('password.store');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])
@@ -187,10 +194,31 @@ Route::middleware('auth')->group(function () {
         Route::post('/{certRequest}/regenerate',           [AssessmentController::class, 'regenerate'])->name('regenerate');
     });
 
+    // ---- Hackathons ----
+    Route::prefix('hackathons')->name('hackathons.')->group(function () {
+        Route::get('/',                                        [HackathonController::class, 'index'])->name('index');
+        Route::get('/create',                                  [HackathonController::class, 'create'])->name('create');
+        Route::post('/',                                       [HackathonController::class, 'store'])->name('store');
+        Route::get('/{hackathon}',                             [HackathonController::class, 'show'])->name('show');
+        Route::post('/{hackathon}/team/create',                [HackathonController::class, 'createTeam'])->name('team.create');
+        Route::post('/{hackathon}/team/join',                  [HackathonController::class, 'joinTeam'])->name('team.join');
+        Route::get('/{hackathon}/team',                        [HackathonController::class, 'myTeam'])->name('team');
+        Route::post('/{hackathon}/submit',                     [HackathonController::class, 'submitProject'])->name('submit');
+        Route::get('/{hackathon}/judge',                       [HackathonController::class, 'judgePanel'])->name('judge');
+        Route::post('/{hackathon}/status',                     [HackathonController::class, 'updateStatus'])->name('status');
+        Route::post('/{hackathon}/assign-judge',               [HackathonController::class, 'assignJudge'])->name('assignJudge');
+        Route::post('/{hackathon}/publish-results',            [HackathonController::class, 'publishResults'])->name('publishResults');
+        Route::get('/{hackathon}/leaderboard',                 [HackathonController::class, 'leaderboard'])->name('leaderboard');
+        Route::post('/submissions/{submission}/score',         [HackathonController::class, 'score'])->name('score');
+        Route::post('/teams/{team}/volunteer-coach',           [HackathonController::class, 'volunteerCoach'])->name('volunteerCoach');
+        Route::post('/teams/{team}/respond-coach',             [HackathonController::class, 'respondCoach'])->name('respondCoach');
+    });
+
     // ---- Certificates ----
     Route::prefix('certificates')->name('certificates.')->group(function () {
         Route::get('/',                               [CertificateController::class, 'index'])->name('index');
         Route::get('/{certificate}/download',         [CertificateController::class, 'download'])->name('download');
+        Route::post('/{certificate}/rate-mentor',     [CertificateController::class, 'rateMentor'])->name('rateMentor');
     });
 
     // ---- Notifications ----

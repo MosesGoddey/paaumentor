@@ -1,8 +1,7 @@
 # PAAUMENTOR — Laravel Backend Integration Guide
 
 > **Project:** PAAUMENTOR Peer Mentorship Platform  
-> **Student:** Moses Goddey Joseph · 23CS1004  
-> **Supervisor:** Mr. Richard Akomodi  
+> **Student:** Moses Goddey Joseph ·
 > **Department of Computer Science, PAAU Anyigba**
 
 ---

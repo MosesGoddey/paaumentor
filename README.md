@@ -127,7 +127,7 @@ Mentee meets requirements (5 sessions, 1 certificate, 1 completed path, active m
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=paaumentor
+DB_DATABASE=
 DB_USERNAME=root
 DB_PASSWORD=
 
@@ -146,7 +146,7 @@ Get a free Gemini API key at [aistudio.google.com/apikey](https://aistudio.googl
 
 ## Developed By
 
-**Moses Goddey Joseph** — 23CS1004  
+**Moses Goddey Joseph** —
 Department of Computer Science  
 Prince Abubakar Audu University, Anyigba, Nigeria  
 

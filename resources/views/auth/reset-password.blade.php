@@ -34,7 +34,7 @@
   <div class="auth-right">
     <div class="auth-right-inner">
       <div style="margin-bottom:32px">
-        <div style="width:52px;height:52px;background:#d1fae5;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px">🔒</div>
+        <div style="width:52px;height:52px;background:#d1fae5;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px"></div>
         <h2 style="font-size:1.7rem;font-weight:800;margin-bottom:6px">Set a new password</h2>
         <p style="font-size:0.88rem;color:var(--text-3)">Your new password must be at least 8 characters.</p>
       </div>

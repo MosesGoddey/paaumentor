@@ -13,7 +13,7 @@
   {{-- Already has an active request --}}
   @if($existing)
   <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:16px;padding:20px 24px;margin-bottom:24px">
-    <div style="font-weight:700;font-size:0.95rem;color:#854d0e;margin-bottom:4px">⏳ Application In Progress</div>
+    <div style="font-weight:700;font-size:0.95rem;color:#854d0e;margin-bottom:4px"> Application In Progress</div>
     <p style="font-size:0.85rem;color:#92400e;margin:0 0 10px">
       @if($existing->isPendingAssessment())
         You need to complete the knowledge assessment before your mentor is notified.
@@ -25,7 +25,7 @@
     </p>
     @if($existing->isPendingAssessment())
     <a href="{{ route('upgrade-assessment.show', $existing) }}" class="btn btn-sm btn-primary">
-      Go to Assessment →
+      Go to Assessment 
     </a>
     @endif
   </div>
@@ -38,7 +38,7 @@
       @foreach($requirements as $key => $req)
       <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px;background:{{ $req['met'] ? '#f0fdf4' : 'var(--surface-2)' }};border:1px solid {{ $req['met'] ? '#86efac' : 'var(--border)' }}">
         <div style="width:32px;height:32px;border-radius:50%;background:{{ $req['met'] ? '#16a34a' : 'var(--border)' }};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;color:#fff;font-weight:700">
-          {{ $req['met'] ? '✓' : '✗' }}
+          {{ $req['met'] ? '' : '' }}
         </div>
         <div style="flex:1">
           <div style="font-weight:600;font-size:0.88rem;color:{{ $req['met'] ? '#166534' : 'var(--text)' }}">{{ $req['label'] }}</div>
@@ -63,13 +63,13 @@
   @if(!$existing)
     @if($allMet)
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
-      <div style="font-weight:700;font-size:0.95rem;margin-bottom:6px">✅ You meet all requirements!</div>
+      <div style="font-weight:700;font-size:0.95rem;margin-bottom:6px"> You meet all requirements!</div>
       <p style="font-size:0.85rem;color:var(--text-3);margin:0 0 18px">
         Submitting this application will notify your mentor <strong>{{ $activeMentor?->mentor->full_name }}</strong> to write a recommendation for you.
       </p>
       {{-- Portfolio fields (reviewed by verifier) --}}
       <div style="margin-bottom:20px;padding:16px;background:#fff7ed;border-radius:14px;border:1.5px solid #fed7aa">
-        <div style="font-size:0.85rem;font-weight:700;color:#c2410c;margin-bottom:14px">📋 Mentor Portfolio <span style="font-weight:500;color:var(--text-3)">(reviewed by a verifier before your mentor account goes live)</span></div>
+        <div style="font-size:0.85rem;font-weight:700;color:#c2410c;margin-bottom:14px"> Mentor Portfolio <span style="font-weight:500;color:var(--text-3)">(reviewed by a verifier before your mentor account goes live)</span></div>
         <div style="display:flex;flex-direction:column;gap:12px">
           <div class="form-group" style="margin:0">
             <label class="form-label">GitHub Profile URL</label>

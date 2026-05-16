@@ -72,7 +72,7 @@
 
       @if($errors->any())
         <div style="background:#fee2e2;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#991b1b">
-          @foreach($errors->all() as $e) <div>✗ {{ $e }}</div> @endforeach
+          @foreach($errors->all() as $e) <div> {{ $e }}</div> @endforeach
         </div>
       @endif
 
@@ -100,7 +100,7 @@
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Sign In to PAAUMENTOR</button>
         </form>
-        <p style="font-size:0.85rem;color:var(--text-3);text-align:center;margin-top:16px">Don't have an account? <a onclick="switchTab('register')" style="color:var(--blue-500);font-weight:600;cursor:pointer">Create one free →</a></p>
+        <p style="font-size:0.85rem;color:var(--text-3);text-align:center;margin-top:16px">Don't have an account? <a onclick="switchTab('register')" style="color:var(--blue-500);font-weight:600;cursor:pointer">Create one free </a></p>
       </div>
 
       <div id="registerPanel" style="display:none">
@@ -131,7 +131,7 @@
           {{-- Mentor portfolio section (shown when mentor/alumni role selected) --}}
           <div id="mentorPortfolio" style="display:none;flex-direction:column;gap:12px;padding:16px;background:var(--surface-2);border-radius:14px;border:1.5px solid #fed7aa">
             <div style="font-size:0.82rem;font-weight:700;color:#c2410c;display:flex;align-items:center;gap:6px">
-              📋 Mentor Portfolio
+               Mentor Portfolio
               <span style="font-size:0.72rem;font-weight:500;color:var(--text-3)">Required for mentor accounts</span>
             </div>
             <div class="form-group" style="margin:0">
@@ -147,7 +147,7 @@
               <textarea name="bio" class="form-input" rows="3" placeholder="Describe your skills, completed projects, and the topics you can mentor on..." style="resize:vertical">{{ old('bio') }}</textarea>
             </div>
             <p style="font-size:0.75rem;color:#92400e;margin:0;padding:8px 10px;background:#fff7ed;border-radius:8px;border:1px solid #fed7aa">
-              ⚠️ Your mentor account will be <strong>pending verification</strong> until a verifier reviews your portfolio. You'll be notified once approved.
+               Your mentor account will be <strong>pending verification</strong> until a verifier reviews your portfolio. You'll be notified once approved.
             </p>
           </div>
 
@@ -155,7 +155,7 @@
           <div class="form-group"><label class="form-label">Confirm Password</label><div class="input-wrap"><input type="password" name="password_confirmation" id="regPwConfirm" class="form-input" placeholder="Confirm password" required><button type="button" onclick="togglePw('regPwConfirm')" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:0.78rem;color:var(--text-3);font-weight:600">Show</button></div></div>
           <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Create My Account</button>
         </form>
-        <p style="font-size:0.85rem;color:var(--text-3);text-align:center;margin-top:16px">Already have an account? <a onclick="switchTab('login')" style="color:var(--blue-500);font-weight:600;cursor:pointer">Sign in →</a></p>
+        <p style="font-size:0.85rem;color:var(--text-3);text-align:center;margin-top:16px">Already have an account? <a onclick="switchTab('login')" style="color:var(--blue-500);font-weight:600;cursor:pointer">Sign in </a></p>
       </div>
     </div>
   </div>

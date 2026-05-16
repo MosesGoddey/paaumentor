@@ -40,12 +40,12 @@
           <form method="POST" action="{{ route('mentors.respond', $m) }}">
             @csrf @method('PATCH')
             <input type="hidden" name="action" value="accept">
-            <button type="submit" class="btn btn-primary btn-sm">✓ Accept</button>
+            <button type="submit" class="btn btn-primary btn-sm"> Accept</button>
           </form>
           <form method="POST" action="{{ route('mentors.respond', $m) }}">
             @csrf @method('PATCH')
             <input type="hidden" name="action" value="reject">
-            <button type="submit" class="btn btn-outline btn-sm" style="color:#dc2626;border-color:#dc2626">✗ Decline</button>
+            <button type="submit" class="btn btn-outline btn-sm" style="color:#dc2626;border-color:#dc2626"> Decline</button>
           </form>
         </div>
       @elseif($m->status === 'rejected')

@@ -33,14 +33,14 @@
   <div class="auth-right">
     <div class="auth-right-inner">
       <div style="margin-bottom:32px">
-        <div style="width:52px;height:52px;background:var(--blue-100);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px">🔑</div>
+        <div style="width:52px;height:52px;background:var(--blue-100);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px"></div>
         <h2 style="font-size:1.7rem;font-weight:800;margin-bottom:6px">Forgot your password?</h2>
         <p style="font-size:0.88rem;color:var(--text-3)">No problem — enter your email and we'll send a reset link.</p>
       </div>
 
       @if(session('status'))
       <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:1.2rem">✅</span>
+        <span style="font-size:1.2rem"></span>
         <div style="font-size:0.88rem;color:#166534;font-weight:600">{{ session('status') }}</div>
       </div>
       @endif
@@ -61,7 +61,7 @@
       </form>
 
       <p style="font-size:0.85rem;color:var(--text-3);text-align:center;margin-top:24px">
-        Remembered it? <a href="{{ route('login') }}" style="color:var(--blue-500);font-weight:600;text-decoration:none">Back to Sign In →</a>
+        Remembered it? <a href="{{ route('login') }}" style="color:var(--blue-500);font-weight:600;text-decoration:none">Back to Sign In </a>
       </p>
     </div>
   </div>

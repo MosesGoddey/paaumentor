@@ -42,7 +42,7 @@
       </div>
       <div style="font-size:0.72rem;color:var(--text-3)">
         by {{ $res->uploader->full_name }} · {{ $res->created_at->diffForHumans() }}
-        @if($res->studyGroup) · 👥 {{ $res->studyGroup->name }} @endif
+        @if($res->studyGroup) ·  {{ $res->studyGroup->name }} @endif
         @if($res->is_public) · <span style="color:#16a34a">Public</span> @endif
       </div>
       <div style="display:flex;gap:8px;margin-top:auto;padding-top:4px">
@@ -69,7 +69,7 @@
   <div style="background:var(--surface);border-radius:20px;padding:28px;width:90%;max-width:480px;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <h2 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;margin:0">Upload Resource</h2>
-      <button onclick="document.getElementById('uploadModal').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-3)">✕</button>
+      <button onclick="document.getElementById('uploadModal').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-3)"></button>
     </div>
     <form method="POST" action="{{ route('resources.store') }}" enctype="multipart/form-data">
       @csrf

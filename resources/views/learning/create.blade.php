@@ -59,13 +59,13 @@
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
     <div style="font-weight:700;font-size:0.95rem">Modules &amp; Tasks</div>
     <div style="display:flex;gap:8px">
-      <button type="button" onclick="toggleAiPanel()" class="btn btn-outline btn-sm" style="border-color:var(--blue-500);color:var(--blue-500);font-size:0.8rem">✨ Generate with AI</button>
+      <button type="button" onclick="toggleAiPanel()" class="btn btn-outline btn-sm" style="border-color:var(--blue-500);color:var(--blue-500);font-size:0.8rem"> Generate with AI</button>
       <button type="button" onclick="addModule()" class="btn btn-outline btn-sm">+ Add Module</button>
     </div>
   </div>
 
   <div id="ai-panel" style="display:none;background:var(--surface-2);border:1.5px solid var(--blue-500);border-radius:12px;padding:16px;margin-bottom:16px">
-    <div style="font-size:0.85rem;font-weight:700;color:var(--blue-500);margin-bottom:12px">✨ AI Learning Path Generator</div>
+    <div style="font-size:0.85rem;font-weight:700;color:var(--blue-500);margin-bottom:12px"> AI Learning Path Generator</div>
     <div style="display:grid;grid-template-columns:1fr 140px 80px;gap:10px;align-items:end">
       <div>
         <label style="font-size:0.78rem;font-weight:600;color:var(--text-3);display:block;margin-bottom:4px">Topic / Subject</label>
@@ -93,7 +93,7 @@
   <div id="modules-container"></div>
 
   <div id="no-modules-msg" style="text-align:center;padding:32px;color:var(--text-3);font-size:0.85rem;border:2px dashed var(--border);border-radius:12px">
-    Click <strong>+ Add Module</strong> or <strong>✨ Generate with AI</strong> to get started.
+    Click <strong>+ Add Module</strong> or <strong> Generate with AI</strong> to get started.
   </div>
 </div>
 
@@ -118,7 +118,7 @@ function addModule() {
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
       <input type="text" name="modules[${idx}][title]" placeholder="Module title" required
              style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:0.88rem;color:var(--text-1)">
-      <button type="button" onclick="removeModule(${idx})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.2rem;padding:4px">✕</button>
+      <button type="button" onclick="removeModule(${idx})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.2rem;padding:4px"></button>
     </div>
     <div id="tasks-${idx}" style="margin-bottom:10px"></div>
     <button type="button" onclick="addTask(${idx})" class="btn btn-outline btn-sm" style="font-size:0.78rem">+ Add Task</button>
@@ -147,7 +147,7 @@ function addTask(moduleIdx) {
     <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
       <input type="text" name="modules[${moduleIdx}][tasks][${tIdx}][title]" placeholder="Task title" required
              style="flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:0.85rem;color:var(--text-1)">
-      <button type="button" onclick="removeTask(${moduleIdx},${tIdx})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.1rem;padding:4px;flex-shrink:0">✕</button>
+      <button type="button" onclick="removeTask(${moduleIdx},${tIdx})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.1rem;padding:4px;flex-shrink:0"></button>
     </div>
     <textarea name="modules[${moduleIdx}][tasks][${tIdx}][description]" placeholder="Description (optional)" rows="2"
               style="width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:0.82rem;color:var(--text-1);resize:vertical;margin-bottom:8px"></textarea>

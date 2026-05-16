@@ -11,13 +11,13 @@
 
 @section('page-content')
 <div style="text-align:center;margin-bottom:32px">
-  <div style="font-size:2.5rem;margin-bottom:8px">🏆</div>
+  <div style="font-size:2.5rem;margin-bottom:8px"></div>
   <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:6px">{{ $hackathon->title }}</h1>
   <p style="color:var(--text-3);font-size:0.9rem">Final Results
     @if($hackathon->end_date)· {{ $hackathon->end_date->format('F j, Y') }}@endif
   </p>
   @if($hackathon->status !== 'completed')
-  <div style="display:inline-block;margin-top:8px;background:#fef3c7;color:#92400e;border-radius:8px;padding:4px 14px;font-size:0.8rem;font-weight:700">⏳ Judging in progress — results not yet final</div>
+  <div style="display:inline-block;margin-top:8px;background:#fef3c7;color:#92400e;border-radius:8px;padding:4px 14px;font-size:0.8rem;font-weight:700"> Judging in progress — results not yet final</div>
   @endif
 </div>
 
@@ -34,7 +34,7 @@
     @if(isset($submissions[$pos]))
     @php
       $s = $submissions[$pos];
-      $medals  = ['🥇','🥈','🥉'];
+      $medals  = ['','',''];
       $heights = [160, 130, 110];
       $colors  = ['linear-gradient(135deg,#d97706,#fbbf24)', 'linear-gradient(135deg,#6b7280,#d1d5db)', 'linear-gradient(135deg,#92400e,#d97706)'];
     @endphp
@@ -73,7 +73,7 @@
         @foreach($submissions as $i => $s)
         @php
           $rank  = $i + 1;
-          $icons = [1=>'🥇',2=>'🥈',3=>'🥉'];
+          $icons = [1=>'',2=>'',3=>''];
           $isMe  = $myTeam && $myTeam->id === $s->team_id;
           $sum   = $s->score_summary;
         @endphp
@@ -105,7 +105,7 @@
 {{-- My cert link --}}
 @if($hackathon->status === 'completed')
 <div style="text-align:center;margin-top:24px">
-  <a href="{{ route('certificates.index') }}" class="btn btn-primary">View My Certificates →</a>
+  <a href="{{ route('certificates.index') }}" class="btn btn-primary">View My Certificates </a>
 </div>
 @endif
 

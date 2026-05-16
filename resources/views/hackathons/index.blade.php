@@ -28,7 +28,7 @@
             {{ $hackathon->status_label }}
           </span>
           @if($myTeam)
-          <span class="badge badge-green">✓ Registered</span>
+          <span class="badge badge-green"> Registered</span>
           @endif
         </div>
         @if($hackathon->theme)
@@ -39,15 +39,15 @@
         @endif
         <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:0.78rem;color:var(--text-3)">
           @if($hackathon->registration_deadline)
-          <span>📅 Reg. deadline: <strong>{{ $hackathon->registration_deadline->format('M j, Y') }}</strong></span>
+          <span> Reg. deadline: <strong>{{ $hackathon->registration_deadline->format('M j, Y') }}</strong></span>
           @endif
           @if($hackathon->start_date)
-          <span>🚀 Starts: <strong>{{ $hackathon->start_date->format('M j, Y') }}</strong></span>
+          <span> Starts: <strong>{{ $hackathon->start_date->format('M j, Y') }}</strong></span>
           @endif
           @if($hackathon->end_date)
-          <span>🏁 Ends: <strong>{{ $hackathon->end_date->format('M j, Y') }}</strong></span>
+          <span> Ends: <strong>{{ $hackathon->end_date->format('M j, Y') }}</strong></span>
           @endif
-          <span>👥 <strong>{{ $hackathon->teams_count }}</strong> teams</span>
+          <span> <strong>{{ $hackathon->teams_count }}</strong> teams</span>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0">
@@ -56,7 +56,7 @@
         @endif
         <a href="{{ route('hackathons.show', $hackathon) }}" class="btn btn-outline btn-sm">View Details</a>
         @if($hackathon->status === 'completed')
-        <a href="{{ route('hackathons.leaderboard', $hackathon) }}" class="btn btn-outline btn-sm">🏆 Results</a>
+        <a href="{{ route('hackathons.leaderboard', $hackathon) }}" class="btn btn-outline btn-sm"> Results</a>
         @endif
         @if(($hackathon->isJudge($user) || $user->isAdmin() || $user->isVerifier()) && in_array($hackathon->status, ['judging', 'completed']))
         <a href="{{ route('hackathons.judge', $hackathon) }}" class="btn btn-outline btn-sm">Judge Panel</a>
@@ -65,14 +65,14 @@
     </div>
     @if($hackathon->prizes)
     <div style="margin-top:12px;padding:10px 14px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:10px;font-size:0.82rem;color:#92400e">
-      🏅 <strong>Prizes:</strong> {{ $hackathon->prizes }}
+       <strong>Prizes:</strong> {{ $hackathon->prizes }}
     </div>
     @endif
   </div>
 </div>
 @empty
 <div class="card" style="text-align:center;padding:60px;color:var(--text-3)">
-  <div style="font-size:2.5rem;margin-bottom:12px">🧑‍💻</div>
+  <div style="font-size:2.5rem;margin-bottom:12px"></div>
   <p>No hackathons available right now. Check back soon!</p>
 </div>
 @endforelse

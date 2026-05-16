@@ -11,75 +11,39 @@
   $isAdmin   = $authUser->isAdmin();
   $isPending = $authUser->isPendingVerification();
 
-  // Sidebar accent colours per role
-  $accentColor  = match($userRole) {
+  $accentColor = match($userRole) {
       'mentor'   => '#f97316',
       'alumni'   => '#8b5cf6',
       'admin'    => '#0f172a',
       'verifier' => '#0d9488',
       default    => '#2563eb',
   };
-  $cardBg = match($userRole) {
-      'mentor'   => 'linear-gradient(135deg,#fff7ed,#ffedd5)',
-      'alumni'   => 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
-      'admin'    => 'linear-gradient(135deg,#f8fafc,#e2e8f0)',
-      'verifier' => 'linear-gradient(135deg,#f0fdfa,#ccfbf1)',
-      default    => 'linear-gradient(135deg,#eff6ff,#dbeafe)',
-  };
-  $cardBorder = match($userRole) {
-      'mentor'   => '#fed7aa',
-      'alumni'   => '#ddd6fe',
-      'admin'    => '#cbd5e1',
-      'verifier' => '#99f6e4',
-      default    => '#bfdbfe',
-  };
-  $roleLabel = match($userRole) {
-      'mentor'   => 'MENTOR',
-      'alumni'   => 'ALUMNI',
-      'admin'    => 'ADMIN',
-      'verifier' => 'VERIFIER',
-      default    => 'MENTEE',
-  };
-  $roleEmoji = match($userRole) {
-      'mentor'   => '👨‍🏫',
-      'alumni'   => '🎓',
-      'admin'    => '🛡️',
-      'verifier' => '🔍',
-      default    => '🎓',
-  };
-  $roleSub = match($userRole) {
-      'mentor'   => 'Guide & Inspire',
-      'alumni'   => 'Give Back & Lead',
-      'admin'    => 'System Administrator',
-      'verifier' => 'Quality & Verification',
-      default    => 'Learn & Grow',
-  };
 @endphp
   <aside class="sidebar" style="border-left:4px solid {{ $accentColor }}">
 
     @if($isPending)
     <div style="margin:-20px -12px 12px;padding:10px 16px;background:#fef3c7;border-bottom:1px solid #fde68a;font-size:0.72rem;color:#92400e;font-weight:600">
-      ⏳ Pending portfolio verification — you'll be notified once approved.
+      Pending portfolio verification — you'll be notified once approved.
     </div>
     @endif
 
 <div style="flex:1;overflow-y:auto;padding-right:2px;overscroll-behavior:contain">
     <div class="sidebar-label">Main</div>
-    <a href="{{ route('dashboard') }}"      class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"><span class="icon">🏠</span> Dashboard</a>
+    <a href="{{ route('dashboard') }}"      class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
     @if($authUser->isMentee())
-    <a href="{{ route('mentors.index') }}" class="sidebar-link {{ request()->routeIs('mentors.index') ? 'active' : '' }}"><span class="icon">🔍</span> Find Mentor</a>
-    <a href="{{ route('mentors.my') }}" class="sidebar-link {{ request()->routeIs('mentors.my') ? 'active' : '' }}"><span class="icon">👥</span> My Mentors
+    <a href="{{ route('mentors.index') }}" class="sidebar-link {{ request()->routeIs('mentors.index') ? 'active' : '' }}">Find Mentor</a>
+    <a href="{{ route('mentors.my') }}" class="sidebar-link {{ request()->routeIs('mentors.my') ? 'active' : '' }}">My Mentors
       @php $activeMentors = $authUser->menteeMentorships()->where('status','active')->count(); @endphp
       @if($activeMentors) <span class="count">{{ $activeMentors }}</span> @endif
     </a>
     @elseif($isMentor || $isAlumni)
-    <a href="{{ route('mentors.mentees') }}" class="sidebar-link {{ request()->routeIs('mentors.mentees') ? 'active' : '' }}"><span class="icon">🎓</span> My Mentees
+    <a href="{{ route('mentors.mentees') }}" class="sidebar-link {{ request()->routeIs('mentors.mentees') ? 'active' : '' }}">My Mentees
       @php $activeMentees = $authUser->mentorMentorships()->where('status','active')->count(); @endphp
       @if($activeMentees) <span class="count">{{ $activeMentees }}</span> @endif
     </a>
     @endif
-    <a href="{{ route('learning.index') }}" class="sidebar-link {{ request()->routeIs('learning.*') ? 'active' : '' }}"><span class="icon">📚</span> Learning Paths</a>
-    <a href="{{ route('chat.index') }}"     class="sidebar-link {{ request()->routeIs('chat.*') ? 'active' : '' }}"><span class="icon">💬</span> Messages
+    <a href="{{ route('learning.index') }}" class="sidebar-link {{ request()->routeIs('learning.*') ? 'active' : '' }}">Learning Paths</a>
+    <a href="{{ route('chat.index') }}"     class="sidebar-link {{ request()->routeIs('chat.*') ? 'active' : '' }}">Messages
       @php
         $unread = \App\Models\Message::where('sender_id', '!=', auth()->id())
             ->whereNull('read_at')
@@ -95,27 +59,27 @@
       @if($unread) <span class="count">{{ $unread }}</span> @endif
     </a>
     <div class="sidebar-label">Collaborate</div>
-    <a href="{{ route('hackathons.index') }}" class="sidebar-link {{ request()->routeIs('hackathons.*') ? 'active' : '' }}"><span class="icon">🚀</span> Hackathons</a>
-    <a href="{{ route('study-groups.index') }}"   class="sidebar-link {{ request()->routeIs('study-groups.*') ? 'active' : '' }}"><span class="icon">🧑‍🤝‍🧑</span> Study Groups</a>
-    <a href="{{ route('skill-exchange.index') }}" class="sidebar-link {{ request()->routeIs('skill-exchange.*') ? 'active' : '' }}"><span class="icon">🔄</span> Skill Exchange</a>
-    <a href="{{ route('resources.index') }}"      class="sidebar-link {{ request()->routeIs('resources.*') ? 'active' : '' }}"><span class="icon">📁</span> Resources</a>
-    <a href="{{ route('sessions.index') }}"       class="sidebar-link {{ request()->routeIs('sessions.*') ? 'active' : '' }}"><span class="icon">📅</span> Sessions</a>
+    <a href="{{ route('hackathons.index') }}" class="sidebar-link {{ request()->routeIs('hackathons.*') ? 'active' : '' }}">Hackathons</a>
+    <a href="{{ route('study-groups.index') }}"   class="sidebar-link {{ request()->routeIs('study-groups.*') ? 'active' : '' }}">Study Groups</a>
+    <a href="{{ route('skill-exchange.index') }}" class="sidebar-link {{ request()->routeIs('skill-exchange.*') ? 'active' : '' }}">Skill Exchange</a>
+    <a href="{{ route('resources.index') }}"      class="sidebar-link {{ request()->routeIs('resources.*') ? 'active' : '' }}">Resources</a>
+    <a href="{{ route('sessions.index') }}"       class="sidebar-link {{ request()->routeIs('sessions.*') ? 'active' : '' }}">Sessions</a>
     <div class="sidebar-label">AI Tools</div>
-    <a href="{{ route('ai.assistant') }}" class="sidebar-link {{ request()->routeIs('ai.*') ? 'active' : '' }}"><span class="icon">✨</span> Study Buddy</a>
+    <a href="{{ route('ai.assistant') }}" class="sidebar-link {{ request()->routeIs('ai.*') ? 'active' : '' }}">Study Buddy</a>
     <div class="sidebar-label">My Account</div>
-    <a href="{{ route('certificates.index') }}" class="sidebar-link {{ request()->routeIs('certificates.*') ? 'active' : '' }}"><span class="icon">🏆</span> Certificates</a>
+    <a href="{{ route('certificates.index') }}" class="sidebar-link {{ request()->routeIs('certificates.*') ? 'active' : '' }}">Certificates</a>
     @if($authUser->isMentee())
-    <a href="{{ route('upgrade.show') }}" class="sidebar-link {{ request()->routeIs('upgrade.*') ? 'active' : '' }}" style="{{ request()->routeIs('upgrade.*') ? '' : 'color:#ea580c' }}"><span class="icon">⬆️</span> Upgrade to Mentor</a>
+    <a href="{{ route('upgrade.show') }}" class="sidebar-link {{ request()->routeIs('upgrade.*') ? 'active' : '' }}" style="{{ request()->routeIs('upgrade.*') ? '' : 'color:#ea580c' }}">Upgrade to Mentor</a>
     @endif
     @if($isAdmin || $isVerifier)
     <div class="sidebar-label">Verification</div>
-    <a href="{{ route('verifier.index') }}" class="sidebar-link {{ request()->routeIs('verifier.*') ? 'active' : '' }}"><span class="icon">🔍</span> Mentor Portfolios
+    <a href="{{ route('verifier.index') }}" class="sidebar-link {{ request()->routeIs('verifier.*') ? 'active' : '' }}">Mentor Portfolios
       @php $pendingCount = \App\Models\User::whereIn('role',['mentor','alumni'])->where('mentor_status','pending')->count(); @endphp
       @if($pendingCount) <span class="count">{{ $pendingCount }}</span> @endif
     </a>
-    <a href="{{ route('upgrade.admin') }}" class="sidebar-link {{ request()->routeIs('upgrade.admin') ? 'active' : '' }}"><span class="icon">🛡️</span> Upgrade Requests</a>
+    <a href="{{ route('upgrade.admin') }}" class="sidebar-link {{ request()->routeIs('upgrade.admin') ? 'active' : '' }}">Upgrade Requests</a>
     @endif
-    <a href="{{ route('profile.edit') }}" class="sidebar-link"><span class="icon">⚙️</span> Settings</a>
+    <a href="{{ route('profile.edit') }}" class="sidebar-link">Settings</a>
     </div>{{-- end scrollable nav --}}
     <a href="{{ route('profile.show', auth()->user()) }}" style="padding:8px 12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;text-decoration:none;transition:background 0.15s;border-radius:0" onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background='transparent'">
       @if(auth()->user()->avatar_url)
@@ -130,7 +94,7 @@
     </a>
     <form method="POST" action="{{ route('logout') }}">
       @csrf
-      <button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:#fecdd3;border:none;cursor:pointer;color:#9f1239;font-weight:600;border-radius:10px"><span class="icon">🚪</span> Sign Out</button>
+      <button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:#fecdd3;border:none;cursor:pointer;color:#9f1239;font-weight:600;border-radius:10px">Sign Out</button>
     </form>
   </aside>
 
@@ -140,7 +104,7 @@
   <main class="main-content">
     @hasSection('breadcrumbs')
     <nav style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--text-3);margin-bottom:20px;flex-wrap:wrap">
-      <a href="{{ route('dashboard') }}" style="color:var(--text-3);text-decoration:none;transition:color 0.15s" onmouseover="this.style.color='var(--blue-500)'" onmouseout="this.style.color='var(--text-3)'">🏠 Home</a>
+      <a href="{{ route('dashboard') }}" style="color:var(--text-3);text-decoration:none;transition:color 0.15s" onmouseover="this.style.color='var(--blue-500)'" onmouseout="this.style.color='var(--text-3)'">Home</a>
       @yield('breadcrumbs')
     </nav>
     @endif

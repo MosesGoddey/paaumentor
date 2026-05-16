@@ -12,7 +12,7 @@
     border:1px solid {{ $passed ? '#059669' : '#dc2626' }};
     color:#fff;box-shadow:0 24px 64px rgba(0,0,0,0.25)">
 
-    <div style="font-size:4rem;margin-bottom:16px">{{ $passed ? '🎉' : '😔' }}</div>
+    <div style="font-size:4rem;margin-bottom:16px">{{ $passed ? '' : '' }}</div>
 
     <div style="font-family:'Sora',sans-serif;font-weight:800;font-size:2.4rem;letter-spacing:-0.01em;margin-bottom:8px">
       {{ $score }}%
@@ -61,13 +61,13 @@
     @if($passed)
       <div style="display:flex;flex-direction:column;gap:12px">
         <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#f0fdf4;border-radius:12px;border:1px solid #86efac">
-          <span style="font-size:1.2rem">✅</span>
+          <span style="font-size:1.2rem"></span>
           <div style="font-size:0.85rem;color:#166534">
             <strong>Verifier Review</strong> — A verifier will review your sessions, task grades, and assessment score before issuing your certificate.
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--surface-2);border-radius:12px">
-          <span style="font-size:1.2rem">🏆</span>
+          <span style="font-size:1.2rem"></span>
           <div style="font-size:0.85rem;color:var(--text-2)">
             Once approved, a signed certificate will be issued to both you and your mentor.
           </div>
@@ -91,14 +91,14 @@
           @if($retryAt) You can retry after <strong>{{ $retryAt->format('D, d M \a\t g:i A') }}</strong>. @endif
         </div>
         <div style="padding:14px 16px;background:var(--surface-2);border-radius:12px;font-size:0.85rem;color:var(--text-2)">
-          💡 Review your learning path materials and discuss weak areas with your mentor before retrying.
+           Review your learning path materials and discuss weak areas with your mentor before retrying.
         </div>
       </div>
     @endif
   </div>
 
   <div style="display:flex;gap:12px;margin-top:20px;justify-content:center;flex-wrap:wrap">
-    <a href="{{ route('learning.index') }}" class="btn btn-outline btn-sm">← Back to Learning Paths</a>
+    <a href="{{ route('learning.index') }}" class="btn btn-outline btn-sm"> Back to Learning Paths</a>
     @if(!$passed && $attemptsUsed < 3)
     <a href="{{ route('assessment.show', $certRequest) }}" class="btn btn-primary btn-sm">View Assessment Lobby</a>
     @endif

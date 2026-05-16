@@ -19,10 +19,10 @@
     @foreach($requests as $req)
     @php
       $statusColors = [
-        'pending'     => ['bg'=>'#fef9c3','text'=>'#854d0e','border'=>'#fde68a','label'=>'⏳ Awaiting Recommendation'],
-        'recommended' => ['bg'=>'#eff6ff','text'=>'#1d4ed8','border'=>'#bfdbfe','label'=>'📋 Ready for Review'],
-        'approved'    => ['bg'=>'#f0fdf4','text'=>'#166534','border'=>'#86efac','label'=>'✅ Approved'],
-        'rejected'    => ['bg'=>'#fef2f2','text'=>'#991b1b','border'=>'#fecaca','label'=>'✗ Rejected'],
+        'pending'     => ['bg'=>'#fef9c3','text'=>'#854d0e','border'=>'#fde68a','label'=>' Awaiting Recommendation'],
+        'recommended' => ['bg'=>'#eff6ff','text'=>'#1d4ed8','border'=>'#bfdbfe','label'=>' Ready for Review'],
+        'approved'    => ['bg'=>'#f0fdf4','text'=>'#166534','border'=>'#86efac','label'=>' Approved'],
+        'rejected'    => ['bg'=>'#fef2f2','text'=>'#991b1b','border'=>'#fecaca','label'=>' Rejected'],
       ];
       $sc = $statusColors[$req->status];
     @endphp
@@ -70,14 +70,14 @@
             @csrf
             <div style="display:flex;gap:8px;align-items:center">
               <input type="text" name="admin_note" class="form-input" placeholder="Optional note to mentee…" style="width:260px;font-size:0.82rem;padding:8px 12px">
-              <button type="submit" class="btn btn-success btn-sm">✓ Approve</button>
+              <button type="submit" class="btn btn-success btn-sm"> Approve</button>
             </div>
           </form>
           <form method="POST" action="{{ route('upgrade.reject', $req) }}" data-confirm="Reject this upgrade request?">
             @csrf
             <div style="display:flex;gap:8px;align-items:center">
               <input type="text" name="admin_note" class="form-input" placeholder="Reason for rejection (required)" required style="width:240px;font-size:0.82rem;padding:8px 12px">
-              <button type="submit" class="btn btn-danger btn-sm">✗ Reject</button>
+              <button type="submit" class="btn btn-danger btn-sm"> Reject</button>
             </div>
           </form>
         </div>

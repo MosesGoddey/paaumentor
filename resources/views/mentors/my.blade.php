@@ -55,7 +55,7 @@
   <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
     @if($myRating)
     <div style="font-size:0.82rem;color:var(--text-3)">
-      Your rating: <span style="color:#f59e0b;font-size:1rem">{{ str_repeat('★', $myRating->score) }}{{ str_repeat('☆', 5 - $myRating->score) }}</span>
+      Your rating: <span style="color:#f59e0b;font-size:1rem">{{ str_repeat('', $myRating->score) }}{{ str_repeat('', 5 - $myRating->score) }}</span>
       @if($myRating->review) — <em>{{ $myRating->review }}</em>@endif
       <span style="margin-left:8px;color:var(--blue-500);cursor:pointer;font-size:0.78rem" onclick="toggleRateForm('rate-{{ $m->id }}')">Edit</span>
     </div>
@@ -68,7 +68,7 @@
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
         <div class="star-group" data-form="rate-{{ $m->id }}" style="display:flex;gap:4px;font-size:1.5rem;cursor:pointer">
           @for($i = 1; $i <= 5; $i++)
-          <span class="star" data-val="{{ $i }}" style="color:{{ $myRating && $myRating->score >= $i ? '#f59e0b' : '#d1d5db' }}">★</span>
+          <span class="star" data-val="{{ $i }}" style="color:{{ $myRating && $myRating->score >= $i ? '#f59e0b' : '#d1d5db' }}"></span>
           @endfor
           <input type="hidden" name="score" value="{{ $myRating->score ?? '' }}">
         </div>

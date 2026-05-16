@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <style>
-/* ── Hero ─────────────────────────────────────────────────────── */
+/*  Hero  */
 .hero {
   position: relative;
   min-height: calc(100vh - 64px);
@@ -132,7 +132,7 @@
 .scroll-hint span { font-size: 1.1rem; }
 @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
-/* ── Stats ──────────────────────────────────────────────────────── */
+/*  Stats  */
 .stats {
   padding: 44px 20px;
   background: var(--surface);
@@ -151,7 +151,7 @@
 .stat-value { font-family: 'Sora', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--blue-500); }
 .stat-label { font-size: 0.82rem; color: var(--text-3); margin-top: 4px; }
 
-/* ── Features ───────────────────────────────────────────────────── */
+/*  Features  */
 .features { padding: 80px 20px; background: var(--bg); }
 .section-heading {
   text-align: center;
@@ -192,7 +192,7 @@
 .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
 .feature-card p  { font-size: 0.84rem; color: var(--text-3); line-height: 1.65; }
 
-/* ── CTA ────────────────────────────────────────────────────────── */
+/*  CTA  */
 .cta-section {
   position: relative;
   overflow: hidden;
@@ -242,7 +242,7 @@
         <span class="nav-brand-text">PAAU<span>MENTOR</span></span>
       </a>
       <div class="nav-actions" style="margin-left:auto">
-        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme"></button>
         <a href="{{ route('login') }}"    class="btn btn-outline btn-sm">Sign In</a>
         <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Get Started</a>
       </div>
@@ -250,13 +250,13 @@
   </div>
 </nav>
 
-{{-- ── Hero ──────────────────────────────────────────────────────── --}}
+{{--  Hero  --}}
 <div class="hero">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
 
   <div class="hero-card">
-    <div class="hero-badge">🎓 Prince Abubakar Audu University, Anyigba</div>
+    <div class="hero-badge"> Prince Abubakar Audu University, Anyigba</div>
     <h1>Your Academic Success <span>Starts Here</span></h1>
     <p>Connect with senior students and alumni who've walked your path. Get guided learning, real-time mentorship, and the tools to grow — all in one place.</p>
     <div class="hero-actions">
@@ -270,12 +270,12 @@
   </div>
 
   <div class="scroll-hint">
-    <span>↓</span>
+    <span></span>
     scroll
   </div>
 </div>
 
-{{-- ── Stats ─────────────────────────────────────────────────────── --}}
+{{--  Stats  --}}
 <div class="stats">
   <div class="stat-item">
     <div class="stat-value count-up" data-target="4" data-suffix="+">0</div>
@@ -295,45 +295,45 @@
   </div>
 </div>
 
-{{-- ── Features ──────────────────────────────────────────────────── --}}
+{{--  Features  --}}
 <div class="features">
   <h2 class="section-heading">Everything You Need to Grow</h2>
   <p class="section-sub-heading">Powerful features built for PAAU students and mentors.</p>
   <div class="features-grid">
     <div class="feature-card">
-      <div class="feature-icon">🧠</div>
+      <div class="feature-icon"></div>
       <h3>Smart Matching</h3>
       <p>Our algorithm pairs you with mentors based on your skills, goals, and academic level for the best fit.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">💬</div>
+      <div class="feature-icon"></div>
       <h3>Real-Time Chat</h3>
       <p>Direct messaging with your mentor for instant support, advice, and file sharing.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🗺️</div>
+      <div class="feature-icon"></div>
       <h3>Learning Paths</h3>
       <p>Structured courses with modules, tasks, and progress tracking designed by your mentor.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">📡</div>
+      <div class="feature-icon"></div>
       <h3>Video Sessions</h3>
       <p>Schedule video calls, voice calls, or chat-only sessions and keep a full history of every meeting.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🔄</div>
+      <div class="feature-icon"></div>
       <h3>Skill Exchange</h3>
       <p>Trade skills with peers — you teach what you know, they teach what you need.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">⬆️</div>
+      <div class="feature-icon">⬆</div>
       <h3>Mentor Upgrade</h3>
       <p>High-performing mentees can apply to become mentors after meeting qualifications and earning a recommendation.</p>
     </div>
   </div>
 </div>
 
-{{-- ── CTA ───────────────────────────────────────────────────────── --}}
+{{--  CTA  --}}
 <div class="cta-section">
   <h2>Ready to Start Your Mentorship Journey?</h2>
   <p>Join PAAU students already learning from mentors in our community. It is completely free.</p>
@@ -347,7 +347,7 @@
   </div>
 </div>
 
-{{-- ── Footer ────────────────────────────────────────────────────── --}}
+{{--  Footer  --}}
 <footer style="background:var(--surface);border-top:1px solid var(--border);padding:28px 20px;text-align:center;color:var(--text-3);font-size:0.83rem">
   <p style="font-weight:600;color:var(--text-2);margin-bottom:6px">PAAUMENTOR · Prince Abubakar Audu University, Anyigba</p>
   <p>Final Year Project — Moses Goddey Joseph (23CS1004) · Supervisor: Mr. Richard Akomodi</p>

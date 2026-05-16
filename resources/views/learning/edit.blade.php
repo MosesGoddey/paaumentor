@@ -98,7 +98,7 @@ function addModule(title) {
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
       <input type="text" name="modules[${idx}][title]" placeholder="Module title" value="${title||''}" required
              style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:0.88rem;color:var(--text-1)">
-      <button type="button" onclick="removeModule(${idx})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.2rem;padding:4px">✕</button>
+      <button type="button" onclick="removeModule(${idx})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.2rem;padding:4px"></button>
     </div>
     <div id="tasks-${idx}" style="margin-bottom:10px"></div>
     <button type="button" onclick="addTask(${idx})" class="btn btn-outline btn-sm" style="font-size:0.78rem">+ Add Task</button>
@@ -126,7 +126,7 @@ function addTask(moduleIdx, task) {
     <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
       <input type="text" name="modules[${moduleIdx}][tasks][${tIdx}][title]" placeholder="Task title" value="${task?.title||''}" required
              style="flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:0.85rem;color:var(--text-1)">
-      <button type="button" onclick="removeTask(${moduleIdx},${tIdx})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.1rem;padding:4px;flex-shrink:0">✕</button>
+      <button type="button" onclick="removeTask(${moduleIdx},${tIdx})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.1rem;padding:4px;flex-shrink:0"></button>
     </div>
     <textarea name="modules[${moduleIdx}][tasks][${tIdx}][description]" placeholder="Description (optional)" rows="2"
               style="width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:0.82rem;color:var(--text-1);resize:vertical;margin-bottom:8px">${task?.description||''}</textarea>

@@ -55,7 +55,7 @@
         <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap">
           <span style="font-size:0.78rem;color:var(--text-3)">{{ $sess->scheduled_at->format('D, M j · g:i A') }}</span>
           <span class="status-badge" style="background:{{ $sess->status === 'in_progress' ? '#fef9c3' : '#eff6ff' }};color:{{ $sess->status === 'in_progress' ? '#854d0e' : '#1d4ed8' }}">
-            {{ $sess->status === 'in_progress' ? '🔴 Live' : 'Scheduled' }}
+            {{ $sess->status === 'in_progress' ? ' Live' : 'Scheduled' }}
           </span>
           <span style="font-size:0.78rem;color:var(--text-3);text-transform:capitalize">{{ $sess->type }}</span>
         </div>
@@ -69,7 +69,7 @@
         @endif
         <form method="POST" action="{{ route('sessions.complete', $sess) }}" data-confirm="Mark this session as completed? This cannot be undone.">
           @csrf
-          <button type="submit" class="btn btn-sm" style="background:#dcfce7;color:#166534;border:1px solid #86efac;width:100%">✓ Mark Complete</button>
+          <button type="submit" class="btn btn-sm" style="background:#dcfce7;color:#166534;border:1px solid #86efac;width:100%"> Mark Complete</button>
         </form>
       </div>
     </div>
@@ -77,7 +77,7 @@
   </div>
   @else
   <div class="empty-state" style="margin-bottom:32px">
-    <div class="es-icon">📅</div>
+    <div class="es-icon"></div>
     <div class="es-title">No upcoming sessions</div>
     <div class="es-sub">Schedule a session with your mentor or mentee to get started</div>
     @if($activeMentorships->isNotEmpty())
@@ -103,11 +103,11 @@
         <div style="font-size:0.8rem;color:var(--text-3);margin-top:2px">with {{ $other->full_name }}</div>
         <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap">
           <span style="font-size:0.78rem;color:var(--text-3)">
-            🗓 {{ ($sess->started_at ?? $sess->scheduled_at)?->format('D, M j · g:i A') }}
+             {{ ($sess->started_at ?? $sess->scheduled_at)?->format('D, M j · g:i A') }}
           </span>
           @if($sess->call_outcome)
           <span class="outcome-badge" style="background:{{ $sess->call_outcome === 'answered' ? '#dcfce7' : '#fee2e2' }};color:{{ $sess->call_outcome === 'answered' ? '#166534' : '#991b1b' }}">
-            {{ $sess->call_outcome === 'answered' ? '✓ Answered' : '✗ Missed' }}
+            {{ $sess->call_outcome === 'answered' ? ' Answered' : ' Missed' }}
           </span>
           @endif
           <span class="status-badge" style="background:var(--surface-2);color:var(--text-3)">
@@ -120,7 +120,7 @@
   </div>
   @else
   <div class="empty-state">
-    <div class="es-icon">🕐</div>
+    <div class="es-icon"></div>
     <div class="es-title">No past sessions yet</div>
     <div class="es-sub">Completed sessions will appear here</div>
   </div>
@@ -133,7 +133,7 @@
   <div style="background:#fff;border-radius:20px;padding:28px;width:100%;max-width:480px;box-shadow:0 8px 40px rgba(0,0,0,0.3);max-height:90vh;overflow-y:auto;position:relative">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <h2 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;margin:0;color:#0f172a">Schedule Session</h2>
-      <button onclick="document.getElementById('scheduleModal').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:#64748b">✕</button>
+      <button onclick="document.getElementById('scheduleModal').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:#64748b"></button>
     </div>
     <form method="POST" action="{{ route('sessions.store') }}">
       @csrf
@@ -163,9 +163,9 @@
         <div>
           <label class="form-label">Type</label>
           <select name="type" class="form-select" required>
-            <option value="video">📹 Video Call</option>
-            <option value="voice">📞 Voice Call</option>
-            <option value="chat">💬 Chat Session</option>
+            <option value="video"> Video Call</option>
+            <option value="voice"> Voice Call</option>
+            <option value="chat"> Chat Session</option>
           </select>
         </div>
         <div>
@@ -174,7 +174,7 @@
                  min="{{ now()->addMinutes(1)->format('Y-m-d\TH:i') }}"
                  value="{{ old('scheduled_at', now()->addHour()->format('Y-m-d\TH:i')) }}">
         </div>
-        <button type="submit" class="btn btn-primary" style="margin-top:4px">✓ Schedule Session</button>
+        <button type="submit" class="btn btn-primary" style="margin-top:4px"> Schedule Session</button>
       </div>
     </form>
   </div>
@@ -191,16 +191,16 @@ function updateCountdowns() {
   document.querySelectorAll('.session-countdown').forEach(el => {
     const diff = new Date(el.dataset.time) - new Date();
     if (diff <= 0) {
-      el.textContent = '🔴 Starting now';
+      el.textContent = ' Starting now';
       el.style.color = 'var(--danger)';
       return;
     }
     const d = Math.floor(diff / 86400000);
     const h = Math.floor((diff % 86400000) / 3600000);
     const m = Math.floor((diff % 3600000) / 60000);
-    if (d > 0)      el.textContent = `⏰ Starts in ${d}d ${h}h`;
-    else if (h > 0) el.textContent = `⏰ Starts in ${h}h ${m}m`;
-    else            { el.textContent = `⏰ Starts in ${m}m`; el.style.color = 'var(--danger)'; }
+    if (d > 0)      el.textContent = ` Starts in ${d}d ${h}h`;
+    else if (h > 0) el.textContent = ` Starts in ${h}h ${m}m`;
+    else            { el.textContent = ` Starts in ${m}m`; el.style.color = 'var(--danger)'; }
   });
 }
 updateCountdowns();

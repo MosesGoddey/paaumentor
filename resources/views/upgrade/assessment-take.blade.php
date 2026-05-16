@@ -67,7 +67,7 @@ body { background:#0f172a; margin:0; font-family:'Sora',sans-serif; }
 
   <div class="asmnt-header">
     <div>
-      <div class="asmnt-title">🧠 Mentor Upgrade Assessment</div>
+      <div class="asmnt-title"> Mentor Upgrade Assessment</div>
       <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);margin-top:2px">Prove your teaching-level knowledge</div>
     </div>
     <div style="display:flex;align-items:center;gap:14px">
@@ -118,17 +118,17 @@ body { background:#0f172a; margin:0; font-family:'Sora',sans-serif; }
     @endforeach
 
     <div class="asmnt-nav">
-      <button class="asmnt-btn asmnt-btn-prev" id="prevBtn" disabled onclick="prevQuestion()">← Previous</button>
-      <button class="asmnt-btn asmnt-btn-next" id="nextBtn" onclick="nextQuestion()">Next →</button>
+      <button class="asmnt-btn asmnt-btn-prev" id="prevBtn" disabled onclick="prevQuestion()"> Previous</button>
+      <button class="asmnt-btn asmnt-btn-next" id="nextBtn" onclick="nextQuestion()">Next </button>
     </div>
   </div>
 
-  <button class="asmnt-btn-submit" onclick="confirmSubmit()">✓ Submit Test</button>
+  <button class="asmnt-btn-submit" onclick="confirmSubmit()"> Submit Test</button>
 </div>
 
 <div class="tab-modal" id="tabModal">
   <div class="tab-modal-box">
-    <div style="font-size:2.5rem;margin-bottom:12px">⚠️</div>
+    <div style="font-size:2.5rem;margin-bottom:12px"></div>
     <h3>Tab Switch Detected!</h3>
     <p id="tabModalMsg">This is your first warning. One more tab switch will automatically submit your test.</p>
     <button onclick="closeTabModal()" style="background:#fbbf24;color:#1e293b;border:none;padding:12px 28px;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.92rem">
@@ -139,7 +139,7 @@ body { background:#0f172a; margin:0; font-family:'Sora',sans-serif; }
 
 <div class="confirm-modal" id="confirmModal">
   <div class="confirm-modal-box">
-    <div style="font-size:2.5rem;margin-bottom:12px">📋</div>
+    <div style="font-size:2.5rem;margin-bottom:12px"></div>
     <h3>Ready to Submit?</h3>
     <p id="confirmSummary"></p>
     <p style="margin-top:8px !important;font-size:0.78rem;color:#f87171" id="unansweredWarning"></p>
@@ -199,7 +199,7 @@ function goToQuestion(index) {
   document.getElementById(`dot-${currentIndex}`).classList.add('active');
   document.getElementById('prevBtn').disabled = currentIndex === 0;
   document.getElementById('nextBtn').disabled = currentIndex === TOTAL - 1;
-  document.getElementById('nextBtn').textContent = currentIndex === TOTAL - 1 ? 'Last Question' : 'Next →';
+  document.getElementById('nextBtn').textContent = currentIndex === TOTAL - 1 ? 'Last Question' : 'Next ';
 }
 
 function prevQuestion() { if (currentIndex > 0) goToQuestion(currentIndex - 1); }
@@ -222,7 +222,7 @@ function confirmSubmit() {
   const unanswered = TOTAL - answered;
   document.getElementById('confirmSummary').textContent = `You have answered ${answered} of ${TOTAL} questions.`;
   document.getElementById('unansweredWarning').textContent = unanswered > 0
-    ? `⚠️ ${unanswered} question(s) unanswered — they will be marked incorrect.` : '';
+    ? ` ${unanswered} question(s) unanswered — they will be marked incorrect.` : '';
   document.getElementById('confirmModal').classList.add('show');
 }
 

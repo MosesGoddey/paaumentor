@@ -141,7 +141,7 @@ class UpgradeAssessmentController extends Controller
             Notification::create([
                 'user_id' => $upgradeRequest->mentee_id,
                 'type'    => 'upgrade_assessment_passed',
-                'title'   => 'Assessment Passed! 🎉',
+                'title'   => 'Assessment Passed! ',
                 'body'    => "You scored {$scorePercent}% on the mentor upgrade assessment. Your mentor {$upgradeRequest->mentor->full_name} has been notified to write your recommendation.",
                 'data'    => ['upgrade_request_id' => $upgradeRequest->id],
             ]);

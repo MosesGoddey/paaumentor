@@ -26,7 +26,7 @@
   @endphp
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform 0.25s" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
     <div style="height:80px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));position:relative;display:flex;align-items:flex-end;padding:12px 16px">
-      <span style="position:absolute;top:14px;left:16px;font-size:2rem">{{ $progress == 100 ? '✅' : '🗺️' }}</span>
+      <span style="position:absolute;top:14px;left:16px;font-size:2rem">{{ $progress == 100 ? '' : '' }}</span>
       <span class="badge {{ $path->status === 'completed' ? 'badge-green' : 'badge-blue' }}" style="margin-left:auto">
         {{ $path->status === 'completed' ? 'Completed' : 'Active' }}
       </span>
@@ -69,7 +69,7 @@
   </div>
   @empty
   <div style="grid-column:span 3;text-align:center;padding:60px;color:var(--text-3)">
-    <div style="font-size:3rem;margin-bottom:16px">🗺️</div>
+    <div style="font-size:3rem;margin-bottom:16px"></div>
     <p style="margin-bottom:16px">You haven't created any learning paths yet.</p>
     <a href="{{ route('learning.create') }}" class="btn btn-primary">Create your first path</a>
   </div>

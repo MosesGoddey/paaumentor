@@ -12,7 +12,7 @@
     border:1px solid {{ $passed ? '#059669' : '#dc2626' }};
     color:#fff;box-shadow:0 24px 64px rgba(0,0,0,0.25)">
 
-    <div style="font-size:4rem;margin-bottom:16px">{{ $passed ? '🎉' : '😔' }}</div>
+    <div style="font-size:4rem;margin-bottom:16px">{{ $passed ? '' : '' }}</div>
     <div style="font-family:'Sora',sans-serif;font-weight:800;font-size:2.4rem;letter-spacing:-0.01em;margin-bottom:8px">
       {{ $score }}%
     </div>
@@ -71,9 +71,9 @@
         <div style="margin-top:4px;padding:8px 12px;background:var(--surface-2);border-radius:8px;font-size:0.8rem">
           Pass mark: <strong>{{ $assessment->passing_score }}%</strong>
           @if($passed)
-            <span style="color:#10b981;font-weight:700;margin-left:6px">✓ Passed by {{ $score - $assessment->passing_score }}%</span>
+            <span style="color:#10b981;font-weight:700;margin-left:6px"> Passed by {{ $score - $assessment->passing_score }}%</span>
           @else
-            <span style="color:#ef4444;font-weight:700;margin-left:6px">✗ Short by {{ $assessment->passing_score - $score }}%</span>
+            <span style="color:#ef4444;font-weight:700;margin-left:6px"> Short by {{ $assessment->passing_score - $score }}%</span>
           @endif
         </div>
       </div>
@@ -86,13 +86,13 @@
     @if($passed)
       <div style="display:flex;flex-direction:column;gap:12px">
         <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#f0fdf4;border-radius:12px;border:1px solid #86efac">
-          <span style="font-size:1.2rem">✅</span>
+          <span style="font-size:1.2rem"></span>
           <div style="font-size:0.85rem;color:#166534">
             <strong>Step 1 Complete</strong> — Your mentor <strong>{{ $upgradeRequest->mentor->full_name }}</strong> has been notified to write your recommendation.
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--surface-2);border-radius:12px">
-          <span style="font-size:1.2rem">📝</span>
+          <span style="font-size:1.2rem"></span>
           <div style="font-size:0.85rem;color:var(--text-2)">
             Once your mentor submits the recommendation, an admin or verifier will review and approve your upgrade.
           </div>
@@ -115,7 +115,7 @@
           @if($retryAt) You can retry after <strong>{{ $retryAt->format('D, d M \a\t g:i A') }}</strong>. @endif
         </div>
         <div style="padding:14px 16px;background:var(--surface-2);border-radius:12px;font-size:0.85rem;color:var(--text-2)">
-          💡 Review your completed learning path materials with your mentor before retrying.
+           Review your completed learning path materials with your mentor before retrying.
         </div>
       </div>
     @endif

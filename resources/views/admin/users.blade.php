@@ -5,10 +5,10 @@
 <div class="app-layout">
   <aside class="sidebar">
     <div class="sidebar-label">Admin</div>
-    <a href="{{ route('admin.dashboard') }}" class="sidebar-link"><span class="icon">📊</span> Overview</a>
-    <a href="{{ route('admin.users') }}"     class="sidebar-link active"><span class="icon">👥</span> Users</a>
+    <a href="{{ route('admin.dashboard') }}" class="sidebar-link"><span class="icon"></span> Overview</a>
+    <a href="{{ route('admin.users') }}"     class="sidebar-link active"><span class="icon"></span> Users</a>
     <form method="POST" action="{{ route('logout') }}" style="margin-top:auto">
-      @csrf<button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:none;border:none;cursor:pointer"><span class="icon">🚪</span> Sign Out</button>
+      @csrf<button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:none;border:none;cursor:pointer"><span class="icon"></span> Sign Out</button>
     </form>
   </aside>
   <main class="main-content">
@@ -37,7 +37,7 @@
               <td style="font-size:0.82rem">{{ $u->student_id }}</td>
               <td><span class="badge badge-blue">{{ ucfirst($u->role) }}</span></td>
               <td>{{ $u->level }}</td>
-              <td>@if($u->is_verified)<span class="badge badge-green">✓</span>@else<span class="badge badge-gray">Pending</span>@endif</td>
+              <td>@if($u->is_verified)<span class="badge badge-green"></span>@else<span class="badge badge-gray">Pending</span>@endif</td>
               <td>@if($u->is_active)<span class="badge badge-green">Active</span>@else<span class="badge badge-gray">Suspended</span>@endif</td>
               <td>
                 <div style="display:flex;gap:6px;flex-wrap:wrap">

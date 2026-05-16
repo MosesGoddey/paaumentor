@@ -20,35 +20,35 @@
       @php $nd = is_array($n->data) ? $n->data : []; @endphp
       @if($n->type === 'session_scheduled')
         <a href="{{ route('sessions.index') }}" style="display:inline-block;margin-top:6px;font-size:0.8rem;color:var(--blue-500);font-weight:700;text-decoration:none">
-          📅 View Sessions →
+           View Sessions 
         </a>
       @elseif($n->type === 'upgrade_assessment_ready' && isset($nd['upgrade_request_id']))
         <a href="{{ route('upgrade-assessment.show', $nd['upgrade_request_id']) }}" style="display:inline-block;margin-top:6px;font-size:0.8rem;color:var(--blue-500);font-weight:700;text-decoration:none">
-          🧠 Take Assessment →
+           Take Assessment 
         </a>
       @elseif(in_array($n->type, ['upgrade_assessment_passed','upgrade_assessment_failed']) && isset($nd['upgrade_request_id']))
         <a href="{{ route('upgrade-assessment.show', $nd['upgrade_request_id']) }}" style="display:inline-block;margin-top:6px;font-size:0.8rem;color:var(--blue-500);font-weight:700;text-decoration:none">
-          View Assessment →
+          View Assessment 
         </a>
       @elseif($n->type === 'upgrade_recommendation_request' && isset($nd['upgrade_request_id']))
         <a href="{{ route('upgrade.recommend.form', $nd['upgrade_request_id']) }}" style="display:inline-block;margin-top:6px;font-size:0.8rem;color:var(--blue-500);font-weight:700;text-decoration:none">
-          ✍️ Write Recommendation →
+           Write Recommendation 
         </a>
       @elseif($n->type === 'mentor_reflection_required' && isset($nd['certificate_request_id']))
         <a href="{{ route('cert-request.reflect', $nd['certificate_request_id']) }}" style="display:inline-block;margin-top:6px;font-size:0.8rem;color:var(--blue-500);font-weight:700;text-decoration:none">
-          ✍️ Submit Reflection →
+           Submit Reflection 
         </a>
       @elseif(in_array($n->type, ['certificate_pending_review','certificate_rejected','certificate_pending_verifier']) && isset($nd['certificate_request_id']))
         <a href="{{ route('learning.index') }}" style="display:inline-block;margin-top:6px;font-size:0.8rem;color:var(--blue-500);font-weight:700;text-decoration:none">
-          View Learning Paths →
+          View Learning Paths 
         </a>
       @elseif($n->type === 'certificate_issued')
         <a href="{{ route('certificates.index') }}" style="display:inline-block;margin-top:6px;font-size:0.8rem;color:var(--blue-500);font-weight:700;text-decoration:none">
-          🏆 View My Certificates →
+           View My Certificates 
         </a>
       @elseif($n->type === 'mentor_portfolio_approved' || $n->type === 'mentor_portfolio_rejected')
         <a href="{{ route('dashboard') }}" style="display:inline-block;margin-top:6px;font-size:0.8rem;color:var(--blue-500);font-weight:700;text-decoration:none">
-          Go to Dashboard →
+          Go to Dashboard 
         </a>
       @endif
       <div style="font-size:0.72rem;color:var(--text-3);margin-top:4px">{{ $n->created_at->diffForHumans() }}</div>

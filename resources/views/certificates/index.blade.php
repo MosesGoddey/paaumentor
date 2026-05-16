@@ -44,7 +44,7 @@
               $hPlc   = $cert->placement ?? 'participant';
               $hBg    = match($hPlc) { '1st'=>'#fef3c7','2nd'=>'#f3f4f6','3rd'=>'#fde8d8', default=>'#dbeafe' };
               $hClr   = match($hPlc) { '1st'=>'#92400e','2nd'=>'#374151','3rd'=>'#78350f', default=>'#1d4ed8' };
-              $hIcon  = match($hPlc) { '1st'=>'🥇','2nd'=>'🥈','3rd'=>'🥉', default=>'🏅' };
+              $hIcon  = match($hPlc) { '1st'=>'','2nd'=>'','3rd'=>'', default=>'' };
             @endphp
             <div style="font-weight:800;font-size:1rem;margin-bottom:4px">{{ $hTeam->hackathon->title }}</div>
             <div style="font-size:0.8rem;color:var(--text-3);margin-bottom:6px">
@@ -100,7 +100,7 @@
       <div style="border-top:1px solid var(--border);padding:14px 24px 16px 30px;background:var(--surface-2)">
         @if($alreadyRated)
           <div style="font-size:0.8rem;color:var(--text-3);display:flex;align-items:center;gap:8px">
-            <span style="color:#f59e0b;font-size:1rem">★★★★★</span>
+            <span style="color:#f59e0b;font-size:1rem"></span>
             You rated <strong>{{ $cert->learningPath->mentor->full_name }}</strong> — thank you!
           </div>
         @else
@@ -112,7 +112,7 @@
             <div class="star-rating" data-cert="{{ $cert->id }}">
               @for($s = 5; $s >= 1; $s--)
               <input type="radio" name="score" id="star-{{ $cert->id }}-{{ $s }}" value="{{ $s }}" style="display:none">
-              <label for="star-{{ $cert->id }}-{{ $s }}" style="font-size:1.5rem;color:#d1d5db;cursor:pointer;transition:color 0.1s">★</label>
+              <label for="star-{{ $cert->id }}-{{ $s }}" style="font-size:1.5rem;color:#d1d5db;cursor:pointer;transition:color 0.1s"></label>
               @endfor
             </div>
             <textarea name="review" placeholder="Share your experience with this mentor (optional)…"

@@ -163,7 +163,7 @@ class MentorController extends Controller
 
             try {
                 Mail::to($mentorship->mentee->email)->send(new AppNotificationMail(
-                    title: 'Your Mentorship Request Was Accepted! 🎉',
+                    title: 'Your Mentorship Request Was Accepted! ',
                     body:  "Hi {$mentorship->mentee->first_name},\n\nGreat news! {$mentorship->mentor->full_name} has accepted your mentorship request.\n\nTopic: {$mentorship->topic}\n\nYou can now message your mentor directly through the platform.",
                     actionText: 'Start Messaging',
                     actionUrl:  url('/chat'),

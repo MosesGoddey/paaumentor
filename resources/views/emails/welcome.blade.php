@@ -22,7 +22,7 @@
       {{-- Body --}}
       <tr>
         <td style="padding:48px 48px 32px">
-          <p style="font-size:1.5rem;font-weight:800;color:#0f172a;margin:0 0 8px">Welcome, {{ $user->first_name }}! 🎉</p>
+          <p style="font-size:1.5rem;font-weight:800;color:#0f172a;margin:0 0 8px">Welcome, {{ $user->first_name }}! </p>
           <p style="font-size:0.95rem;color:#475569;line-height:1.7;margin:0 0 28px">
             Your PAAUMENTOR account has been created successfully. You're now part of a peer mentorship community built specifically for students at Prince Abubakar Audu University.
           </p>
@@ -56,7 +56,7 @@
           <p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#94a3b8;margin:0 0 14px">What You Can Do</p>
           @if($user->isMentee())
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px">
-            @foreach([['🔍','Find a Mentor','Browse verified mentors and request one that matches your goals.'],['📚','Join a Learning Path','Follow structured paths with tasks graded by your mentor.'],['🏆','Earn Certificates','Complete paths, pass assessments, and get QR-verifiable certificates.'],['✨','Use the AI Study Buddy','Ask your AI assistant anything about your academics at PAAU.']] as [$icon,$title,$desc])
+            @foreach([['','Find a Mentor','Browse verified mentors and request one that matches your goals.'],['','Join a Learning Path','Follow structured paths with tasks graded by your mentor.'],['','Earn Certificates','Complete paths, pass assessments, and get QR-verifiable certificates.'],['','Use the AI Study Buddy','Ask your AI assistant anything about your academics at PAAU.']] as [$icon,$title,$desc])
             <tr><td style="padding:8px 0;vertical-align:top">
               <table cellpadding="0" cellspacing="0"><tr>
                 <td style="width:36px;height:36px;background:#eff6ff;border-radius:10px;text-align:center;vertical-align:middle;font-size:1rem">{{ $icon }}</td>
@@ -70,7 +70,7 @@
           </table>
           @else
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px">
-            @foreach([['🎓','Guide Your Mentees','Create learning paths, assign tasks, and grade submissions.'],['📅','Schedule Sessions','Conduct video, voice, or chat sessions with your mentees.'],['🏆','Earn Milestone Certificates','Get recognised for every 3 mentees you guide to completion.'],['📊','Track Progress','Monitor your mentees\' performance with charts and analytics.']] as [$icon,$title,$desc])
+            @foreach([['','Guide Your Mentees','Create learning paths, assign tasks, and grade submissions.'],['','Schedule Sessions','Conduct video, voice, or chat sessions with your mentees.'],['','Earn Milestone Certificates','Get recognised for every 3 mentees you guide to completion.'],['','Track Progress','Monitor your mentees\' performance with charts and analytics.']] as [$icon,$title,$desc])
             <tr><td style="padding:8px 0;vertical-align:top">
               <table cellpadding="0" cellspacing="0"><tr>
                 <td style="width:36px;height:36px;background:#f0fdf4;border-radius:10px;text-align:center;vertical-align:middle;font-size:1rem">{{ $icon }}</td>
@@ -87,7 +87,7 @@
           {{-- CTA button --}}
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px">
             <tr><td align="center">
-              <a href="{{ route('dashboard') }}" style="display:inline-block;background:#2563eb;color:#ffffff;font-weight:700;font-size:0.95rem;padding:14px 36px;border-radius:12px;text-decoration:none;letter-spacing:0.01em">Go to My Dashboard →</a>
+              <a href="{{ route('dashboard') }}" style="display:inline-block;background:#2563eb;color:#ffffff;font-weight:700;font-size:0.95rem;padding:14px 36px;border-radius:12px;text-decoration:none;letter-spacing:0.01em">Go to My Dashboard </a>
             </td></tr>
           </table>
 

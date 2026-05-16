@@ -63,12 +63,12 @@
       <form method="POST" action="{{ route('mentors.respond', $req) }}">
         @csrf @method('PATCH')
         <input type="hidden" name="action" value="accept">
-        <button type="submit" class="btn btn-primary btn-sm">✓ Accept</button>
+        <button type="submit" class="btn btn-primary btn-sm"> Accept</button>
       </form>
       <form method="POST" action="{{ route('mentors.respond', $req) }}">
         @csrf @method('PATCH')
         <input type="hidden" name="action" value="reject">
-        <button type="submit" class="btn btn-outline btn-sm" style="color:#dc2626;border-color:#dc2626">✗ Decline</button>
+        <button type="submit" class="btn btn-outline btn-sm" style="color:#dc2626;border-color:#dc2626"> Decline</button>
       </form>
     </div>
   </div>
@@ -81,7 +81,7 @@
   <div class="card">
     <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px;display:flex;justify-content:space-between">
       Smart Mentor Matches
-      <a href="{{ route('mentors.index') }}" style="font-size:0.8rem;font-weight:500;color:var(--blue-500)">View all →</a>
+      <a href="{{ route('mentors.index') }}" style="font-size:0.8rem;font-weight:500;color:var(--blue-500)">View all </a>
     </div>
     @forelse($matches as $m)
     <div style="display:flex;align-items:center;gap:14px;padding:16px;border-radius:14px;border:1px solid var(--border);margin-bottom:12px">
@@ -97,7 +97,7 @@
     </div>
     @empty
     <div style="text-align:center;padding:32px 12px">
-      <div style="font-size:2.5rem;margin-bottom:8px">🔍</div>
+      <div style="font-size:2.5rem;margin-bottom:8px"></div>
       <div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">No matches yet</div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-bottom:12px">Complete your profile to get matched with a mentor</div>
       <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-sm">Complete Profile</a>
@@ -122,7 +122,7 @@
     </div>
     @empty
     <div style="text-align:center;padding:28px 12px">
-      <div style="font-size:2.5rem;margin-bottom:8px">📅</div>
+      <div style="font-size:2.5rem;margin-bottom:8px"></div>
       <div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">No upcoming sessions</div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-bottom:12px">Schedule a session with your mentor</div>
       <a href="{{ route('sessions.index') }}" class="btn btn-primary btn-sm">Schedule Now</a>
@@ -135,7 +135,7 @@
 <div class="card" style="margin-bottom:24px">
   <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px;display:flex;justify-content:space-between">
     My Learning Paths
-    <a href="{{ route('learning.index') }}" style="font-size:0.8rem;font-weight:500;color:var(--blue-500)">All →</a>
+    <a href="{{ route('learning.index') }}" style="font-size:0.8rem;font-weight:500;color:var(--blue-500)">All </a>
   </div>
   @forelse($learningPaths as $lp)
   <div style="padding:14px 0;border-bottom:1px solid var(--border)">
@@ -145,14 +145,14 @@
     </div>
     <div class="progress-bar"><div class="progress-fill {{ $lp['progress'] == 100 ? 'green' : '' }}" style="width:{{ $lp['progress'] }}%"></div></div>
     @if($lp['progress'] == 100)
-      <div style="font-size:0.75rem;color:var(--success);margin-top:4px">✓ Completed — Certificate issued!</div>
+      <div style="font-size:0.75rem;color:var(--success);margin-top:4px"> Completed — Certificate issued!</div>
     @else
       <div style="font-size:0.75rem;color:var(--text-3);margin-top:4px">Due: {{ $lp['path']->due_date?->format('M d, Y') ?? 'No deadline' }}</div>
     @endif
   </div>
   @empty
   <div style="text-align:center;padding:32px 12px">
-    <div style="font-size:2.5rem;margin-bottom:8px">🗺️</div>
+    <div style="font-size:2.5rem;margin-bottom:8px"></div>
     <div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">No learning paths yet</div>
     <div style="font-size:0.78rem;color:var(--text-3);margin-bottom:12px">Your mentor will create a learning path for you</div>
     <a href="{{ route('mentors.index') }}" class="btn btn-primary btn-sm">Find a Mentor</a>
@@ -173,7 +173,7 @@
 
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
   <div class="card">
-    <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px">📚 Learning Path Progress</div>
+    <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px"> Learning Path Progress</div>
     <div style="display:flex;align-items:center;gap:24px">
       <canvas id="pathDonut" width="160" height="160" style="flex-shrink:0"></canvas>
       <div style="display:flex;flex-direction:column;gap:10px;font-size:0.83rem">
@@ -194,7 +194,7 @@
   </div>
 
   <div class="card">
-    <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px">📡 Sessions by Type</div>
+    <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px"> Sessions by Type</div>
     <div style="display:flex;align-items:center;gap:24px">
       <canvas id="typeDonut" width="160" height="160" style="flex-shrink:0"></canvas>
       <div style="display:flex;flex-direction:column;gap:10px;font-size:0.83rem">
@@ -225,7 +225,7 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // ── Typewriter ────────────────────────────────────────────────
+  //  Typewriter 
   const isMentor = {{ $user->isMentor() ? 'true' : 'false' }};
   const phrases  = isMentor ? [
     "Your guidance is shaping someone's future today.",
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setTimeout(type, 800);
 
-  // ── Engagement chart ──────────────────────────────────────────
+  //  Engagement chart 
   const labels = @json($engagement->keys());
   const data   = @json($engagement->values());
   if (labels.length) drawBarChart('engagementChart', labels, data, '#2563eb');
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const typeSegments = Object.entries(sessionTypes).map(([t, v]) => ({ value: v, color: typeColors[t] || '#94a3b8' }));
   drawDonutChart('typeDonut', typeSegments.length ? typeSegments : [{ value: 1, color: '#e2e8f0' }]);
 
-  // ── Count-up animation ────────────────────────────────────────
+  //  Count-up animation 
   document.querySelectorAll('.count-up').forEach(el => {
     const target = parseInt(el.dataset.target, 10);
     if (target === 0) { el.textContent = '0'; return; }
@@ -293,17 +293,17 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(step);
   });
 
-  // ── Session countdown ─────────────────────────────────────────
+  //  Session countdown 
   function updateCountdowns() {
     document.querySelectorAll('.session-countdown').forEach(el => {
       const diff = new Date(el.dataset.time) - new Date();
-      if (diff <= 0) { el.textContent = '🔴 Starting now'; el.style.color = 'var(--danger)'; return; }
+      if (diff <= 0) { el.textContent = ' Starting now'; el.style.color = 'var(--danger)'; return; }
       const h = Math.floor(diff / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const d = Math.floor(diff / 86400000);
-      if (d > 0)      el.textContent = `⏰ Starts in ${d}d ${h % 24}h`;
-      else if (h > 0) el.textContent = `⏰ Starts in ${h}h ${m}m`;
-      else            { el.textContent = `⏰ Starts in ${m}m`; el.style.color = 'var(--danger)'; }
+      if (d > 0)      el.textContent = ` Starts in ${d}d ${h % 24}h`;
+      else if (h > 0) el.textContent = ` Starts in ${h}h ${m}m`;
+      else            { el.textContent = ` Starts in ${m}m`; el.style.color = 'var(--danger)'; }
     });
   }
   updateCountdowns();

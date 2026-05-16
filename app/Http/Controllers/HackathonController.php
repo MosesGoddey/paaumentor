@@ -327,7 +327,7 @@ class HackathonController extends Controller
                         Notification::create([
                             'user_id' => $u->id,
                             'type'    => 'hackathon_open',
-                            'title'   => '🚀 New Hackathon Open!',
+                            'title'   => 'New Hackathon Open!',
                             'body'    => "\"{$hackathon->title}\" is now open for registration. Form your team!",
                             'data'    => ['hackathon_id' => $hackathon->id],
                         ]);
@@ -409,7 +409,7 @@ class HackathonController extends Controller
                 Notification::create([
                     'user_id' => $member->id,
                     'type'    => 'hackathon_cert',
-                    'title'   => '🏆 Hackathon Certificate Ready!',
+                    'title'   => 'Hackathon Certificate Ready!',
                     'body'    => "{$placementMsg} {$hackathon->title}! Your certificate is available for download.",
                     'data'    => ['hackathon_id' => $hackathon->id],
                 ]);

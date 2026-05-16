@@ -163,7 +163,7 @@ class AssessmentController extends Controller
             Notification::create([
                 'user_id' => $certRequest->mentee_id,
                 'type'    => 'assessment_passed',
-                'title'   => 'Assessment Passed! 🎉',
+                'title'   => 'Assessment Passed! ',
                 'body'    => "You scored {$scorePercent}% on the \"{$certRequest->learningPath->title}\" assessment. Your mentor has been asked to submit their reflection before the verifier reviews your certificate.",
                 'data'    => ['certificate_request_id' => $certRequest->id],
             ]);

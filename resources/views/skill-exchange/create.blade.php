@@ -5,7 +5,7 @@
 <div style="max-width:560px;margin:0 auto">
 
   <div style="margin-bottom:24px">
-    <a href="{{ route('skill-exchange.index') }}" style="font-size:0.82rem;color:var(--blue-500);text-decoration:none">← Back to listings</a>
+    <a href="{{ route('skill-exchange.index') }}" style="font-size:0.82rem;color:var(--blue-500);text-decoration:none"> Back to listings</a>
     <h1 style="font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:800;margin:8px 0 4px">Post a Skill Exchange</h1>
     <p style="color:var(--text-3);font-size:0.85rem;margin:0">Tell the community what you can teach and what you want to learn.</p>
   </div>
@@ -55,7 +55,7 @@
           <span style="background:#d1fae5;color:#065f46;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700">
             Offering: <span id="preview-offering">—</span>
           </span>
-          <span style="color:var(--text-3);font-size:0.8rem">↔</span>
+          <span style="color:var(--text-3);font-size:0.8rem"></span>
           <span style="background:#ede9fe;color:#5b21b6;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700">
             Seeking: <span id="preview-seeking">—</span>
           </span>

@@ -25,15 +25,15 @@
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:28px">
-      <div class="stat-card"><div class="stat-icon" style="background:#dbeafe">👥</div><div class="stat-value">{{ $stats['users'] }}</div><div class="stat-label">Total Users</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#d1fae5">🤝</div><div class="stat-value">{{ $stats['mentorships'] }}</div><div class="stat-label">Active Mentorships</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#fef3c7">📡</div><div class="stat-value">{{ $stats['sessions'] }}</div><div class="stat-label">Sessions Done</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#ede9fe">🏅</div><div class="stat-value">{{ $stats['certificates'] }}</div><div class="stat-label">Certificates</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#dbeafe"></div><div class="stat-value">{{ $stats['users'] }}</div><div class="stat-label">Total Users</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#d1fae5"></div><div class="stat-value">{{ $stats['mentorships'] }}</div><div class="stat-label">Active Mentorships</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#fef3c7"></div><div class="stat-value">{{ $stats['sessions'] }}</div><div class="stat-label">Sessions Done</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#ede9fe"></div><div class="stat-value">{{ $stats['certificates'] }}</div><div class="stat-label">Certificates</div></div>
     </div>
 
     @if($pendingMentors->count())
     <div style="background:#fef9ec;border:1px solid #fcd34d;border-radius:14px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px">
-      <span style="font-size:1.3rem">⏳</span>
+      <span style="font-size:1.3rem"></span>
       <div style="flex:1"><div style="font-weight:700;font-size:0.9rem">{{ $pendingMentors->count() }} mentor applications awaiting approval</div></div>
       <a href="{{ route('admin.users') }}?status=pending" class="btn btn-sm btn-gold">Review Now</a>
     </div>
@@ -41,7 +41,7 @@
 
     <div class="card" style="margin-bottom:24px">
       <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px;display:flex;justify-content:space-between">
-        👥 Recent Users <a href="{{ route('admin.users') }}" style="font-size:0.8rem;font-weight:500;color:var(--blue-500)">View All →</a>
+         Recent Users <a href="{{ route('admin.users') }}" style="font-size:0.8rem;font-weight:500;color:var(--blue-500)">View All </a>
       </div>
       <div class="table-wrap">
         <table>
@@ -52,7 +52,7 @@
               <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar avatar-sm">{{ $u->initials }}</div><div><div style="font-weight:700">{{ $u->full_name }}</div><div style="font-size:0.75rem;color:var(--text-3)">{{ $u->email }}</div></div></div></td>
               <td><span class="badge badge-blue">{{ ucfirst($u->role) }}</span></td>
               <td>{{ $u->level }}</td>
-              <td>@if($u->is_verified)<span class="badge badge-green">✓ Verified</span>@else<span class="badge badge-gray">Pending</span>@endif</td>
+              <td>@if($u->is_verified)<span class="badge badge-green"> Verified</span>@else<span class="badge badge-gray">Pending</span>@endif</td>
               <td>
                 <div style="display:flex;gap:6px">
                   @if(!$u->is_verified)
@@ -70,11 +70,11 @@
 
     <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:24px">
       <div class="card">
-        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px">📈 Monthly Sessions</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px"> Monthly Sessions</div>
         <canvas id="sessionsChart" width="600" height="200" style="max-width:100%"></canvas>
       </div>
       <div class="card">
-        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px">🥧 User Roles</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px"> User Roles</div>
         <canvas id="rolesChart" width="260" height="200" style="max-width:100%;display:block;margin:0 auto"></canvas>
         @php $roleColors = ['mentee'=>'#2563eb','mentor'=>'#f5a623','alumni'=>'#10b981','admin'=>'#ef4444','verifier'=>'#8b5cf6']; @endphp
         <div style="margin-top:12px;font-size:0.82rem;display:flex;flex-direction:column;gap:6px">
@@ -89,7 +89,7 @@
     </div>
 
     <div class="card">
-      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px">🎯 Top Demanded Skills</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px"> Top Demanded Skills</div>
       <canvas id="skillsChart" width="900" height="220" style="max-width:100%"></canvas>
     </div>
   </main>

@@ -40,7 +40,7 @@
 
     @if($errors->any())
     <div style="background:#fee2e2;border-radius:10px;padding:12px;margin-bottom:16px;font-size:0.85rem;color:#991b1b">
-      @foreach($errors->all() as $e)<div>✗ {{ $e }}</div>@endforeach
+      @foreach($errors->all() as $e)<div> {{ $e }}</div>@endforeach
     </div>
     @endif
 

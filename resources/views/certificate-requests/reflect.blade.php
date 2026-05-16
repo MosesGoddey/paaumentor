@@ -20,7 +20,7 @@
   {{-- Context card --}}
   <div style="background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1.5px solid #fed7aa;border-radius:18px;padding:22px 24px;margin-bottom:28px">
     <div style="display:flex;align-items:flex-start;gap:14px">
-      <div style="font-size:2rem;flex-shrink:0">🎯</div>
+      <div style="font-size:2rem;flex-shrink:0"></div>
       <div>
         <div style="font-weight:700;font-size:0.95rem;color:#c2410c;margin-bottom:6px">Your mentee passed the assessment!</div>
         <div style="font-size:0.85rem;color:#92400e;line-height:1.65">
@@ -64,7 +64,7 @@
 
   @if(!$sessionsOk)
   <div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:14px;padding:16px 20px;margin-bottom:20px;font-size:0.85rem;color:#991b1b">
-    ⚠️ <strong>Note:</strong> You have only completed {{ $completedSessions }} of the required 3 sessions with this mentee.
+     <strong>Note:</strong> You have only completed {{ $completedSessions }} of the required 3 sessions with this mentee.
     The verifier may block the certificate until the session requirement is met.
     Please complete the remaining sessions before or alongside submitting this reflection.
   </div>
@@ -108,7 +108,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px">
-        Submit Reflection →
+        Submit Reflection 
       </button>
     </form>
   </div>

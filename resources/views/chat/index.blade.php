@@ -80,7 +80,7 @@
       $subtitle = $activeConversation->subtitle;
     @endphp
     <div style="padding:14px 16px;border-bottom:1px solid var(--border);border-top:3px solid var(--role-color);display:flex;align-items:center;gap:12px">
-      <button class="chat-back" onclick="showList()">← Back</button>
+      <button class="chat-back" onclick="showList()"> Back</button>
       @if($other?->avatar_url)
       <img src="{{ $other->avatar_url }}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0">
       @else
@@ -111,13 +111,13 @@
               $isPdf   = $ext === 'pdf';
               $isDocx  = $ext === 'docx';
               $isAudio = in_array($ext, ['webm','mp3','ogg','wav','m4a','aac']);
-              $icons   = ['doc'=>'📝','docx'=>'📝','xls'=>'📊','xlsx'=>'📊','ppt'=>'📊','pptx'=>'📊','zip'=>'🗜️','rar'=>'🗜️','txt'=>'📃'];
-              $icon    = $icons[$ext] ?? '📎';
+              $icons   = ['doc'=>'','docx'=>'','xls'=>'','xlsx'=>'','ppt'=>'','pptx'=>'','zip'=>'','rar'=>'','txt'=>''];
+              $icon    = $icons[$ext] ?? '';
             @endphp
             @if($isAudio)
               <div class="vn-player" data-src="{{ $url }}" data-mine="{{ $mine ? '1' : '0' }}">
                 <button class="vn-play" onclick="vnToggle(this)" type="button"
-                        style="background:{{ $mine ? '#fff' : 'var(--blue-500)' }};color:{{ $mine ? 'var(--blue-500)' : '#fff' }}">▶</button>
+                        style="background:{{ $mine ? '#fff' : 'var(--blue-500)' }};color:{{ $mine ? 'var(--blue-500)' : '#fff' }}"></button>
                 <div class="vn-wave"></div>
                 <span class="vn-time" style="color:{{ $mine ? 'rgba(255,255,255,0.75)' : 'var(--text-3)' }}">0:00</span>
                 <audio src="{{ $url }}" preload="metadata" style="display:none"></audio>
@@ -129,7 +129,7 @@
             @elseif($isPdf)
               <div onclick="openPreview('{{ $url }}','{{ $msg->file_name }}','pdf')"
                    style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:8px 12px;background:rgba(0,0,0,0.1);border-radius:10px;margin-bottom:4px">
-                <span style="font-size:1.4rem">📄</span>
+                <span style="font-size:1.4rem"></span>
                 <div>
                   <div style="font-size:0.82rem;font-weight:600">{{ $msg->file_name }}</div>
                   <div style="font-size:0.7rem;opacity:0.7">Click to view</div>
@@ -138,7 +138,7 @@
             @elseif($isDocx)
               <div onclick="openPreview('{{ $url }}','{{ $msg->file_name }}','docx')"
                    style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:8px 12px;background:rgba(0,0,0,0.1);border-radius:10px;margin-bottom:4px">
-                <span style="font-size:1.4rem">📝</span>
+                <span style="font-size:1.4rem"></span>
                 <div>
                   <div style="font-size:0.82rem;font-weight:600">{{ $msg->file_name }}</div>
                   <div style="font-size:0.7rem;opacity:0.7">Click to view</div>
@@ -160,9 +160,9 @@
             <span>{{ $msg->created_at->format('g:i A') }}</span>
             @if($mine)
               @if($msg->read_at)
-                <span class="msg-tick" data-id="{{ $msg->id }}" style="color:#93c5fd;font-size:0.75rem;font-weight:700" title="Read">✓✓</span>
+                <span class="msg-tick" data-id="{{ $msg->id }}" style="color:#93c5fd;font-size:0.75rem;font-weight:700" title="Read"></span>
               @else
-                <span class="msg-tick" data-id="{{ $msg->id }}" style="opacity:0.55;font-size:0.75rem;font-weight:700" title="Sent">✓</span>
+                <span class="msg-tick" data-id="{{ $msg->id }}" style="opacity:0.55;font-size:0.75rem;font-weight:700" title="Sent"></span>
               @endif
             @endif
           </div>
@@ -189,27 +189,27 @@
       <input type="file" name="file" id="chatFile" style="display:none" onchange="showFilePreview(this)">
       <div id="filePreview" style="display:none;align-items:center;gap:8px;background:var(--surface-2);border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:0.82rem">
         <span id="filePreviewName" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
-        <button type="button" onclick="clearFile()" style="background:none;border:none;cursor:pointer;font-size:1rem;color:var(--text-3)">✕</button>
+        <button type="button" onclick="clearFile()" style="background:none;border:none;cursor:pointer;font-size:1rem;color:var(--text-3)"></button>
       </div>
       <div id="recordingStrip" style="display:none;align-items:center;gap:10px;background:var(--surface-2);border:1px solid #fecaca;border-radius:14px;padding:8px 14px;margin-bottom:8px">
         <button type="button" onclick="cancelRecording()" title="Cancel"
-                style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:1.1rem;padding:0;line-height:1;flex-shrink:0">🗑️</button>
+                style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:1.1rem;padding:0;line-height:1;flex-shrink:0"></button>
         <div id="recWave" style="display:flex;align-items:center;gap:2px;flex:1;height:28px"></div>
         <span id="recordTimer" style="font-size:0.8rem;font-weight:700;color:#dc2626;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">0:00</span>
         <button type="button" onclick="stopRecording()" title="Send voice note"
-                style="width:36px;height:36px;border-radius:50%;background:#dc2626;color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">➤</button>
+                style="width:36px;height:36px;border-radius:50%;background:#dc2626;color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0"></button>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <button type="button" onclick="document.getElementById('chatFile').click()" title="Attach file"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">📎</button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
         <button type="button" id="micBtn" onclick="toggleRecording()" title="Voice note"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">🎙️</button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
         <button type="button" onclick="startCall('video')" title="Start video call"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">📹</button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
         <button type="button" onclick="startCall('voice')" title="Start voice call"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">📞</button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
         <button type="button" onclick="startCall('screen')" title="Share screen"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">🖥️</button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
         <input type="text" name="body" id="chatBody" class="form-input" placeholder="Type a message..." style="flex:1" autocomplete="off">
         <button type="submit" class="btn btn-sm" style="background:var(--role-color);color:#fff;border:none">Send</button>
       </div>
@@ -218,9 +218,9 @@
     <div style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;padding:40px 20px">
       {{-- Illustration --}}
       <div style="position:relative;width:120px;height:100px;margin-bottom:24px">
-        <div style="position:absolute;bottom:0;left:0;width:72px;height:72px;background:var(--blue-100);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem">💬</div>
-        <div style="position:absolute;top:0;right:0;width:52px;height:52px;background:#fef9c3;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem">👤</div>
-        <div style="position:absolute;top:22px;left:30px;width:36px;height:36px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem">✓</div>
+        <div style="position:absolute;bottom:0;left:0;width:72px;height:72px;background:var(--blue-100);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem"></div>
+        <div style="position:absolute;top:0;right:0;width:52px;height:52px;background:#fef9c3;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem"></div>
+        <div style="position:absolute;top:22px;left:30px;width:36px;height:36px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem"></div>
       </div>
       <h3 style="font-family:'Sora',sans-serif;font-weight:800;font-size:1rem;margin:0 0 8px;color:var(--text)">Your messages live here</h3>
       <p style="font-size:0.82rem;color:var(--text-3);text-align:center;max-width:240px;line-height:1.6;margin:0 0 20px">Select a conversation on the left or start a new one by connecting with a mentor.</p>
@@ -238,8 +238,8 @@
   <div class="avatar" style="width:72px;height:72px;font-size:1.5rem;border:3px solid rgba(255,255,255,0.2)">{{ $otherPerson?->initials ?? '?' }}</div>
   <div style="color:#fff;font-size:1.15rem;font-weight:700">{{ $otherPerson?->full_name ?? '' }}</div>
   <div id="callingStatusText" style="color:rgba(255,255,255,0.55);font-size:0.88rem;letter-spacing:0.04em">Calling…</div>
-  <button onclick="cancelOutgoingCall()" style="margin-top:10px;background:#dc2626;color:#fff;border:none;width:56px;height:56px;border-radius:50%;cursor:pointer;font-size:1.5rem;font-weight:700">✕</button>
-  <div style="color:rgba(255,255,255,0.3);font-size:0.75rem">Tap ✕ to cancel</div>
+  <button onclick="cancelOutgoingCall()" style="margin-top:10px;background:#dc2626;color:#fff;border:none;width:56px;height:56px;border-radius:50%;cursor:pointer;font-size:1.5rem;font-weight:700"></button>
+  <div style="color:rgba(255,255,255,0.3);font-size:0.75rem">Tap  to cancel</div>
 </div>
 @endif
 
@@ -263,7 +263,7 @@
     <span id="modalFileName" style="color:#fff;font-weight:600;font-size:0.95rem"></span>
     <div style="display:flex;gap:8px">
       <a id="modalDownload" href="#" download style="background:rgba(255,255,255,0.15);color:#fff;padding:6px 14px;border-radius:8px;font-size:0.82rem;text-decoration:none">⬇ Download</a>
-      <button onclick="closePreview()" style="background:rgba(255,255,255,0.15);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.82rem">✕ Close</button>
+      <button onclick="closePreview()" style="background:rgba(255,255,255,0.15);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.82rem"> Close</button>
     </div>
   </div>
   <div id="modalBody" style="width:90%;max-width:900px;max-height:82vh;overflow:auto;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center"></div>
@@ -347,7 +347,7 @@ async function startCall(type) {
     const data = await res.json();
     _mySessionId = data.session_id;
 
-    const icons = {video: '📹 ', voice: '📞 ', screen: '🖥️ '};
+    const icons = {video: ' ', voice: ' ', screen: ' '};
     document.getElementById('callingStatusText').textContent = (icons[type] || '') + 'Calling…';
     document.getElementById('callingOverlay').style.display = 'flex';
 
@@ -424,7 +424,7 @@ function endCall() {
   document.getElementById('callModal').style.display = 'none';
 }
 
-// ── Incoming call polling ──────────────────────────────────────────
+//  Incoming call polling 
 let _callBannerNotifId = null;
 
 function showCallBanner(notif) {
@@ -513,7 +513,7 @@ async function pollForIncomingCall() {
 setInterval(pollForIncomingCall, 5000);
 pollForIncomingCall();
 
-// ── Typing indicator ──────────────────────────────────────────────
+//  Typing indicator 
 @isset($activeConversation)
 let _typingTimer = null;
 const _csrfToken = '{{ csrf_token() }}';
@@ -547,15 +547,15 @@ async function pollTyping() {
 setInterval(pollTyping, 2000);
 pollTyping();
 
-// ── Read receipt polling ──────────────────────────────────────────
+//  Read receipt polling 
 async function pollReadStatus() {
   try {
     const res  = await fetch('{{ route("chat.readStatus", $activeConversation) }}');
     const data = await res.json();
     (data.read_ids || []).forEach(id => {
       const tick = document.querySelector(`.msg-tick[data-id="${id}"]`);
-      if (tick && tick.textContent.trim() === '✓') {
-        tick.textContent  = '✓✓';
+      if (tick && tick.textContent.trim() === '') {
+        tick.textContent  = '';
         tick.style.color  = '#93c5fd';
         tick.style.opacity = '1';
         tick.title = 'Read';
@@ -573,7 +573,7 @@ function closePreview(e) {
   document.body.style.overflow = '';
 }
 
-// ── Voice note player ─────────────────────────────────────────────
+//  Voice note player 
 const VN_BARS   = 28;
 const VN_SEED   = (s) => { let x = Math.sin(s) * 10000; return x - Math.floor(x); };
 
@@ -609,7 +609,7 @@ function vnInit(container) {
   });
 
   audio.addEventListener('ended', () => {
-    btn.innerHTML = '▶';
+    btn.innerHTML = '';
     bars.forEach(b => b.style.background = mine ? 'rgba(255,255,255,0.35)' : '#cbd5e1');
     timeEl.textContent = vnFmt(audio.duration);
   });
@@ -622,14 +622,14 @@ function vnToggle(btn) {
     document.querySelectorAll('.vn-player audio').forEach(a => {
       if (a !== audio && !a.paused) {
         a.pause();
-        a.closest('.vn-player').querySelector('.vn-play').innerHTML = '▶';
+        a.closest('.vn-player').querySelector('.vn-play').innerHTML = '';
       }
     });
     audio.play();
-    btn.innerHTML = '⏸';
+    btn.innerHTML = '';
   } else {
     audio.pause();
-    btn.innerHTML = '▶';
+    btn.innerHTML = '';
   }
 }
 
@@ -640,7 +640,7 @@ function vnFmt(s) {
 
 document.querySelectorAll('.vn-player').forEach(vnInit);
 
-// ── Voice recording ───────────────────────────────────────────────
+//  Voice recording 
 @isset($activeConversation)
 let _mediaRecorder  = null;
 let _audioChunks    = [];
@@ -740,12 +740,12 @@ function appendVoiceMessage(msg) {
   div.innerHTML = `
     <div style="max-width:65%;background:var(--blue-500);color:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.88rem;line-height:1.5">
       <div class="vn-player" data-src="${url}" data-mine="1">
-        <button class="vn-play" onclick="vnToggle(this)" type="button" style="background:#fff;color:var(--blue-500)">▶</button>
+        <button class="vn-play" onclick="vnToggle(this)" type="button" style="background:#fff;color:var(--blue-500)"></button>
         <div class="vn-wave"></div>
         <span class="vn-time" style="color:rgba(255,255,255,0.75)">0:00</span>
         <audio src="${url}" preload="metadata" style="display:none"></audio>
       </div>
-      <div style="font-size:0.68rem;margin-top:2px;text-align:right;opacity:0.75">${time} <span style="opacity:0.55;font-size:0.75rem;font-weight:700">✓</span></div>
+      <div style="font-size:0.68rem;margin-top:2px;text-align:right;opacity:0.75">${time} <span style="opacity:0.55;font-size:0.75rem;font-weight:700"></span></div>
     </div>`;
   area.appendChild(div);
   area.scrollTop = area.scrollHeight;

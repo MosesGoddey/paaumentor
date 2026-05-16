@@ -40,7 +40,7 @@
   @if($mutualMatches->isNotEmpty())
   <div style="margin-bottom:28px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-      <span style="font-size:1rem">🤝</span>
+      <span style="font-size:1rem"></span>
       <h2 style="font-family:'Sora',sans-serif;font-size:1rem;font-weight:800;margin:0">Perfect Matches</h2>
       <span style="background:linear-gradient(135deg,#c9a227,#f5c842);color:#fff;border-radius:20px;padding:2px 10px;font-size:0.7rem;font-weight:700">{{ $mutualMatches->count() }}</span>
     </div>
@@ -67,7 +67,7 @@
     </div>
     @elseif($mutualMatches->isEmpty())
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:56px;text-align:center;color:var(--text-3)">
-      <div style="font-size:2rem;margin-bottom:12px">🔄</div>
+      <div style="font-size:2rem;margin-bottom:12px"></div>
       <div style="font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--text)">No listings yet</div>
       <p style="font-size:0.88rem;max-width:340px;margin:0 auto 20px">Be the first to post a skill exchange listing and connect with other learners.</p>
       <a href="{{ route('skill-exchange.create') }}" class="btn btn-primary">Post a Listing</a>

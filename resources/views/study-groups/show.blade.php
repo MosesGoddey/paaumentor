@@ -79,7 +79,7 @@
         <div style="font-weight:700;font-size:0.92rem">Group Chat</div>
         <div style="font-size:0.75rem;color:var(--text-3)">{{ $studyGroup->members->count() }} members</div>
       </div>
-      <a href="{{ route('study-groups.index') }}" style="font-size:0.8rem;color:var(--blue-500);text-decoration:none">← Back</a>
+      <a href="{{ route('study-groups.index') }}" style="font-size:0.8rem;color:var(--blue-500);text-decoration:none"> Back</a>
     </div>
 
     <div style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px" id="messageArea">
@@ -106,7 +106,7 @@
             @if($isImage)
               <img src="{{ $url }}" style="max-width:200px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px">
             @else
-              <a href="{{ $url }}" download style="color:{{ $mine ? '#fff' : 'var(--blue-500)' }};font-size:0.82rem">📎 {{ $msg->file_name }}</a>
+              <a href="{{ $url }}" download style="color:{{ $mine ? '#fff' : 'var(--blue-500)' }};font-size:0.82rem"> {{ $msg->file_name }}</a>
             @endif
             @else
             {{ $msg->body }}
@@ -127,7 +127,7 @@
       <input type="file" name="file" id="sgFile" style="display:none" onchange="showSgPreview(this)">
       <div id="sgFilePreview" style="display:none;align-items:center;gap:8px;background:var(--surface-2);border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:0.82rem">
         <span id="sgFileName" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
-        <button type="button" onclick="clearSgFile()" style="background:none;border:none;cursor:pointer;font-size:1rem;color:var(--text-3)">✕</button>
+        <button type="button" onclick="clearSgFile()" style="background:none;border:none;cursor:pointer;font-size:1rem;color:var(--text-3)"></button>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <button type="button" onclick="document.getElementById('sgFile').click()" style="background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.72rem;padding:4px 8px;color:var(--text-3);font-weight:600" title="Attach file">Attach</button>

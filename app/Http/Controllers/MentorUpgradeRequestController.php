@@ -191,7 +191,7 @@ class MentorUpgradeRequestController extends Controller
         Notification::create([
             'user_id' => $upgradeRequest->mentee_id,
             'type'    => 'upgrade_approved',
-            'title'   => 'Upgrade Approved! 🎉',
+            'title'   => 'Upgrade Approved! ',
             'body'    => 'Congratulations! Your application to become a mentor has been approved. You are now a mentor.',
             'data'    => ['upgrade_request_id' => $upgradeRequest->id],
         ]);

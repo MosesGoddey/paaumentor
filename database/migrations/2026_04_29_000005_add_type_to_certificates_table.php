@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void {
         Schema::table('certificates', function (Blueprint $table) {
-            $table->enum('type', ['mentee', 'mentor'])->default('mentee')->after('learning_path_id');
+            $table->enum('type', ['mentee', 'mentor', 'hackathon'])->default('mentee')->after('learning_path_id');
         });
     }
     public function down(): void {

@@ -23,7 +23,7 @@
     <div style="display:flex;gap:20px;margin-bottom:20px">
       <div>
         <div style="color:#f59e0b;font-size:1rem;letter-spacing:1px">
-          @for($s = 1; $s <= 5; $s++){{ $s <= round($mentor->average_rating) ? '★' : '☆' }}@endfor
+          @for($s = 1; $s <= 5; $s++){{ $s <= round($mentor->average_rating) ? '' : '' }}@endfor
         </div>
         <div style="font-size:0.75rem;color:var(--text-3)">{{ $mentor->average_rating > 0 ? number_format($mentor->average_rating,1).' / 5' : 'No ratings yet' }}</div>
       </div>
@@ -47,7 +47,7 @@
   <div style="padding:14px 0;border-bottom:1px solid var(--border)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
       <div class="avatar avatar-sm">{{ $r->rater->initials }}</div>
-      <div><div style="font-weight:700;font-size:0.88rem">{{ $r->rater->full_name }}</div><div style="font-size:0.75rem;color:var(--text-3)">{{ str_repeat('⭐', $r->score) }}</div></div>
+      <div><div style="font-weight:700;font-size:0.88rem">{{ $r->rater->full_name }}</div><div style="font-size:0.75rem;color:var(--text-3)">{{ str_repeat('', $r->score) }}</div></div>
     </div>
     @if($r->review)<p style="font-size:0.85rem;color:var(--text-2)">{{ $r->review }}</p>@endif
   </div>

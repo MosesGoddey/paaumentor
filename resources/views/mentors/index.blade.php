@@ -33,7 +33,7 @@
 {{-- AI Smart Match --}}
 <div style="background:var(--surface);border:1.5px solid var(--blue-500);border-radius:16px;padding:20px;margin-bottom:24px">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-    <span style="font-size:1.3rem">✨</span>
+    <span style="font-size:1.3rem"></span>
     <div>
       <div style="font-weight:700;font-size:0.95rem">AI Smart Mentor Match</div>
       <div style="font-size:0.78rem;color:var(--text-3)">Describe your goals and get smart mentor recommendations</div>
@@ -60,7 +60,7 @@
   @php $mentor = $m['mentor']; $score = $m['score']; @endphp
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
     <div style="height:70px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));position:relative">
-      @if($mentor->is_active)<span class="badge badge-green" style="position:absolute;top:12px;right:12px">● Online</span>@endif
+      @if($mentor->is_active)<span class="badge badge-green" style="position:absolute;top:12px;right:12px"> Online</span>@endif
       @if($score >= 80)<span class="badge badge-blue" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.2);color:#fff;border:none">{{ $score }}% Match</span>@endif
     </div>
     <div style="padding:0 20px 20px">
@@ -86,7 +86,7 @@
         <div style="text-align:center">
           <div style="color:#f59e0b;font-size:0.9rem;letter-spacing:1px;line-height:1">
             @for($s = 1; $s <= 5; $s++)
-              {{ $s <= round($mentor->average_rating) ? '★' : '☆' }}
+              {{ $s <= round($mentor->average_rating) ? '' : '' }}
             @endfor
           </div>
           <div style="font-size:0.68rem;color:var(--text-3);margin-top:2px">{{ $mentor->average_rating > 0 ? number_format($mentor->average_rating,1) : 'No ratings' }}</div>
@@ -159,7 +159,7 @@ async function findAiMatch() {
       container.innerHTML += `
         <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:16px;overflow:hidden">
           <div style="height:54px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));position:relative">
-            ${mentor.online ? '<span class="badge badge-green" style="position:absolute;top:8px;right:8px;font-size:0.65rem">● Online</span>' : ''}
+            ${mentor.online ? '<span class="badge badge-green" style="position:absolute;top:8px;right:8px;font-size:0.65rem"> Online</span>' : ''}
           </div>
           <div style="padding:0 14px 14px">
             <div style="margin-top:-20px;margin-bottom:8px">

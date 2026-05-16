@@ -26,7 +26,7 @@
       @if($user->isMentor())
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="color:#f59e0b;font-size:1rem;letter-spacing:1px">
-          @for($s = 1; $s <= 5; $s++){{ $s <= round($user->average_rating) ? '★' : '☆' }}@endfor
+          @for($s = 1; $s <= 5; $s++){{ $s <= round($user->average_rating) ? '' : '' }}@endfor
         </span>
         <span style="font-size:0.8rem;color:var(--text-3)">
           {{ $user->average_rating > 0 ? number_format($user->average_rating, 1).' / 5 · '.$user->ratings()->count().' rating(s)' : 'No ratings yet' }}

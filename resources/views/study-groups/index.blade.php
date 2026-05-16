@@ -90,7 +90,7 @@
   <div style="background:var(--surface);border-radius:20px;padding:28px;width:90%;max-width:480px;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <h2 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;margin:0">Create Study Group</h2>
-      <button onclick="document.getElementById('createModal').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-3)">✕</button>
+      <button onclick="document.getElementById('createModal').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-3)"></button>
     </div>
     <form method="POST" action="{{ route('study-groups.store') }}">
       @csrf

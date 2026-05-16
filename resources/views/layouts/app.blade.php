@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <style>
-/* ── Page transition ───────────────────────────────── */
+/*  Page transition  */
 body { animation: pageFadeIn 0.25s ease both; }
 @keyframes pageFadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
-/* ── Top progress bar ──────────────────────────────── */
+/*  Top progress bar  */
 #nprogress {
   position:fixed; top:0; left:0; right:0; height:3px;
   background:var(--blue-500); z-index:99999;
@@ -23,7 +23,7 @@ body { animation: pageFadeIn 0.25s ease both; }
 }
 #nprogress.done { opacity:0; transition:opacity 0.4s ease 0.1s; }
 
-/* ── Bell shake ────────────────────────────────────── */
+/*  Bell shake  */
 @keyframes bellShake {
   0%,100%{ transform:rotate(0); }
   15%    { transform:rotate(18deg); }
@@ -59,15 +59,15 @@ body { animation: pageFadeIn 0.25s ease both; }
       @endauth
 
       @auth
-      <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+      <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu"></button>
       @endauth
 
       <div class="nav-actions">
-        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme"></button>
 
         @auth
           <a href="{{ route('notifications.index') }}" style="position:relative;font-size:1.3rem;color:var(--text-2)">
-            🔔
+            
             @if(auth()->user()->notifications()->whereNull('read_at')->count() > 0)
               <span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;display:block"></span>
             @endif
@@ -91,7 +91,7 @@ body { animation: pageFadeIn 0.25s ease both; }
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-/* ── Progress bar ─────────────────────────────────────────────── */
+/*  Progress bar  */
 (function(){
   const bar = document.createElement('div');
   bar.id = 'nprogress';
@@ -128,7 +128,7 @@ body { animation: pageFadeIn 0.25s ease both; }
   done(); // complete on initial load
 })();
 
-/* ── Bell shake ───────────────────────────────────────────────── */
+/*  Bell shake  */
 (function(){
   const bell = document.querySelector('a[href*="notifications"]');
   const dot  = bell?.querySelector('span');
@@ -142,7 +142,7 @@ body { animation: pageFadeIn 0.25s ease both; }
   }
 })();
 
-/* ── Page fade-out on navigation ──────────────────────────────── */
+/*  Page fade-out on navigation  */
 document.addEventListener('click', e => {
   const a = e.target.closest('a');
   if (a && a.href && !a.target && !a.href.startsWith('#') &&
@@ -155,7 +155,7 @@ document.addEventListener('click', e => {
 
 <script>
 (function () {
-  // ── Toast preset ────────────────────────────────────────────────────
+  //  Toast preset 
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -168,7 +168,7 @@ document.addEventListener('click', e => {
     },
   });
 
-  // ── Flash messages ──────────────────────────────────────────────────
+  //  Flash messages 
   @if(session('success'))
     Toast.fire({ icon: 'success', title: @json(session('success')) });
   @endif
@@ -181,7 +181,7 @@ document.addEventListener('click', e => {
     Toast.fire({ icon: 'info', title: @json(session('info')) });
   @endif
 
-  // ── Confirm dialogs (any form with data-confirm attribute) ───────────
+  //  Confirm dialogs (any form with data-confirm attribute) 
   document.querySelectorAll('form[data-confirm]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();

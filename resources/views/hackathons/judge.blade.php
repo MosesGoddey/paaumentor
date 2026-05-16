@@ -19,7 +19,7 @@
 
 @if($submissions->isEmpty())
 <div class="card" style="text-align:center;padding:60px;color:var(--text-3)">
-  <div style="font-size:2rem;margin-bottom:12px">📭</div>
+  <div style="font-size:2rem;margin-bottom:12px"></div>
   <p>No submitted projects yet.</p>
 </div>
 @else
@@ -41,7 +41,7 @@
       </div>
     </div>
     @if($myScore)
-    <span class="badge badge-green">✓ Scored ({{ $myScore->total }}/40)</span>
+    <span class="badge badge-green"> Scored ({{ $myScore->total }}/40)</span>
     @elseif($isOwn)
     <span class="badge" style="background:#fee2e2;color:#b91c1c">Your team</span>
     @endif
@@ -63,9 +63,9 @@
 
   {{-- Links --}}
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
-    @if($submission->github_url)<a href="{{ $submission->github_url }}" target="_blank" class="btn btn-outline btn-sm">🔗 GitHub</a>@endif
-    @if($submission->demo_url)<a href="{{ $submission->demo_url }}" target="_blank" class="btn btn-outline btn-sm">🌐 Live Demo</a>@endif
-    @if($submission->deck_url)<a href="{{ $submission->deck_url }}" target="_blank" class="btn btn-outline btn-sm">📊 Slides</a>@endif
+    @if($submission->github_url)<a href="{{ $submission->github_url }}" target="_blank" class="btn btn-outline btn-sm"> GitHub</a>@endif
+    @if($submission->demo_url)<a href="{{ $submission->demo_url }}" target="_blank" class="btn btn-outline btn-sm"> Live Demo</a>@endif
+    @if($submission->deck_url)<a href="{{ $submission->deck_url }}" target="_blank" class="btn btn-outline btn-sm"> Slides</a>@endif
   </div>
 
   {{-- Scoring form --}}

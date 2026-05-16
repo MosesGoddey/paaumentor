@@ -94,7 +94,7 @@ class AdminController extends Controller
 
         try {
             Mail::to($user->email)->send(new AppNotificationMail(
-                title: 'Your Account Has Been Verified ✅',
+                title: 'Your Account Has Been Verified ',
                 body:  "Hi {$user->first_name},\n\nYour PAAUMENTOR account has been verified by our admin team. You now have full access to the platform.\n\nAs a " . ucfirst($user->role) . ", you can now " . ($user->isMentee() ? 'find and connect with mentors.' : 'receive mentorship requests from students.'),
                 actionText: 'Go to Dashboard',
                 actionUrl:  url('/dashboard'),

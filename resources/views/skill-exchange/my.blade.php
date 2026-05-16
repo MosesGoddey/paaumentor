@@ -27,7 +27,7 @@
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
           <span style="background:#d1fae5;color:#065f46;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700">Offering: {{ $listing->offering }}</span>
-          <span style="color:var(--text-3);font-size:0.8rem">↔</span>
+          <span style="color:var(--text-3);font-size:0.8rem"></span>
           <span style="background:#ede9fe;color:#5b21b6;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700">Seeking: {{ $listing->seeking }}</span>
           @if(!$listing->is_active)
           <span style="background:var(--surface-2);color:var(--text-3);border-radius:6px;padding:3px 10px;font-size:0.72rem;font-weight:700">Hidden</span>
@@ -128,7 +128,7 @@
       <div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">{{ $req->exchange->user->full_name }}</div>
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         <span style="background:#d1fae5;color:#065f46;border-radius:6px;padding:2px 8px;font-size:0.72rem;font-weight:700">{{ $req->exchange->offering }}</span>
-        <span style="color:var(--text-3);font-size:0.75rem">↔</span>
+        <span style="color:var(--text-3);font-size:0.75rem"></span>
         <span style="background:#ede9fe;color:#5b21b6;border-radius:6px;padding:2px 8px;font-size:0.72rem;font-weight:700">{{ $req->exchange->seeking }}</span>
       </div>
       @if($req->message)
@@ -142,7 +142,7 @@
       <span style="background:#fef3c7;color:#92400e;border-radius:6px;padding:4px 12px;font-size:0.75rem;font-weight:700">Pending</span>
       @elseif($req->status === 'accepted')
       <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
-        <span style="background:#d1fae5;color:#065f46;border-radius:6px;padding:4px 12px;font-size:0.75rem;font-weight:700">Accepted ✓</span>
+        <span style="background:#d1fae5;color:#065f46;border-radius:6px;padding:4px 12px;font-size:0.75rem;font-weight:700">Accepted </span>
         <div style="display:flex;gap:6px">
           <a href="{{ route('profile.show', $req->exchange->user) }}"
              class="btn btn-sm" style="background:var(--surface-2);color:var(--text);border:1px solid var(--border);font-size:0.72rem">View Profile</a>
@@ -159,7 +159,7 @@
   @empty
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center;color:var(--text-3)">
     <div style="font-size:0.85rem">You haven't sent any exchange requests yet.</div>
-    <a href="{{ route('skill-exchange.index') }}" style="font-size:0.85rem;color:var(--blue-500);display:inline-block;margin-top:8px">Browse listings →</a>
+    <a href="{{ route('skill-exchange.index') }}" style="font-size:0.85rem;color:var(--blue-500);display:inline-block;margin-top:8px">Browse listings </a>
   </div>
   @endforelse
 

@@ -19,11 +19,11 @@
   <div>
     <div class="card" style="margin-bottom:20px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1.05rem">📦 Project Submission</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1.05rem"> Project Submission</div>
         @php $submission = $myTeam->submission; @endphp
         @if($submission)
           @if($submission->status === 'submitted')
-          <span class="badge badge-green" style="font-size:0.78rem">✓ Submitted {{ $submission->submitted_at->format('M j, g:ia') }}</span>
+          <span class="badge badge-green" style="font-size:0.78rem"> Submitted {{ $submission->submitted_at->format('M j, g:ia') }}</span>
           @else
           <span style="background:#fef3c7;color:#92400e;border-radius:6px;padding:3px 10px;font-size:0.72rem;font-weight:700">Draft</span>
           @endif
@@ -87,7 +87,7 @@
     {{-- Scores (visible after judging) --}}
     @if($submission && $submission->scores->count() > 0)
     <div class="card">
-      <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:14px">📊 Judge Scores</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:14px"> Judge Scores</div>
       @php $summary = $submission->score_summary; @endphp
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px">
         @foreach(['innovation'=>'Innovation','execution'=>'Execution','impact'=>'Impact','presentation'=>'Presentation'] as $k=>$label)
@@ -118,7 +118,7 @@
 
       <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">
         @if($myTeam->track)<span class="badge badge-blue">{{ $myTeam->track }}</span>@endif
-        @if($myTeam->is_locked)<span class="badge" style="background:#fee2e2;color:#b91c1c">🔒 Locked</span>@endif
+        @if($myTeam->is_locked)<span class="badge" style="background:#fee2e2;color:#b91c1c"> Locked</span>@endif
       </div>
 
       {{-- Members --}}
@@ -147,7 +147,7 @@
 
     {{-- Coach card --}}
     <div class="card" style="margin-bottom:16px">
-      <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:12px">🎓 Coach</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:12px"> Coach</div>
       @if($myTeam->coach)
         <div style="display:flex;align-items:center;gap:10px">
           <div class="avatar" style="width:36px;height:36px;font-size:0.8rem;flex-shrink:0">{{ $myTeam->coach->initials }}</div>
@@ -155,9 +155,9 @@
             <div style="font-weight:700;font-size:0.9rem">{{ $myTeam->coach->full_name }}</div>
             <div style="font-size:0.75rem;color:var(--text-3)">{{ ucfirst($myTeam->coach->role) }}</div>
             @if($myTeam->coach_status === 'pending')
-            <span style="font-size:0.68rem;color:#92400e;background:#fef3c7;border-radius:4px;padding:1px 6px;font-weight:700">⏳ Pending acceptance</span>
+            <span style="font-size:0.68rem;color:#92400e;background:#fef3c7;border-radius:4px;padding:1px 6px;font-weight:700"> Pending acceptance</span>
             @else
-            <span style="font-size:0.68rem;color:#065f46;background:#d1fae5;border-radius:4px;padding:1px 6px;font-weight:700">✓ Confirmed</span>
+            <span style="font-size:0.68rem;color:#065f46;background:#d1fae5;border-radius:4px;padding:1px 6px;font-weight:700"> Confirmed</span>
             @endif
           </div>
         </div>
@@ -174,7 +174,7 @@
     </div>
 
     {{-- Back --}}
-    <a href="{{ route('hackathons.show', $hackathon) }}" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;text-align:center">← Back to Hackathon</a>
+    <a href="{{ route('hackathons.show', $hackathon) }}" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;text-align:center"> Back to Hackathon</a>
   </div>
 
 </div>

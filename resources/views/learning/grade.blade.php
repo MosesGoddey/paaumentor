@@ -10,7 +10,7 @@
 </div>
 
 <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:28px">
-  <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0">🗺️</div>
+  <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0"></div>
   <div>
     <h1 style="font-size:1.3rem;font-weight:800;margin-bottom:4px">{{ $path->title }}</h1>
     <div style="font-size:0.82rem;color:var(--text-3);display:flex;align-items:center;gap:8px">

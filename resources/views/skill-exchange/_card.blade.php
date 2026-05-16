@@ -22,7 +22,7 @@
           <span style="background:#d1fae5;color:#065f46;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700">
             Offering: {{ $ex->offering }}
           </span>
-          <span style="color:var(--text-3);font-size:0.8rem">↔</span>
+          <span style="color:var(--text-3);font-size:0.8rem"></span>
           <span style="background:#ede9fe;color:#5b21b6;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700">
             Seeking: {{ $ex->seeking }}
           </span>

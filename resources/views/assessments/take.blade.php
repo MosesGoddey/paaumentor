@@ -256,7 +256,7 @@ body { background:#0f172a; margin:0; font-family:'Sora',sans-serif; }
 
   {{-- Header --}}
   <div class="asmnt-header">
-    <div class="asmnt-title">📝 {{ $certRequest->learningPath->title }}</div>
+    <div class="asmnt-title"> {{ $certRequest->learningPath->title }}</div>
     <div style="display:flex;align-items:center;gap:14px">
       <div style="font-size:0.78rem;color:rgba(255,255,255,0.35)">
         <span id="answeredCount">0</span>/{{ $orderedQuestions->count() }} answered
@@ -313,17 +313,17 @@ body { background:#0f172a; margin:0; font-family:'Sora',sans-serif; }
     {{-- Prev / Next navigation --}}
     <div class="asmnt-nav">
       <button class="asmnt-btn asmnt-btn-prev" id="prevBtn" disabled onclick="prevQuestion()">
-        ← Previous
+         Previous
       </button>
       <button class="asmnt-btn asmnt-btn-next" id="nextBtn" onclick="nextQuestion()">
-        Next →
+        Next 
       </button>
     </div>
   </div>
 
   {{-- Submit button (always visible) --}}
   <button class="asmnt-btn-submit" onclick="confirmSubmit()">
-    ✓ Submit Test
+     Submit Test
   </button>
 
 </div>
@@ -331,7 +331,7 @@ body { background:#0f172a; margin:0; font-family:'Sora',sans-serif; }
 {{-- Tab-switch warning modal --}}
 <div class="tab-modal" id="tabModal">
   <div class="tab-modal-box">
-    <div style="font-size:2.5rem;margin-bottom:12px">⚠️</div>
+    <div style="font-size:2.5rem;margin-bottom:12px"></div>
     <h3>Tab Switch Detected!</h3>
     <p id="tabModalMsg">This is your first warning. One more tab switch will automatically submit your test.</p>
     <button onclick="closeTabModal()" style="background:#fbbf24;color:#1e293b;border:none;padding:12px 28px;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.92rem">
@@ -343,7 +343,7 @@ body { background:#0f172a; margin:0; font-family:'Sora',sans-serif; }
 {{-- Confirm submit modal --}}
 <div class="confirm-modal" id="confirmModal">
   <div class="confirm-modal-box">
-    <div style="font-size:2.5rem;margin-bottom:12px">📋</div>
+    <div style="font-size:2.5rem;margin-bottom:12px"></div>
     <h3>Ready to Submit?</h3>
     <p id="confirmSummary"></p>
     <p style="margin-top:8px !important;font-size:0.78rem;color:#f87171" id="unansweredWarning"></p>
@@ -365,13 +365,13 @@ const ATTEMPT_ID = {{ $attempt->id }};
 const CSRF       = document.querySelector('meta[name="csrf-token"]').content;
 
 let currentIndex    = 0;
-let selectedAnswers = {};   // question_index → option_index
+let selectedAnswers = {};   // question_index  option_index
 let timeLeft        = TOTAL_TIME;
 let examInterval    = null;
 let tabSwitches     = 0;
 let submitting      = false;
 
-// ── Timer (total exam time) ───────────────────────────────────────
+//  Timer (total exam time) 
 const timerEl = document.getElementById('examTimer');
 
 function formatTime(s) {
@@ -395,7 +395,7 @@ function startExamTimer() {
   }, 1000);
 }
 
-// ── Option selection ──────────────────────────────────────────────
+//  Option selection 
 function selectOption(el, qIndex, optIndex) {
   document.querySelectorAll(`#q-${qIndex} .q-option`).forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
@@ -404,7 +404,7 @@ function selectOption(el, qIndex, optIndex) {
   updateProgress();
 }
 
-// ── Navigation ────────────────────────────────────────────────────
+//  Navigation 
 function goToQuestion(index) {
   if (index === currentIndex) return;
   document.getElementById(`q-${currentIndex}`).style.display = 'none';
@@ -416,7 +416,7 @@ function goToQuestion(index) {
   document.getElementById(`dot-${currentIndex}`).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 
   document.getElementById('prevBtn').disabled = currentIndex === 0;
-  document.getElementById('nextBtn').textContent = currentIndex === TOTAL - 1 ? 'Last Question' : 'Next →';
+  document.getElementById('nextBtn').textContent = currentIndex === TOTAL - 1 ? 'Last Question' : 'Next ';
   document.getElementById('nextBtn').disabled = currentIndex === TOTAL - 1;
 }
 
@@ -428,7 +428,7 @@ function nextQuestion() {
   if (currentIndex < TOTAL - 1) goToQuestion(currentIndex + 1);
 }
 
-// ── Grid + progress update ────────────────────────────────────────
+//  Grid + progress update 
 function updateGrid() {
   document.querySelectorAll('.q-dot').forEach((dot, i) => {
     dot.classList.toggle('answered', i in selectedAnswers);
@@ -441,7 +441,7 @@ function updateProgress() {
   document.getElementById('progressBar').style.width = Math.round((answered / TOTAL) * 100) + '%';
 }
 
-// ── Confirm submit modal ──────────────────────────────────────────
+//  Confirm submit modal 
 function confirmSubmit() {
   const answered  = Object.keys(selectedAnswers).length;
   const unanswered = TOTAL - answered;
@@ -449,7 +449,7 @@ function confirmSubmit() {
     `You have answered ${answered} of ${TOTAL} questions.`;
   const warn = document.getElementById('unansweredWarning');
   warn.textContent = unanswered > 0
-    ? `⚠️ ${unanswered} question(s) unanswered — they will be marked incorrect.`
+    ? ` ${unanswered} question(s) unanswered — they will be marked incorrect.`
     : '';
   document.getElementById('confirmModal').classList.add('show');
 }
@@ -458,7 +458,7 @@ function closeConfirmModal() {
   document.getElementById('confirmModal').classList.remove('show');
 }
 
-// ── Submit ────────────────────────────────────────────────────────
+//  Submit 
 function submitTest() {
   if (submitting) return;
   submitting = true;
@@ -481,7 +481,7 @@ function submitTest() {
   document.getElementById('submitForm').submit();
 }
 
-// ── Tab switch detection ──────────────────────────────────────────
+//  Tab switch detection 
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && !submitting) {
     tabSwitches++;
@@ -513,7 +513,7 @@ function closeTabModal() {
 
 document.addEventListener('contextmenu', e => e.preventDefault());
 
-// ── Init ──────────────────────────────────────────────────────────
+//  Init 
 startExamTimer();
 updateProgress();
 </script>

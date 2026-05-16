@@ -41,7 +41,7 @@
 
     @if($hackathon->prizes)
     <div style="padding:12px 16px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:10px;font-size:0.85rem;color:#92400e;margin-bottom:16px">
-      🏅 <strong>Prizes:</strong> {{ $hackathon->prizes }}
+       <strong>Prizes:</strong> {{ $hackathon->prizes }}
     </div>
     @endif
 
@@ -64,9 +64,9 @@
       @elseif($hackathon->status === 'open')
       <form method="POST" action="{{ route('hackathons.status', $hackathon) }}">@csrf<input type="hidden" name="status" value="ongoing"><button class="btn btn-primary btn-sm">Start Hackathon</button></form>
       @elseif($hackathon->status === 'ongoing')
-      <form method="POST" action="{{ route('hackathons.status', $hackathon) }}">@csrf<input type="hidden" name="status" value="judging"><button class="btn btn-primary btn-sm">Close Submissions → Judging</button></form>
+      <form method="POST" action="{{ route('hackathons.status', $hackathon) }}">@csrf<input type="hidden" name="status" value="judging"><button class="btn btn-primary btn-sm">Close Submissions  Judging</button></form>
       @elseif($hackathon->status === 'judging')
-      <form method="POST" action="{{ route('hackathons.publishResults', $hackathon) }}">@csrf<button class="btn btn-primary btn-sm" onclick="return confirm('Publish results and issue all certificates?')">🏆 Publish Results + Issue Certs</button></form>
+      <form method="POST" action="{{ route('hackathons.publishResults', $hackathon) }}">@csrf<button class="btn btn-primary btn-sm" onclick="return confirm('Publish results and issue all certificates?')"> Publish Results + Issue Certs</button></form>
       @endif
       <a href="{{ route('hackathons.judge', $hackathon) }}" class="btn btn-outline btn-sm">Judge Panel</a>
       <a href="{{ route('hackathons.leaderboard', $hackathon) }}" class="btn btn-outline btn-sm">Leaderboard</a>
@@ -85,7 +85,7 @@
 {{-- Rules --}}
 @if($hackathon->rules)
 <div class="card" style="margin-bottom:20px">
-  <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:12px">📋 Rules & Guidelines</div>
+  <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:12px"> Rules & Guidelines</div>
   <div style="font-size:0.88rem;color:var(--text-2);line-height:1.8;white-space:pre-line">{{ $hackathon->rules }}</div>
 </div>
 @endif
@@ -118,18 +118,18 @@
 {{-- Team Section --}}
 @if(in_array($hackathon->status, ['open','ongoing','judging','completed']))
 <div class="card" style="margin-bottom:20px">
-  <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:16px">🧑‍🤝‍🧑 Your Team</div>
+  <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:16px"> Your Team</div>
 
   @if($myTeam)
     {{-- Already in a team --}}
     <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface-2);border-radius:12px;margin-bottom:14px">
-      <div style="font-size:1.8rem">🏷️</div>
+      <div style="font-size:1.8rem"></div>
       <div>
         <div style="font-weight:800;font-size:1rem">{{ $myTeam->name }}</div>
         @if($myTeam->track)<div style="font-size:0.8rem;color:var(--text-3)">Track: {{ $myTeam->track }}</div>@endif
       </div>
     </div>
-    <a href="{{ route('hackathons.team', $hackathon) }}" class="btn btn-primary" style="display:inline-block">Open Team Workspace →</a>
+    <a href="{{ route('hackathons.team', $hackathon) }}" class="btn btn-primary" style="display:inline-block">Open Team Workspace </a>
 
   @elseif(in_array($hackathon->status, ['open', 'ongoing']))
     <p style="font-size:0.88rem;color:var(--text-3);margin-bottom:16px">You're not in a team yet. Create a new team or join one with a code.</p>
@@ -220,7 +220,7 @@
       <div style="font-size:0.75rem;color:var(--text-3)">
         {{ $team->users->count() }} member(s)
         @if($team->track) · {{ $team->track }} @endif
-        @if($team->coach) · 🎓 Coach: {{ $team->coach->full_name }} @endif
+        @if($team->coach) ·  Coach: {{ $team->coach->full_name }} @endif
       </div>
     </div>
     @if($team->submission && $team->submission->status === 'submitted')

@@ -37,7 +37,7 @@ class VerifierController extends Controller
         Notification::create([
             'user_id' => $user->id,
             'type'    => 'mentor_portfolio_approved',
-            'title'   => 'Portfolio Verified! 🎉',
+            'title'   => 'Portfolio Verified! ',
             'body'    => 'Your mentor portfolio has been reviewed and approved. Your account is now active — you can start accepting mentees.',
             'data'    => [],
         ]);
@@ -161,7 +161,7 @@ class VerifierController extends Controller
         Notification::create([
             'user_id' => $mentee->id,
             'type'    => 'certificate_issued',
-            'title'   => 'Certificate Issued! 🏆',
+            'title'   => 'Certificate Issued! ',
             'body'    => "Congratulations! Your verified certificate for \"{$path->title}\" is ready to download.",
             'data'    => ['certificate_id' => $menteeCertId],
         ]);
@@ -187,7 +187,7 @@ class VerifierController extends Controller
             Notification::create([
                 'user_id' => $path->mentor_id,
                 'type'    => 'certificate_issued',
-                'title'   => 'Mentor Milestone Certificate Earned! 🏆',
+                'title'   => 'Mentor Milestone Certificate Earned! ',
                 'body'    => "You have successfully guided {$completedCount} mentees to completion. Your Certificate of Mentorship Excellence has been issued.",
                 'data'    => ['certificate_id' => $mentorCertId],
             ]);

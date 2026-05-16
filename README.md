@@ -59,6 +59,7 @@ PAAUMENTOR connects students with senior peers and alumni as mentors, providing 
 
 ### Certificate with QR Code
    ![Certificate](docs/screenshots/05-certificate.png)
+   ![login](docs/screenshots/02-login.png).
 
 ---
 

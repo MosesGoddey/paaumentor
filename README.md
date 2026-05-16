@@ -57,7 +57,8 @@ PAAUMENTOR connects students with senior peers and alumni as mentors, providing 
 
 > Dashboard · Learning Paths · Sessions · Certificates · Admin Dashboard
 
-*(Add screenshots here)*
+### Certificate with QR Code
+   ![Certificate](docs/screenshots/05-certificate.png)
 
 ---
 

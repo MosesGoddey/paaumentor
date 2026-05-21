@@ -67,7 +67,7 @@ body { animation: pageFadeIn 0.25s ease both; }
 
         @auth
           <a href="{{ route('notifications.index') }}" style="position:relative;font-size:1.3rem;color:var(--text-2)">
-            
+            🔔
             @if(auth()->user()->notifications()->whereNull('read_at')->count() > 0)
               <span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;display:block"></span>
             @endif

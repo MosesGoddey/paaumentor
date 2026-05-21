@@ -301,32 +301,32 @@
   <p class="section-sub-heading">Powerful features built for PAAU students and mentors.</p>
   <div class="features-grid">
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon">🎯</div>
       <h3>Smart Matching</h3>
       <p>Our algorithm pairs you with mentors based on your skills, goals, and academic level for the best fit.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon">💬</div>
       <h3>Real-Time Chat</h3>
       <p>Direct messaging with your mentor for instant support, advice, and file sharing.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon">📚</div>
       <h3>Learning Paths</h3>
       <p>Structured courses with modules, tasks, and progress tracking designed by your mentor.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon">📹</div>
       <h3>Video Sessions</h3>
       <p>Schedule video calls, voice calls, or chat-only sessions and keep a full history of every meeting.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon">🔄</div>
       <h3>Skill Exchange</h3>
       <p>Trade skills with peers — you teach what you know, they teach what you need.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">⬆</div>
+      <div class="feature-icon">⬆️</div>
       <h3>Mentor Upgrade</h3>
       <p>High-performing mentees can apply to become mentors after meeting qualifications and earning a recommendation.</p>
     </div>
@@ -350,7 +350,7 @@
 {{--  Footer  --}}
 <footer style="background:var(--surface);border-top:1px solid var(--border);padding:28px 20px;text-align:center;color:var(--text-3);font-size:0.83rem">
   <p style="font-weight:600;color:var(--text-2);margin-bottom:6px">PAAUMENTOR · Prince Abubakar Audu University, Anyigba</p>
-  <p>Final Year Project — Moses Goddey Joseph (23CS1004) · Supervisor: Mr. Richard Akomodi</p>
+  <p>Final Year Project By Moses Goddey Joseph</p>
 </footer>
 
 <script src="{{ asset('js/app.js') }}"></script>

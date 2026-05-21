@@ -81,20 +81,26 @@
     @endphp
     <div style="padding:14px 16px;border-bottom:1px solid var(--border);border-top:3px solid var(--role-color);display:flex;align-items:center;gap:12px">
       <button class="chat-back" onclick="showList()"> Back</button>
-      @if($other?->avatar_url)
-      <img src="{{ $other->avatar_url }}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0">
-      @else
-      <div class="avatar avatar-sm" @if($other?->role === 'mentor') style="background:#f97316" @endif>{{ $other?->initials ?? '?' }}</div>
-      @endif
-      <div>
-        <div style="font-weight:700;font-size:0.92rem;display:flex;align-items:center;gap:6px">
-          {{ $other?->full_name ?? 'Unknown' }}
-          <span style="font-size:0.6rem;background:{{ $other?->role === 'mentor' ? '#fff7ed' : '#dbeafe' }};color:{{ $other?->role === 'mentor' ? '#ea580c' : '#1d4ed8' }};border-radius:4px;padding:2px 6px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">{{ $other?->role ?? '' }}</span>
-        </div>
-        @if($subtitle)<div style="font-size:0.75rem;color:var(--text-3)">{{ $subtitle }}</div>@endif
-      </div>
       @if($other)
-      <a href="{{ route('profile.show', $other) }}" style="margin-left:auto;font-size:0.78rem;color:var(--role-color);text-decoration:none;flex-shrink:0">View Profile</a>
+      <a href="{{ route('profile.show', $other) }}" style="display:flex;align-items:center;gap:12px;text-decoration:none;flex:1;min-width:0" title="View {{ $other->full_name }}'s profile">
+        @if($other->avatar_url)
+        <img src="{{ $other->avatar_url }}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;transition:opacity 0.15s" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+        @else
+        <div class="avatar avatar-sm" @if($other->role === 'mentor') style="background:#f97316" @endif>{{ $other->initials }}</div>
+        @endif
+        <div>
+          <div style="font-weight:700;font-size:0.92rem;display:flex;align-items:center;gap:6px;color:var(--text)">
+            {{ $other->full_name }}
+            <span style="font-size:0.6rem;background:{{ $other->role === 'mentor' ? '#fff7ed' : '#dbeafe' }};color:{{ $other->role === 'mentor' ? '#ea580c' : '#1d4ed8' }};border-radius:4px;padding:2px 6px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">{{ $other->role }}</span>
+          </div>
+          @if($subtitle)<div style="font-size:0.75rem;color:var(--text-3)">{{ $subtitle }}</div>@endif
+        </div>
+      </a>
+      @else
+      <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
+        <div class="avatar avatar-sm">?</div>
+        <div style="font-weight:700;font-size:0.92rem;color:var(--text)">Unknown</div>
+      </div>
       @endif
     </div>
 
@@ -117,7 +123,7 @@
             @if($isAudio)
               <div class="vn-player" data-src="{{ $url }}" data-mine="{{ $mine ? '1' : '0' }}">
                 <button class="vn-play" onclick="vnToggle(this)" type="button"
-                        style="background:{{ $mine ? '#fff' : 'var(--blue-500)' }};color:{{ $mine ? 'var(--blue-500)' : '#fff' }}"></button>
+                        style="background:{{ $mine ? '#fff' : 'var(--blue-500)' }};color:{{ $mine ? 'var(--blue-500)' : '#fff' }}">▶</button>
                 <div class="vn-wave"></div>
                 <span class="vn-time" style="color:{{ $mine ? 'rgba(255,255,255,0.75)' : 'var(--text-3)' }}">0:00</span>
                 <audio src="{{ $url }}" preload="metadata" style="display:none"></audio>
@@ -193,23 +199,23 @@
       </div>
       <div id="recordingStrip" style="display:none;align-items:center;gap:10px;background:var(--surface-2);border:1px solid #fecaca;border-radius:14px;padding:8px 14px;margin-bottom:8px">
         <button type="button" onclick="cancelRecording()" title="Cancel"
-                style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:1.1rem;padding:0;line-height:1;flex-shrink:0"></button>
+                style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:1.1rem;padding:0;line-height:1;flex-shrink:0">✕</button>
         <div id="recWave" style="display:flex;align-items:center;gap:2px;flex:1;height:28px"></div>
         <span id="recordTimer" style="font-size:0.8rem;font-weight:700;color:#dc2626;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">0:00</span>
         <button type="button" onclick="stopRecording()" title="Send voice note"
-                style="width:36px;height:36px;border-radius:50%;background:#dc2626;color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0"></button>
+                style="width:36px;height:36px;border-radius:50%;background:#dc2626;color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">➤</button>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <button type="button" onclick="document.getElementById('chatFile').click()" title="Attach file"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">📎</button>
         <button type="button" id="micBtn" onclick="toggleRecording()" title="Voice note"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">🎤</button>
         <button type="button" onclick="startCall('video')" title="Start video call"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">📹</button>
         <button type="button" onclick="startCall('voice')" title="Start voice call"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">📞</button>
         <button type="button" onclick="startCall('screen')" title="Share screen"
-                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1"></button>
+                style="background:none;border:none;cursor:pointer;font-size:1.15rem;padding:4px 6px;color:var(--text-3);line-height:1">🖥️</button>
         <input type="text" name="body" id="chatBody" class="form-input" placeholder="Type a message..." style="flex:1" autocomplete="off">
         <button type="submit" class="btn btn-sm" style="background:var(--role-color);color:#fff;border:none">Send</button>
       </div>
@@ -347,7 +353,7 @@ async function startCall(type) {
     const data = await res.json();
     _mySessionId = data.session_id;
 
-    const icons = {video: ' ', voice: ' ', screen: ' '};
+    const icons = {video: '📹 ', voice: '📞 ', screen: '🖥️ '};
     document.getElementById('callingStatusText').textContent = (icons[type] || '') + 'Calling…';
     document.getElementById('callingOverlay').style.display = 'flex';
 
@@ -609,7 +615,7 @@ function vnInit(container) {
   });
 
   audio.addEventListener('ended', () => {
-    btn.innerHTML = '';
+    btn.innerHTML = '▶';
     bars.forEach(b => b.style.background = mine ? 'rgba(255,255,255,0.35)' : '#cbd5e1');
     timeEl.textContent = vnFmt(audio.duration);
   });
@@ -622,14 +628,14 @@ function vnToggle(btn) {
     document.querySelectorAll('.vn-player audio').forEach(a => {
       if (a !== audio && !a.paused) {
         a.pause();
-        a.closest('.vn-player').querySelector('.vn-play').innerHTML = '';
+        a.closest('.vn-player').querySelector('.vn-play').innerHTML = '▶';
       }
     });
     audio.play();
-    btn.innerHTML = '';
+    btn.innerHTML = '⏸';
   } else {
     audio.pause();
-    btn.innerHTML = '';
+    btn.innerHTML = '▶';
   }
 }
 
@@ -740,7 +746,7 @@ function appendVoiceMessage(msg) {
   div.innerHTML = `
     <div style="max-width:65%;background:var(--blue-500);color:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.88rem;line-height:1.5">
       <div class="vn-player" data-src="${url}" data-mine="1">
-        <button class="vn-play" onclick="vnToggle(this)" type="button" style="background:#fff;color:var(--blue-500)"></button>
+        <button class="vn-play" onclick="vnToggle(this)" type="button" style="background:#fff;color:var(--blue-500)">▶</button>
         <div class="vn-wave"></div>
         <span class="vn-time" style="color:rgba(255,255,255,0.75)">0:00</span>
         <audio src="${url}" preload="metadata" style="display:none"></audio>

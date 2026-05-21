@@ -1,0 +1,169 @@
+/* ────────────────────────────────────────────────────────────────
+   PAAUMENTOR · Design Tokens
+   Single source of truth. Imported by every page-level stylesheet.
+   ──────────────────────────────────────────────────────────────── */
+
+:root {
+  /* — Surfaces — */
+  --pm-bg-0:        #06060a;
+  --pm-bg-1:        #0b0b14;
+  --pm-bg-2:        #14141f;
+  --pm-bg-3:        #1c1c2b;
+  --pm-border:      rgba(255, 255, 255, 0.08);
+  --pm-border-2:    rgba(255, 255, 255, 0.14);
+  --pm-border-soft: rgba(255, 255, 255, 0.04);
+
+  /* — Text — */
+  --pm-text:        #f4f4f8;
+  --pm-text-2:      #a8a8bc;
+  --pm-text-3:      #6c6c80;
+
+  /* — Accents — */
+  --pm-purple:      #7F77DD;
+  --pm-purple-soft: #AFA9EC;
+  --pm-teal:        #1D9E75;
+  --pm-teal-soft:   #5DCAA5;
+  --pm-coral:       #D85A30;
+  --pm-coral-soft:  #F0997B;
+  --pm-amber:       #EF9F27;
+
+  /* Status colors (semantic) */
+  --pm-success:     var(--pm-teal);
+  --pm-pending:     var(--pm-amber);
+  --pm-info:        var(--pm-purple);
+  --pm-warm:        var(--pm-coral);
+
+  /* — Gradients — */
+  --pm-gradient-hero:
+    linear-gradient(95deg, #AFA9EC 0%, #5DCAA5 50%, #F0997B 100%);
+  --pm-gradient-purple:
+    linear-gradient(135deg, #7F77DD 0%, #5D55BC 100%);
+  --pm-gradient-coral:
+    linear-gradient(135deg, #F0997B 0%, #D85A30 100%);
+  --pm-gradient-teal:
+    linear-gradient(135deg, #5DCAA5 0%, #1D9E75 100%);
+
+  /* — Type — */
+  --pm-font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --pm-font-ui:      "Inter", ui-sans-serif, system-ui, sans-serif;
+  --pm-font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  /* — Spacing scale — */
+  --pm-1:  4px;
+  --pm-2:  8px;
+  --pm-3:  12px;
+  --pm-4:  16px;
+  --pm-6:  24px;
+  --pm-8:  32px;
+  --pm-12: 48px;
+  --pm-16: 64px;
+  --pm-24: 96px;
+
+  /* — Radii — */
+  --pm-r-input:  8px;
+  --pm-r-button: 12px;
+  --pm-r-card:   16px;
+  --pm-r-hero:   20px;
+  --pm-r-pill:   999px;
+
+  /* — Shadows / glow — */
+  --pm-shadow-sm:   0 1px 2px rgba(0,0,0,0.4);
+  --pm-shadow-md:   0 8px 24px rgba(0,0,0,0.45);
+  --pm-shadow-lg:   0 24px 60px -12px rgba(0,0,0,0.6);
+  --pm-glow-coral:  0 8px 32px -8px rgba(216, 90, 48, 0.55);
+  --pm-glow-purple: 0 8px 32px -8px rgba(127, 119, 221, 0.55);
+  --pm-glow-teal:   0 8px 32px -8px rgba(29, 158, 117, 0.55);
+
+  /* — Motion — */
+  --pm-ease:        cubic-bezier(0.2, 0.7, 0.2, 1);
+  --pm-ease-in:     cubic-bezier(0.55, 0, 0.95, 0.3);
+  --pm-dur-fast:    160ms;
+  --pm-dur-base:    260ms;
+  --pm-dur-slow:    560ms;
+
+  /* — Layout — */
+  --pm-max:         1200px;
+  --pm-max-wide:    1320px;
+  --pm-nav-h:       64px;
+}
+
+/* Light-mode override — wire every visual through these. */
+html[data-theme="light"] {
+  --pm-bg-0:        #f7f7fb;
+  --pm-bg-1:        #ffffff;
+  --pm-bg-2:        #f0f0f6;
+  --pm-bg-3:        #e7e7ee;
+  --pm-border:      rgba(15, 15, 25, 0.08);
+  --pm-border-2:    rgba(15, 15, 25, 0.16);
+  --pm-border-soft: rgba(15, 15, 25, 0.04);
+  --pm-text:        #0b0b14;
+  --pm-text-2:      #4a4a5e;
+  --pm-text-3:      #8a8a9e;
+}
+
+/* ─── Reset / base ─── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--pm-bg-0);
+  color: var(--pm-text);
+  font-family: var(--pm-font-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "cv11";
+  overflow-x: hidden;
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+:focus-visible {
+  outline: 2px solid var(--pm-purple);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+::selection { background: rgba(127, 119, 221, 0.35); color: var(--pm-text); }
+
+/* ─── Utility primitives ─── */
+.pm-container {
+  max-width: var(--pm-max);
+  margin: 0 auto;
+  padding: 0 var(--pm-6);
+}
+@media (min-width: 1024px) {
+  .pm-container { padding: 0 var(--pm-8); }
+}
+
+.pm-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pm-2);
+  font-family: var(--pm-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pm-text-2);
+}
+
+/* Grain overlay — applied via ::before on .pm-grain elements */
+.pm-grain { position: relative; }
+.pm-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

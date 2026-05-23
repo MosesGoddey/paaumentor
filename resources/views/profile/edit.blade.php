@@ -44,7 +44,41 @@
     </div>
     @endif
 
+    @if(session('success'))
+    <div style="background:#dcfce7;border:1px solid #86efac;border-radius:10px;padding:12px;margin-bottom:16px;font-size:0.85rem;color:#166534">
+      {{ session('success') }}
+    </div>
+    @endif
+
     <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+</div>
+
+{{-- Change Password --}}
+<div class="card" style="margin-top:20px">
+  <h2 style="font-size:1rem;font-weight:700;margin-bottom:20px">Change Password</h2>
+
+  @if(session('password_success'))
+  <div style="background:#dcfce7;border:1px solid #86efac;border-radius:10px;padding:12px;margin-bottom:16px;font-size:0.85rem;color:#166534">
+    {{ session('password_success') }}
+  </div>
+  @endif
+
+  <form method="POST" action="{{ route('profile.password') }}" style="display:flex;flex-direction:column;gap:14px">
+    @csrf
+    <div class="form-group">
+      <label class="form-label">Current Password</label>
+      <input type="password" name="current_password" class="form-input" placeholder="Enter your current password" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label">New Password</label>
+      <input type="password" name="password" class="form-input" placeholder="Minimum 8 characters, letters and numbers" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Confirm New Password</label>
+      <input type="password" name="password_confirmation" class="form-input" placeholder="Repeat new password" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="align-self:flex-start">Update Password</button>
   </form>
 </div>
 @endsection

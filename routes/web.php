@@ -97,9 +97,10 @@ Route::middleware('auth')->group(function () {
 
     // ---- Profile ----
     Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/edit',    [ProfileController::class, 'edit'])->name('edit');
-        Route::post('/update', [ProfileController::class, 'update'])->name('update');
-        Route::get('/{user}',  [ProfileController::class, 'show'])->name('show');
+        Route::get('/edit',       [ProfileController::class, 'edit'])->name('edit');
+        Route::post('/update',    [ProfileController::class, 'update'])->name('update');
+        Route::post('/password',  [ProfileController::class, 'updatePassword'])->name('password');
+        Route::get('/{user}',     [ProfileController::class, 'show'])->name('show');
     });
 
     // ---- Admin ----
@@ -108,6 +109,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/users',                 [AdminController::class, 'users'])->name('users');
         Route::patch('/users/{user}/verify', [AdminController::class, 'verifyUser'])->name('verify');
         Route::patch('/users/{user}/toggle', [AdminController::class, 'suspendUser'])->name('suspend');
+        Route::post('/verifier/create',      [AdminController::class, 'createVerifier'])->name('createVerifier');
     });
 
     // ---- Skill Exchange ----

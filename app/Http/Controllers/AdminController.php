@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\AppNotificationMail;
 use App\Models\{User, Mentorship, MentorSession, Certificate, Notification};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Auth, DB, Mail};
+use Illuminate\Support\Facades\{Auth, DB, Hash, Mail};
 
 class AdminController extends Controller
 {
@@ -109,5 +109,31 @@ class AdminController extends Controller
         $user->update(['is_active' => !$user->is_active]);
         $action = $user->is_active ? 'activated' : 'suspended';
         return back()->with('success', "User {$action}.");
+    }
+
+    public function createVerifier(Request $request)
+    {
+        $data = $request->validate([
+            'first_name' => 'required|string|max:60',
+            'last_name'  => 'required|string|max:60',
+            'email'      => 'required|email|unique:users',
+            'staff_id'   => 'required|string|unique:users,student_id',
+            'password'   => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::create([
+            'first_name'  => $data['first_name'],
+            'last_name'   => $data['last_name'],
+            'email'       => $data['email'],
+            'student_id'  => $data['staff_id'],
+            'password'    => Hash::make($data['password']),
+            'role'        => 'verifier',
+            'department'  => 'Staff',
+            'level'       => 'Staff',
+            'is_verified' => true,
+            'is_active'   => true,
+        ]);
+
+        return back()->with('success', "Verifier account created for {$user->full_name}. They can now log in with {$data['email']}.");
     }
 }

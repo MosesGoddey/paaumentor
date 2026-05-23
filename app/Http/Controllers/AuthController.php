@@ -36,6 +36,7 @@ class AuthController extends Controller
             return back()->withErrors(['login' => 'Invalid credentials.'])->withInput();
         }
 
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         if (!$user->is_active) {
             Auth::logout();
@@ -44,7 +45,9 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
         return redirect()->intended(
-            $user->isAdmin() ? route('admin.dashboard') : route('dashboard')
+            $user->isAdmin()    ? route('admin.dashboard') :
+            ($user->isVerifier() ? route('verifier.index')  :
+            route('dashboard'))
         );
     }
 

@@ -12,13 +12,70 @@
     </form>
   </aside>
   <main class="main-content">
-    <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:20px">All Users</h1>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <h1 style="font-size:1.6rem;font-weight:800;margin:0">All Users</h1>
+      <button onclick="document.getElementById('verifierModal').style.display='flex'" class="btn btn-primary btn-sm">+ Add Verifier</button>
+    </div>
+
+    @if(session('success'))
+    <div style="background:#dcfce7;border:1px solid #86efac;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#166534">
+      {{ session('success') }}
+    </div>
+    @endif
+
+    {{-- Add Verifier Modal --}}
+    <div id="verifierModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;padding:20px">
+      <div style="background:var(--bg);border-radius:20px;padding:36px;width:100%;max-width:480px;box-shadow:0 24px 60px rgba(0,0,0,0.3)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+          <h2 style="font-size:1.2rem;font-weight:800;margin:0">Create Verifier Account</h2>
+          <button onclick="document.getElementById('verifierModal').style.display='none'" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text-3);line-height:1">&times;</button>
+        </div>
+        <form method="POST" action="{{ route('admin.createVerifier') }}" style="display:flex;flex-direction:column;gap:14px">
+          @csrf
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">First Name</label>
+              <input type="text" name="first_name" class="form-input" placeholder="e.g. Fatima" required value="{{ old('first_name') }}">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Last Name</label>
+              <input type="text" name="last_name" class="form-input" placeholder="e.g. Bello" required value="{{ old('last_name') }}">
+            </div>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Institutional Email</label>
+            <input type="email" name="email" class="form-input" placeholder="verifier@paau.edu.ng" required value="{{ old('email') }}">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Staff ID</label>
+            <input type="text" name="staff_id" class="form-input" placeholder="e.g. STAFF001" required value="{{ old('staff_id') }}">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-input" placeholder="Minimum 8 characters" required>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" name="password_confirmation" class="form-input" placeholder="Repeat password" required>
+          </div>
+          @if($errors->any())
+          <div style="background:#fee2e2;border-radius:8px;padding:10px 14px;font-size:0.82rem;color:#991b1b">
+            @foreach($errors->all() as $e)<div>{{ $e }}</div>@endforeach
+          </div>
+          @endif
+          <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+            <button type="button" onclick="document.getElementById('verifierModal').style.display='none'" class="btn btn-outline btn-sm">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-sm">Create Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <form method="GET" style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
       <input type="text" name="search" class="form-input" placeholder="Search..." value="{{ request('search') }}" style="width:200px">
       <select name="role" class="form-select" style="width:auto">
         <option value="">All Roles</option>
-        @foreach(['mentee','mentor','alumni','admin'] as $r)
+        @foreach(['mentee','mentor','alumni','admin','verifier'] as $r)
           <option value="{{ $r }}" {{ request('role')===$r?'selected':'' }}>{{ ucfirst($r) }}</option>
         @endforeach
       </select>
@@ -56,4 +113,7 @@
     </div>
   </main>
 </div>
+@if($errors->any())
+<script>document.getElementById('verifierModal').style.display = 'flex';</script>
+@endif
 @endsection

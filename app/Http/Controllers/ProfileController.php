@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\{User, Skill};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Auth, Storage};
+use Illuminate\Support\Facades\{Auth, Hash, Storage};
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
@@ -47,5 +48,24 @@ class ProfileController extends Controller
         }
 
         return back()->with('success', 'Profile updated!');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $request->validate([
+            'current_password' => ['required', function ($attr, $value, $fail) use ($user) {
+                if (!Hash::check($value, $user->password)) {
+                    $fail('The current password is incorrect.');
+                }
+            }],
+            'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
+        ]);
+
+        $user->update(['password' => Hash::make($request->password)]);
+
+        return back()->with('password_success', 'Password changed successfully.');
     }
 }

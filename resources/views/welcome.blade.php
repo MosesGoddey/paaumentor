@@ -210,6 +210,67 @@
 .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
 .feature-card p  { font-size: 0.84rem; color: var(--text-3); line-height: 1.65; }
 
+/*  Featured Mentors  */
+.mentors-section { padding: 80px 20px; background: var(--surface); border-top: 1px solid var(--border); }
+.mentors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.mentor-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px 22px;
+  text-align: center;
+  transition: all 0.2s;
+  position: relative;
+}
+.mentor-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--blue-400); }
+.mentor-tier-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+.mentor-avatar, .mentor-avatar-fallback {
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  margin: 0 auto 14px;
+  object-fit: cover;
+  border: 3px solid var(--blue-400);
+}
+.mentor-avatar-fallback {
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.7rem;
+}
+.mentor-name { font-family: 'Sora', sans-serif; font-size: 1.05rem; font-weight: 800; margin-bottom: 2px; }
+.mentor-role { font-size: 0.8rem; color: var(--text-3); margin-bottom: 10px; }
+.mentor-rating { font-size: 0.82rem; font-weight: 700; color: #f59e0b; margin-bottom: 12px; }
+.mentor-rating span { color: var(--text-3); font-weight: 500; }
+.mentor-skills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 16px; min-height: 26px; }
+.mentor-skill-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+.mentor-card .btn { width: 100%; }
+
 /*  CTA  */
 .cta-section {
   position: relative;
@@ -319,37 +380,92 @@
   <p class="section-sub-heading">Powerful features built for PAAU students and mentors.</p>
   <div class="features-grid">
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon" style="background:#3b82f6">
+        <svg width="26" height="26" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
       <h3>Smart Matching</h3>
       <p>Our algorithm pairs you with mentors based on your skills, goals, and academic level for the best fit.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon" style="background:#0d9488">
+        <svg width="26" height="26" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
       <h3>Real-Time Chat</h3>
       <p>Direct messaging with your mentor for instant support, advice, and file sharing.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon" style="background:#7c3aed">
+        <svg width="26" height="26" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
       <h3>Learning Paths</h3>
       <p>Structured courses with modules, tasks, and progress tracking designed by your mentor.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon" style="background:#ec4899">
+        <svg width="26" height="26" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      </div>
       <h3>Video Sessions</h3>
       <p>Schedule video calls, voice calls, or chat-only sessions and keep a full history of every meeting.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"></div>
+      <div class="feature-icon" style="background:#f97316">
+        <svg width="26" height="26" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </div>
       <h3>Skill Exchange</h3>
       <p>Trade skills with peers — you teach what you know, they teach what you need.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">⬆</div>
+      <div class="feature-icon" style="background:#16a34a">
+        <svg width="26" height="26" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      </div>
       <h3>Mentor Upgrade</h3>
       <p>High-performing mentees can apply to become mentors after meeting qualifications and earning a recommendation.</p>
     </div>
   </div>
 </div>
+
+{{--  Featured Mentors  --}}
+@if(isset($featuredMentors) && $featuredMentors->count())
+<div class="mentors-section">
+  <h2 class="section-heading">Meet Our Mentors</h2>
+  <p class="section-sub-heading">Learn from verified senior students and alumni who've walked your path.</p>
+  <div class="mentors-grid">
+    @foreach($featuredMentors as $mentor)
+      <div class="mentor-card">
+        <span class="mentor-tier-badge">{{ $mentor->mentor_tier_label }}</span>
+
+        @if($mentor->avatar_url)
+          <img src="{{ $mentor->avatar_url }}" alt="{{ $mentor->full_name }}" class="mentor-avatar">
+        @else
+          <div class="mentor-avatar-fallback">{{ $mentor->initials }}</div>
+        @endif
+
+        <div class="mentor-name">{{ $mentor->full_name }}</div>
+        <div class="mentor-role">
+          {{ ucfirst($mentor->role) }}@if($mentor->department) · {{ $mentor->department }}@endif
+        </div>
+
+        <div class="mentor-rating">
+          ★ {{ number_format($mentor->average_rating, 1) }}
+          <span>({{ $mentor->ratings->count() }} {{ $mentor->ratings->count() === 1 ? 'review' : 'reviews' }})</span>
+        </div>
+
+        <div class="mentor-skills">
+          @foreach($mentor->hasSkills->take(3) as $skill)
+            <span class="mentor-skill-tag">{{ $skill->name }}</span>
+          @endforeach
+        </div>
+
+        @auth
+          <a href="{{ route('mentors.show', $mentor) }}" class="btn btn-primary btn-sm">View Profile</a>
+        @else
+          <a href="{{ route('login') }}" class="btn btn-primary btn-sm">Connect</a>
+        @endauth
+      </div>
+    @endforeach
+  </div>
+</div>
+@endif
 
 {{--  CTA  --}}
 <div class="cta-section">
@@ -371,6 +487,7 @@
   <p>Final Year Project — Moses Goddey Joseph (23CS1004) · Supervisor: Mr. Richard Akomodi</p>
 </footer>
 
+@include('partials.mentor-ai-widget')
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
 const observer = new IntersectionObserver(entries => {

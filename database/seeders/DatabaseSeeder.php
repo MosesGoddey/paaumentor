@@ -87,6 +87,9 @@ class DatabaseSeeder extends Seeder
                           ->mapWithKeys(fn($id) => [$id => ['type' => 'wants']]);
         $mentee->skills()->sync($wantedIds);
 
+        // Senior mentors that headline the public landing page.
+        $this->call(LandingMentorsSeeder::class);
+
         echo "\n✅ Seeding complete!\n";
         echo "   Admin:  admin@paau.edu.ng / password\n";
         echo "   Mentee: 23CS1004 / password\n";

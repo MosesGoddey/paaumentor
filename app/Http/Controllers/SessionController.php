@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{MentorSession, Mentorship, Notification};
+use App\Models\{MentorSession, Mentorship, Notification, User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -79,6 +79,25 @@ class SessionController extends Controller
         ]);
 
         return redirect()->route('sessions.index')->with('success', 'Session scheduled! The other participant has been notified.');
+    }
+
+    public function room(MentorSession $session)
+    {
+        $user = Auth::user();
+        $session->load(['mentorship', 'skillExchangeRequest.exchange']);
+
+        abort_unless(in_array($user->id, $session->participantIds()), 403);
+        abort_unless($session->room, 404);
+
+        if ($session->status === 'scheduled') {
+            $session->update(['status' => 'in_progress', 'started_at' => now()]);
+        }
+
+        $otherParticipantId = collect($session->participantIds())
+            ->first(fn($id) => $id !== $user->id);
+        $otherParticipant = User::find($otherParticipantId);
+
+        return view('sessions.room', compact('session', 'user', 'otherParticipant'));
     }
 
     public function complete(MentorSession $session)

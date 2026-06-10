@@ -92,7 +92,7 @@
         <span style="background:var(--blue-500);color:#fff;border-radius:4px;padding:1px 6px;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em">{{ auth()->user()->role }}</span>
       </div>
     </a>
-    <form method="POST" action="{{ route('logout') }}">
+    <form method="POST" action="{{ route('logout') }}" onsubmit="return confirm('Are you sure you want to sign out?')">
       @csrf
       <button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:#fecdd3;border:none;cursor:pointer;color:#9f1239;font-weight:600;border-radius:10px">Sign Out</button>
     </form>
@@ -111,4 +111,6 @@
     @yield('page-content')
   </main>
 </div>
+
+@include('partials.mentor-ai-widget')
 @endsection

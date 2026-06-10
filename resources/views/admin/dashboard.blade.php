@@ -12,7 +12,7 @@
     <div class="sidebar-label">Moderation</div>
     <a href="{{ route('verifier.index') }}"  class="sidebar-link">Approvals <span class="count">{{ $pendingMentors->count() }}</span></a>
     <a href="{{ route('profile.edit') }}"    class="sidebar-link">Settings</a>
-    <form method="POST" action="{{ route('logout') }}" style="margin-top:auto">
+    <form method="POST" action="{{ route('logout') }}" style="margin-top:auto" onsubmit="return confirm('Are you sure you want to sign out?')">
       @csrf<button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:none;border:none;cursor:pointer">Sign Out</button>
     </form>
   </aside>

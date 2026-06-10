@@ -101,5 +101,6 @@
 <script>
 function togglePw(id){ const e=document.getElementById(id); e.type=e.type==='password'?'text':'password'; }
 </script>
+@include('partials.mentor-ai-widget')
 </body>
 </html>

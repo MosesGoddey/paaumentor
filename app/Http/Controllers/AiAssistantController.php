@@ -43,4 +43,31 @@ class AiAssistantController extends Controller
         session()->forget('study_buddy_history');
         return response()->json(['ok' => true]);
     }
+
+    public function widgetChat(Request $request)
+    {
+        $request->validate(['message' => 'required|string|max:1000']);
+
+        $history = session('mentor_ai_widget_history', []);
+
+        try {
+            $result = app(AiService::class)->mentorAiWidget($request->message, $history);
+        } catch (\Throwable) {
+            return response()->json(['error' => 'Mentor AI is temporarily unavailable. Please try again shortly.'], 503);
+        }
+
+        $history[] = ['role' => 'user',      'content' => $request->message];
+        $history[] = ['role' => 'assistant', 'content' => $result['reply']];
+
+        if (count($history) > 20) {
+            $history = array_slice($history, -20);
+        }
+
+        session(['mentor_ai_widget_history' => $history]);
+
+        return response()->json([
+            'reply'       => $result['reply'],
+            'suggestions' => $result['suggestions'],
+        ]);
+    }
 }

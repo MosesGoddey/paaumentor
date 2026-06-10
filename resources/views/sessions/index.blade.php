@@ -64,8 +64,9 @@
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0">
         @if($sess->room && $sess->type !== 'chat')
-        <a href="https://meet.jit.si/{{ $sess->room }}#config.prejoinPageEnabled=false&userInfo.displayName={{ urlencode(auth()->user()->full_name) }}"
-           target="_blank" class="btn btn-primary btn-sm">Join</a>
+        <a href="{{ route('sessions.room', $sess) }}" class="btn btn-primary btn-sm">
+          Join Call
+        </a>
         @endif
         <form method="POST" action="{{ route('sessions.complete', $sess) }}" data-confirm="Mark this session as completed? This cannot be undone.">
           @csrf

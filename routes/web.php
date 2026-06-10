@@ -26,7 +26,22 @@ use Illuminate\Support\Facades\{Route, Auth};
 // ----------------------------------------------------------------
 // PUBLIC ROUTES
 // ----------------------------------------------------------------
-Route::get('/', fn() => view('welcome'))->name('home');
+Route::get('/', function () {
+    $tierOrder = ['lead' => 3, 'senior' => 2, 'junior' => 1];
+
+    $featuredMentors = \App\Models\User::query()
+        ->whereIn('role', ['mentor', 'alumni'])
+        ->where('is_active', true)
+        ->where('is_verified', true)
+        ->where('mentor_status', 'active')
+        ->with(['hasSkills', 'ratings'])
+        ->get()
+        ->sortByDesc(fn($m) => [$tierOrder[$m->mentor_tier] ?? 1, $m->average_rating])
+        ->take(4)
+        ->values();
+
+    return view('welcome', compact('featuredMentors'));
+})->name('home');
 
 
 // Auth
@@ -50,6 +65,9 @@ Route::post('/logout', [AuthController::class, 'logout'])
 // Public certificate verification (no auth required)
 Route::get('/certificates/verify/{certificateId}', [CertificateController::class, 'verify'])
      ->name('certificates.verify');
+
+// Mentor AI widget — public so guests on login/landing page can use it
+Route::post('/mentor-ai/chat', [AiAssistantController::class, 'widgetChat'])->name('mentor.ai.chat');
 
 // ----------------------------------------------------------------
 // AUTHENTICATED ROUTES
@@ -147,6 +165,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('sessions')->name('sessions.')->group(function () {
         Route::get('/',                               [SessionController::class, 'index'])->name('index');
         Route::post('/',                              [SessionController::class, 'store'])->name('store');
+        Route::get('/{session}/room',                 [SessionController::class, 'room'])->name('room');
         Route::post('/{session}/complete',            [SessionController::class, 'complete'])->name('complete');
     });
 

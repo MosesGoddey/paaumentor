@@ -7,7 +7,7 @@
     <div class="sidebar-label">Admin</div>
     <a href="{{ route('admin.dashboard') }}" class="sidebar-link"><span class="icon"></span> Overview</a>
     <a href="{{ route('admin.users') }}"     class="sidebar-link active"><span class="icon"></span> Users</a>
-    <form method="POST" action="{{ route('logout') }}" style="margin-top:auto">
+    <form method="POST" action="{{ route('logout') }}" style="margin-top:auto" onsubmit="return confirm('Are you sure you want to sign out?')">
       @csrf<button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:none;border:none;cursor:pointer"><span class="icon"></span> Sign Out</button>
     </form>
   </aside>

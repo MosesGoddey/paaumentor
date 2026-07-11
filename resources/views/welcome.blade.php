@@ -321,7 +321,10 @@
         <span class="nav-brand-text">PAAU<span>MENTOR</span></span>
       </a>
       <div class="nav-actions" style="margin-left:auto">
-        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme"></button>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+          <x-icon name="moon" :size="16" class="icon-moon" />
+          <x-icon name="sun"  :size="16" class="icon-sun" />
+        </button>
         <a href="{{ route('login') }}"    class="btn btn-outline btn-sm">Sign In</a>
         <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Get Started</a>
       </div>
@@ -446,7 +449,7 @@
         </div>
 
         <div class="mentor-rating">
-          ★ {{ number_format($mentor->average_rating, 1) }}
+          <x-icon name="star" :size="13" fill="currentColor" style="vertical-align:-2px" /> {{ number_format($mentor->average_rating, 1) }}
           <span>({{ $mentor->ratings->count() }} {{ $mentor->ratings->count() === 1 ? 'review' : 'reviews' }})</span>
         </div>
 

@@ -25,9 +25,15 @@
       <h1 style="font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:800;margin:0">Sessions</h1>
       <p style="color:var(--text-3);font-size:0.85rem;margin:4px 0 0">Your scheduled and past mentorship sessions</p>
     </div>
-    @if($activeMentorships->isNotEmpty())
-    <button onclick="document.getElementById('scheduleModal').style.display='flex'" class="btn btn-primary">+ Schedule Session</button>
-    @endif
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="{{ route('group-sessions.index') }}" class="btn btn-sm" style="background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);display:flex;align-items:center;gap:6px">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Group Sessions
+      </a>
+      @if($activeMentorships->isNotEmpty())
+      <button onclick="document.getElementById('scheduleModal').style.display='flex'" class="btn btn-primary">+ Schedule Session</button>
+      @endif
+    </div>
   </div>
 
   @if(session('success'))
@@ -45,7 +51,7 @@
                : $sess->mentorship->mentor;
     @endphp
     <div class="sess-card status-{{ $sess->status }}">
-      <div class="sess-icon" style="background:var(--surface-2);font-size:0.65rem;font-weight:700;text-transform:uppercase;color:var(--text-3)">{{ $sess->type }}</div>
+      <div class="sess-icon" style="background:var(--surface-2);color:var(--text-3)" title="{{ ucfirst($sess->type) }}"><x-icon :name="$sess->type === 'video' ? 'video' : ($sess->type === 'voice' ? 'phone' : 'message-circle')" :size="19" /></div>
       <div style="flex:1;min-width:0">
         <div style="font-weight:700;font-size:0.95rem">{{ $sess->title }}</div>
         <div style="font-size:0.8rem;color:var(--text-3);margin-top:2px">with {{ $other->full_name }}</div>
@@ -98,7 +104,7 @@
                : $sess->mentorship->mentor;
     @endphp
     <div class="sess-card status-{{ $sess->status }}">
-      <div class="sess-icon" style="background:var(--surface-2);font-size:0.65rem;font-weight:700;text-transform:uppercase;color:var(--text-3)">{{ $sess->type }}</div>
+      <div class="sess-icon" style="background:var(--surface-2);color:var(--text-3)" title="{{ ucfirst($sess->type) }}"><x-icon :name="$sess->type === 'video' ? 'video' : ($sess->type === 'voice' ? 'phone' : 'message-circle')" :size="19" /></div>
       <div style="flex:1;min-width:0">
         <div style="font-weight:700;font-size:0.95rem">{{ $sess->title }}</div>
         <div style="font-size:0.8rem;color:var(--text-3);margin-top:2px">with {{ $other->full_name }}</div>

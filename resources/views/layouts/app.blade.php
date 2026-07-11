@@ -48,31 +48,23 @@ body { animation: pageFadeIn 0.25s ease both; }
       </a>
 
       @auth
-      <div class="nav-links">
-        <a href="{{ route('dashboard') }}"      class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
-        @if(auth()->user()->isMentee())
-        <a href="{{ route('mentors.index') }}"  class="{{ request()->routeIs('mentors.*') ? 'active' : '' }}">Find Mentor</a>
-        @endif
-        <a href="{{ route('learning.index') }}" class="{{ request()->routeIs('learning.*') ? 'active' : '' }}">Learning Paths</a>
-        <a href="{{ route('chat.index') }}"     class="{{ request()->routeIs('chat.*') ? 'active' : '' }}">Messages</a>
-      </div>
-      @endauth
-
-      @auth
-      <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu"></button>
+      <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu"><x-icon name="menu" :size="20" /></button>
       @endauth
 
       <div class="nav-actions">
-        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme"></button>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+          <x-icon name="moon" :size="16" class="icon-moon" />
+          <x-icon name="sun"  :size="16" class="icon-sun" />
+        </button>
 
         @auth
-          <a href="{{ route('notifications.index') }}" style="position:relative;font-size:1.3rem;color:var(--text-2)">
-            🔔
+          <a href="{{ route('notifications.index') }}" style="position:relative;display:inline-flex;align-items:center;color:var(--text-2)">
+            <x-icon name="bell" :size="20" />
             @if(auth()->user()->notifications()->whereNull('read_at')->count() > 0)
               <span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;display:block"></span>
             @endif
           </a>
-          <div class="avatar avatar-sm" style="cursor:pointer;background:linear-gradient(135deg,#2563eb,#1a3a6e)"
+          <div class="avatar avatar-sm" style="cursor:pointer"
                onclick="location.href='{{ route('profile.show', auth()->user()) }}'">
             {{ auth()->user()->initials }}
           </div>

@@ -149,6 +149,8 @@ After login, each user is presented with a role-specific dashboard summarising r
 
 Mentees can browse a directory of verified mentors and, crucially, use the **AI-powered smart-matching** feature. The mentee enters their goals and interests, and the system sends these together with the profiles of available mentors to the Google Gemini model, which returns a ranked list of the most suitable mentors, each accompanied by a one-sentence justification. Mentees may then send mentorship requests, which mentors accept or decline.
 
+To help mentees judge credibility at a glance, the system also classifies every mentor into a **performance tier** that is computed automatically from the number of mentees they have successfully certified: a mentor with fewer than five certified mentees is a *Junior Mentor*, five or more makes a *Senior Mentor*, and fifteen or more a *Lead Mentor*. The tier is therefore an earned, data-driven badge rather than a self-declared title, and it is used both to rank mentors in the directory and to feature the most accomplished mentors on the public landing page (Section 4.5.14).
+
 ### 4.5.4 Learning Path Module
 
 Mentors create structured learning paths consisting of modules and assessable tasks. To accelerate this, the system offers **AI-assisted generation**: given a topic, learner level and duration in weeks, Gemini returns a complete, structured curriculum (3–5 modules, each with 2–4 practical tasks) as JSON, which the mentor can review and save. Mentees follow the path, submit work for each task, and mentors grade the submissions and provide feedback.
@@ -191,6 +193,18 @@ Administrators manage the platform: viewing aggregate statistics (total users, s
 
 A cross-cutting in-app notification system informs users of relevant events — mentorship responses, new messages, grading, certificate issuance, incoming calls, and so on — with unread counts and a "mark all as read" facility.
 
+### 4.5.14 Public Landing Page and Featured-Mentors Module
+
+The platform presents a public landing page (accessible without logging in) that serves as the entry point for prospective users. In addition to the hero banner, platform statistics and a summary of features, the landing page includes a **"Meet Our Mentors"** showcase that displays the platform's most accomplished mentors. This feature was inspired by the profile-presentation style of established commercial mentorship marketplaces, but adapted to the free, university context of PAAUMENTOR.
+
+The showcase is **data-driven**: rather than listing hard-coded names, it queries the database for verified, active mentors, ranks them by their earned performance tier (Lead, then Senior, then Junior) and, within a tier, by their average rating, and displays the top mentors as cards. Each card shows the mentor's photograph (or their initials where no photograph is available), an earned tier badge (for example, *Senior Mentor*), name, role and department, average star rating with the number of reviews, and a sample of their skills. A call-to-action button invites visitors to sign in and connect. Because the section is generated from live data, it remains current automatically as mentors gain experience, and it gracefully hides itself when no verified mentors yet exist. This feature strengthens the platform's credibility to first-time visitors by foregrounding genuine, accomplished mentors as social proof.
+
+> **Figure 4.4:** Landing-page "Meet Our Mentors" showcase *(insert screenshot)*
+
+### 4.5.15 Secure Sign-Out Confirmation
+
+To prevent accidental loss of session and to follow good usability practice, the sign-out action was enhanced with a confirmation step. When a user clicks **Sign Out** from any part of the application, the browser presents a confirmation dialog ("Are you sure you want to sign out?") that must be acknowledged before the session is terminated. This guards against unintentional logouts — for example, when a user clicks the control by mistake — while the actual logout itself remains a secure, CSRF-protected POST request.
+
 ## 4.6 System Testing
 
 Testing was carried out to verify that each module behaves according to specification and that the modules work correctly together. A combination of testing approaches was adopted.
@@ -228,6 +242,10 @@ Tables 4.6 presents representative test cases used to validate core functionalit
 | TC-16 | Suspend user (admin) | Admin toggles user status | User deactivated, cannot log in | As expected | Pass |
 | TC-17 | AI Study Buddy query | Academic question | Relevant educational answer returned | As expected | Pass |
 | TC-18 | Form validation | Empty required field | Validation error shown, no save | As expected | Pass |
+| TC-19 | Featured mentors on landing page | Visit landing page as guest | Top verified mentors displayed, ranked by tier and rating | As expected | Pass |
+| TC-20 | Mentor tier classification | Mentor with ≥ 5 certified mentees | Tier shown as "Senior Mentor" | As expected | Pass |
+| TC-21 | Sign-out confirmation | Click "Sign Out", then Cancel | Logout aborted, user remains signed in | As expected | Pass |
+| TC-22 | Sign-out confirmation | Click "Sign Out", then OK | Session terminated, redirected to landing page | As expected | Pass |
 
 ### 4.6.3 Discussion of Test Results
 
@@ -243,6 +261,7 @@ Several outcomes are worth highlighting:
 2. **A rigorous, trustworthy certification pipeline.** By combining automated assessment, human mentor reflection and independent verifier approval, the system issues certificates whose authenticity can be checked publicly through a QR code. This addresses the common problem of unverifiable informal learning.
 3. **A self-sustaining mentorship ecosystem.** The mentor-upgrade pathway enables successful mentees to become mentors, allowing the community to grow without continual external intervention.
 4. **Responsive, accessible interface.** The interface is fully responsive and includes a dark-mode option, making the platform usable across devices and lighting conditions.
+5. **Credible first impression through earned reputation.** The data-driven featured-mentors showcase on the landing page surfaces genuinely accomplished mentors (ranked by an earned performance tier and rating), providing social proof that encourages prospective students to register, without resorting to fabricated or marketing-style claims.
 
 The system therefore demonstrates that a modern, AI-augmented mentorship platform can be built using accessible, low-cost, open-source technologies suited to the Nigerian university context.
 
@@ -257,6 +276,7 @@ Several measures were implemented to protect the system and its data:
 - **Input validation** on every form to reject malformed or malicious data.
 - **Authorisation policies** ensuring that users can act only on resources they own or are permitted to access.
 - **Assessment integrity** measures, including tab-switch detection during certification assessments to discourage malpractice.
+- **Accidental-logout protection** through a confirmation dialog on the sign-out action, while the logout itself remains a CSRF-protected POST request.
 
 ## 4.9 Summary of the Chapter
 
@@ -278,7 +298,7 @@ The project set out to design and implement a peer mentorship platform for Princ
 
 The work proceeded through the conventional stages of software development. The first chapter introduced the problem, aim and objectives. The second reviewed related literature and existing mentorship and e-learning systems. The third presented the analysis of the existing manual/informal mentorship arrangements and the design of the proposed system, including its architecture, data flow and database design. The fourth chapter, presented above, described the implementation of the system using the Laravel framework and MySQL, its integration with the Google Gemini AI model, and the testing carried out to validate it.
 
-The resulting system, **PAAUMENTOR**, is a comprehensive web application that connects mentees with verified mentors and alumni. It provides AI-powered mentor matching, AI-assisted creation of structured learning paths with task submission and grading, a multi-stage verifiable certificate pipeline complete with QR-code authentication, mentorship session scheduling, one-to-one and group messaging, a skill-exchange marketplace, hackathon management, an AI study assistant, and comprehensive administration and verification facilities. The platform supports five user roles and is fully responsive with dark-mode support.
+The resulting system, **PAAUMENTOR**, is a comprehensive web application that connects mentees with verified mentors and alumni. It provides AI-powered mentor matching, AI-assisted creation of structured learning paths with task submission and grading, a multi-stage verifiable certificate pipeline complete with QR-code authentication, mentorship session scheduling, one-to-one and group messaging, a skill-exchange marketplace, hackathon management, an AI study assistant, and comprehensive administration and verification facilities. Mentors are classified into earned performance tiers (Junior, Senior and Lead) based on the number of mentees they have certified, and the most accomplished are featured on a public, data-driven landing page that builds credibility with prospective users. The platform supports five user roles and is fully responsive with dark-mode support.
 
 ## 5.3 Conclusion
 
@@ -298,7 +318,8 @@ The study makes the following contributions:
 1. It provides PAAU with a ready-to-deploy mentorship platform that can improve student retention, academic performance and career readiness.
 2. It demonstrates a practical, low-cost model for integrating generative AI into an educational web application within the resource constraints typical of Nigerian institutions.
 3. It contributes a verifiable-certificate design that combines AI assessment, human reflection and independent verification with public QR-based authentication.
-4. It serves as a reference implementation and learning resource for future students undertaking similar full-stack, AI-integrated projects.
+4. It introduces an earned, data-driven mentor reputation model (performance tiers based on actual certified-mentee outcomes) that is surfaced as social proof on a public landing page — an approach that rewards genuine mentoring impact rather than self-promotion.
+5. It serves as a reference implementation and learning resource for future students undertaking similar full-stack, AI-integrated projects.
 
 ## 5.5 Limitations of the Study
 

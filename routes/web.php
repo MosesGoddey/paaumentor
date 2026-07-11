@@ -12,6 +12,7 @@ use App\Http\Controllers\{
     StudyGroupController,
     SharedResourceController,
     SessionController,
+    GroupSessionController,
     CertificateController,
     SkillExchangeController,
     MentorUpgradeRequestController,
@@ -167,6 +168,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/',                              [SessionController::class, 'store'])->name('store');
         Route::get('/{session}/room',                 [SessionController::class, 'room'])->name('room');
         Route::post('/{session}/complete',            [SessionController::class, 'complete'])->name('complete');
+    });
+
+    // ---- Group Sessions ----
+    Route::prefix('group-sessions')->name('group-sessions.')->group(function () {
+        Route::get('/',                               [GroupSessionController::class, 'index'])->name('index');
+        Route::post('/',                              [GroupSessionController::class, 'store'])->name('store');
+        Route::get('/{groupSession}/room',            [GroupSessionController::class, 'room'])->name('room');
+        Route::post('/{groupSession}/complete',       [GroupSessionController::class, 'complete'])->name('complete');
     });
 
     // ---- Mentor Upgrade ----

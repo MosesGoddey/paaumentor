@@ -8,15 +8,13 @@ function toggleTheme() {
   const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
   html.dataset.theme = next;
   localStorage.setItem('paaumentor_theme', next);
-  document.getElementById('themeToggle').textContent = next === 'dark' ? '☀️' : '🌙';
+  // Sun/moon icons inside #themeToggle are swapped by CSS via [data-theme]
 }
 
 (function initTheme() {
   const saved = localStorage.getItem('paaumentor_theme');
   if (saved) {
     document.documentElement.dataset.theme = saved;
-    const btn = document.getElementById('themeToggle');
-    if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
   }
 })();
 

@@ -24,32 +24,22 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 100%);
+  background: #1e3a8a;
   color: #fff;
   border: none;
-  border-radius: 50px;
-  padding: 13px 22px 13px 18px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  font-family: 'Sora', sans-serif;
+  border-radius: 8px;
+  padding: 11px 18px 11px 15px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   letter-spacing: 0.01em;
-  /* float + box-shadow pulse — both contained, no DOM overflow */
-  animation: maiFloat 2.4s ease-in-out infinite, maiPulse 2.4s ease-out infinite;
-}
-@keyframes maiFloat {
-  0%,100% { transform: translateY(-6px); }
-  50%     { transform: translateY(3px); }
-}
-@keyframes maiPulse {
-  0%   { box-shadow: 0 6px 28px rgba(29,78,216,0.45), 0 0 0 0 rgba(29,78,216,0.45); }
-  65%  { box-shadow: 0 6px 28px rgba(29,78,216,0.2),  0 0 0 18px rgba(29,78,216,0); }
-  100% { box-shadow: 0 6px 28px rgba(29,78,216,0.45), 0 0 0 0 rgba(29,78,216,0); }
+  box-shadow: 0 4px 16px rgba(15,27,51,0.28);
+  transition: background 0.15s, box-shadow 0.15s;
 }
 #mai-btn:hover {
-  animation: none;
-  transform: translateY(-4px) scale(1.04);
-  box-shadow: 0 12px 36px rgba(29,78,216,0.6), 0 0 0 8px rgba(29,78,216,0.12);
+  background: #172554;
+  box-shadow: 0 6px 20px rgba(15,27,51,0.35);
 }
 
 #mai-panel {
@@ -59,7 +49,7 @@
   z-index: 9999;
   width: 370px;
   height: 560px;
-  border-radius: 22px;
+  border-radius: 12px;
   box-shadow: 0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
   display: none;
   flex-direction: column;
@@ -77,7 +67,7 @@
 
 /* ---- Header ---- */
 #mai-header {
-  background: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 100%);
+  background: #1e3a8a;
   padding: 14px 16px;
   display: flex;
   align-items: center;
@@ -122,8 +112,8 @@
 .mai-row.user { flex-direction: row-reverse; }
 
 .mai-msg-icon {
-  width: 26px; height: 26px; border-radius: 8px;
-  background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+  width: 26px; height: 26px; border-radius: 6px;
+  background: #1e3a8a;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; margin-bottom: 2px;
 }
@@ -143,13 +133,13 @@
 .mai-bubble p:last-child { margin-bottom: 0; }
 .mai-bubble ul, .mai-bubble ol { margin: 4px 0 4px 16px; padding: 0; }
 .mai-bubble li { margin-bottom: 2px; }
-.mai-bubble strong { color: #1d4ed8; }
+.mai-bubble strong { color: #1e3a8a; }
 .mai-bubble code { background: #e2e8f0; border-radius: 4px; padding: 1px 5px; font-size: 0.78rem; }
 [data-theme="dark"] .mai-bubble strong { color: #93c5fd; }
 [data-theme="dark"] .mai-bubble code { background: #475569; }
 
 .mai-row.user .mai-bubble {
-  background: #1d4ed8;
+  background: #1e3a8a;
   color: #fff;
   border-radius: 16px 16px 4px 16px;
 }
@@ -183,22 +173,22 @@
   flex-shrink: 0;
 }
 .mai-chip {
-  background: #eff6ff;
-  border: 1.5px solid #bfdbfe;
-  color: #1d4ed8;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #1e3a8a;
   font-size: 0.75rem;
   font-weight: 600;
   padding: 5px 12px;
-  border-radius: 999px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background 0.15s, border-color 0.15s;
   white-space: nowrap;
   max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.mai-chip:hover { background: #dbeafe; border-color: #93c5fd; transform: translateY(-1px); }
-[data-theme="dark"] .mai-chip { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
+.mai-chip:hover { background: #e9edf5; border-color: #8fa3c8; }
+[data-theme="dark"] .mai-chip { background: #263450; border-color: #475569; color: #cbd5e1; }
 
 /* ---- Input area ---- */
 #mai-input-bar {
@@ -229,16 +219,16 @@
   overflow-y: auto;
 }
 [data-theme="dark"] #mai-input { background: #334155; border-color: #475569; color: #e2e8f0; }
-#mai-input:focus { border-color: #3b82f6; }
+#mai-input:focus { border-color: #1e3a8a; }
 #mai-send-btn {
-  width: 38px; height: 38px; border-radius: 11px;
-  background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+  width: 38px; height: 38px; border-radius: 8px;
+  background: #1e3a8a;
   border: none; color: #fff; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: opacity 0.15s, transform 0.15s;
+  transition: background 0.15s;
   flex-shrink: 0;
 }
-#mai-send-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+#mai-send-btn:hover { background: #172554; }
 #mai-send-btn:disabled { background: #e2e8f0; cursor: not-allowed; transform: none; }
 
 @media (max-width: 480px) {
@@ -276,7 +266,7 @@
         <div class="mai-header-sub">Mentorship &amp; learning assistant</div>
       </div>
     </div>
-    <button id="mai-close-btn" onclick="maiToggle()" aria-label="Close">✕</button>
+    <button id="mai-close-btn" onclick="maiToggle()" aria-label="Close"><x-icon name="x" :size="16" /></button>
   </div>
 
   {{-- Messages --}}

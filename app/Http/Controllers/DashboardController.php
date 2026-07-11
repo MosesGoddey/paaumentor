@@ -13,7 +13,9 @@ class DashboardController extends Controller
 
         $mentorships = $user->isMentee()
             ? $user->menteeMentorships()->with('mentor')->where('status', 'active')->get()
-            : $user->mentorMentorships()->with('mentee')->where('status', 'active')->get();
+            : $user->mentorMentorships()
+                   ->with(['mentee', 'sessions' => fn($q) => $q->where('status', 'completed')->orderByDesc('scheduled_at')])
+                   ->where('status', 'active')->get();
 
         $matches = [];
         if ($user->isMentee()) {
@@ -30,11 +32,19 @@ class DashboardController extends Controller
             ])->sortByDesc('score')->take(3)->values();
         }
 
-        $learningPaths = $user->learningPathsAsMentee()
-                              ->with(['modules.tasks'])
+        $pathsRelation = $user->isMentor()
+            ? $user->learningPathsAsmentor()->with(['modules.tasks', 'mentee'])
+            : $user->learningPathsAsMentee()->with(['modules.tasks']);
+
+        $learningPaths = $pathsRelation
                               ->where('status', '!=', 'archived')
                               ->get()
                               ->map(fn($lp) => ['path' => $lp, 'progress' => $lp->progress]);
+
+        // Mentee-id → path progress, used to differentiate mentee rows on mentor dashboards
+        $pathProgressByMentee = $user->isMentor()
+            ? collect($learningPaths)->mapWithKeys(fn($lp) => [$lp['path']->mentee_id => $lp['progress']])
+            : collect();
 
         $upcomingSessions = MentorSession::whereHas('mentorship', function ($q) use ($user) {
             $q->where('mentor_id', $user->id)->orWhere('mentee_id', $user->id);
@@ -58,6 +68,19 @@ class DashboardController extends Controller
 
         $certificates = $user->certificates()->with('learningPath')->get();
 
+        // "+N this month" trend hints for the KPI cards
+        $monthStart = now()->startOfMonth();
+        $kpiTrends = [
+            'mentorships'  => ($user->isMentee() ? $user->menteeMentorships() : $user->mentorMentorships())
+                                  ->where('status', 'active')->where('created_at', '>=', $monthStart)->count(),
+            'sessions'     => MentorSession::whereHas('mentorship', function ($q) use ($user) {
+                                  $q->where('mentor_id', $user->id)->orWhere('mentee_id', $user->id);
+                              })->where('status', 'completed')->where('scheduled_at', '>=', $monthStart)->count(),
+            'paths'        => ($user->isMentor() ? $user->learningPathsAsmentor() : $user->learningPathsAsMentee())
+                                  ->where('created_at', '>=', $monthStart)->count(),
+            'certificates' => $user->certificates()->where('issued_at', '>=', $monthStart)->count(),
+        ];
+
         $pendingRequests = $user->isMentor()
             ? $user->mentorMentorships()->with('mentee')->where('status', 'pending')->latest()->get()
             : collect();
@@ -76,7 +99,8 @@ class DashboardController extends Controller
         return view('dashboard.index', compact(
             'user', 'mentorships', 'matches', 'learningPaths',
             'upcomingSessions', 'sessionCount', 'sessionsByType', 'certificates',
-            'notifications', 'engagement', 'pendingRequests'
+            'notifications', 'engagement', 'pendingRequests',
+            'kpiTrends', 'pathProgressByMentee'
         ));
     }
 }

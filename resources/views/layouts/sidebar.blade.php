@@ -27,7 +27,7 @@
     </div>
     @endif
 
-<div style="flex:1;overflow-y:auto;padding-right:2px;overscroll-behavior:contain">
+<div class="sidebar-nav">
     <div class="sidebar-label">Main</div>
     <a href="{{ route('dashboard') }}"      class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"><x-icon name="layout-dashboard" :size="17" />Dashboard</a>
     @if($authUser->isMentee())
@@ -66,6 +66,9 @@
     <a href="{{ route('sessions.index') }}"       class="sidebar-link {{ request()->routeIs('sessions.*') ? 'active' : '' }}"><x-icon name="video" :size="17" />Sessions</a>
     <div class="sidebar-label">AI Tools</div>
     <a href="{{ route('ai.assistant') }}" class="sidebar-link {{ request()->routeIs('ai.*') ? 'active' : '' }}"><x-icon name="sparkles" :size="17" />Study Buddy</a>
+    <div class="sidebar-label">Recognition</div>
+    <a href="{{ route('leaderboards.mentors') }}" class="sidebar-link {{ request()->routeIs('leaderboards.mentors') ? 'active' : '' }}"><x-icon name="award" :size="17" />Top Mentors</a>
+    <a href="{{ route('leaderboards.certificates') }}" class="sidebar-link {{ request()->routeIs('leaderboards.certificates') ? 'active' : '' }}"><x-icon name="trending-up" :size="17" />Certificates</a>
     <div class="sidebar-label">My Account</div>
     <a href="{{ route('certificates.index') }}" class="sidebar-link {{ request()->routeIs('certificates.*') ? 'active' : '' }}"><x-icon name="award" :size="17" />Certificates</a>
     @if($authUser->isMentee())

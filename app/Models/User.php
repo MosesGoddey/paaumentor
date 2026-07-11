@@ -88,6 +88,17 @@ class User extends Authenticatable
         return $this->hasMany(Certificate::class);
     }
 
+    /** Certificates earned by mentees on learning paths this user mentored */
+    public function mentoredCertificates()
+    {
+        return $this->hasManyThrough(
+            Certificate::class,
+            LearningPath::class,
+            'mentor_id',
+            'learning_path_id'
+        );
+    }
+
     public function assessmentAttempts()
     {
         return $this->hasMany(\App\Models\AssessmentAttempt::class);

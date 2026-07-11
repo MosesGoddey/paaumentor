@@ -52,6 +52,25 @@
         </div>
       </div>
       @endforeach
+
+      {{-- Add member (group admin only) --}}
+      @if($studyGroup->isAdmin($user) && $addableUsers->isNotEmpty())
+        @if($studyGroup->members->count() < $studyGroup->max_members)
+        <form method="POST" action="{{ route('study-groups.add-member', $studyGroup) }}" style="margin-top:10px">
+          @csrf
+          <div style="font-size:0.72rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Add Member</div>
+          <select name="user_id" class="form-select" required style="width:100%;font-size:0.8rem;padding:7px 10px;margin-bottom:6px">
+            <option value="" disabled selected>Select a student…</option>
+            @foreach($addableUsers as $candidate)
+            <option value="{{ $candidate->id }}">{{ $candidate->first_name }} {{ $candidate->last_name }}@if($candidate->level) ({{ $candidate->level }})@endif</option>
+            @endforeach
+          </select>
+          <button type="submit" class="btn btn-primary btn-sm" style="width:100%">Add to Group</button>
+        </form>
+        @else
+        <div style="margin-top:10px;font-size:0.72rem;color:var(--text-3)">Group is full ({{ $studyGroup->max_members }} members max).</div>
+        @endif
+      @endif
     </div>
 
     {{-- Leave group --}}

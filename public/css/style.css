@@ -143,6 +143,14 @@ a { text-decoration: none; color: inherit; }
   color: #ffffff;
 }
 .sidebar-link .icon { font-size: 1rem; width: 20px; text-align: center; }
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* old Edge/IE */
+}
+.sidebar-nav::-webkit-scrollbar { display: none; }  /* Chrome/Safari */
 .sidebar-link svg { flex-shrink: 0; opacity: 0.8; }
 .sidebar-link:hover svg, .sidebar-link.active svg { opacity: 1; }
 .sidebar-link .count {

@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function showRegister()
     {
-        return view('auth.login', ['startTab' => 'register']);
+        return view('auth.register');
     }
 
     public function login(Request $request)

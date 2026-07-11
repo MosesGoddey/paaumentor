@@ -2,114 +2,239 @@
 @section('title', 'Find a Mentor')
 
 @section('page-content')
-<div style="margin-bottom:24px">
-  <h1 class="section-title">Find a Mentor</h1>
-  <p class="section-sub">Browse verified PAAU mentors or let our smart matching find the best fit for your goals.</p>
-</div>
+<div class="md">
 
-<form method="GET" action="{{ route('mentors.index') }}">
-  <div style="display:flex;gap:12px;align-items:center;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px 16px;margin-bottom:20px">
-    <input type="text" name="search" class="form-input" style="border:none;background:transparent;box-shadow:none;padding:0" placeholder="Search by name, skill, or course..." value="{{ request('search') }}">
-    <button type="submit" class="btn btn-primary btn-sm">Search</button>
+  <div class="md-header">
+    <div>
+      <div class="md-breadcrumb">Mentorship</div>
+      <h1 class="md-title">Find a Mentor</h1>
+      <p class="md-sub">Browse verified PAAU mentors or let smart matching find the best fit for your goals.</p>
+    </div>
   </div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-    <select name="level" class="form-select" style="width:auto;padding:8px 14px">
+
+  {{-- Search + filters --}}
+  <form method="GET" action="{{ route('mentors.index') }}" class="md-panel md-filterbar">
+    <input type="text" name="search" class="md-input md-search" placeholder="Search by name, skill, or course…" value="{{ request('search') }}">
+    <select name="level" class="md-input md-select">
       <option value="">All Levels</option>
       @foreach(['200L','300L','400L','500L','Alumni'] as $l)
         <option value="{{ $l }}" {{ request('level')===$l?'selected':'' }}>{{ $l }}</option>
       @endforeach
     </select>
-    <select name="skill" class="form-select" style="width:auto;padding:8px 14px">
+    <select name="skill" class="md-input md-select">
       <option value="">All Skills</option>
       @foreach($skills as $skill)
         <option value="{{ $skill->name }}" {{ request('skill')===$skill->name?'selected':'' }}>{{ $skill->name }}</option>
       @endforeach
     </select>
-    <button type="submit" class="btn btn-outline btn-sm">Apply Filters</button>
-    <a href="{{ route('mentors.index') }}" class="btn btn-outline btn-sm">Clear</a>
-  </div>
-</form>
+    <button type="submit" class="md-btn md-btn-primary">Search</button>
+    <a href="{{ route('mentors.index') }}" class="md-btn md-btn-secondary">Clear</a>
+  </form>
 
-{{-- AI Smart Match --}}
-<div style="background:var(--surface);border:1.5px solid var(--blue-500);border-radius:16px;padding:20px;margin-bottom:24px">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-    <span style="font-size:1.3rem"></span>
-    <div>
-      <div style="font-weight:700;font-size:0.95rem">AI Smart Mentor Match</div>
-      <div style="font-size:0.78rem;color:var(--text-3)">Describe your goals and get smart mentor recommendations</div>
+  {{-- AI Smart Match --}}
+  <div class="md-panel">
+    <div class="md-panel-head">
+      <div>
+        <h2 class="md-panel-title">AI Smart Mentor Match</h2>
+        <div class="md-panel-sub">Describe your goals and get intelligent mentor recommendations</div>
+      </div>
+    </div>
+    <div class="md-panel-body">
+      <div class="md-ai-form">
+        <textarea id="ai-goals" class="md-input" rows="2"
+                  placeholder="e.g. I want to learn web development with PHP, improve data structures, and prepare for industry internships…"></textarea>
+        <button type="button" onclick="findAiMatch()" id="ai-match-btn" class="md-btn md-btn-primary">Find Match</button>
+      </div>
+      <div id="ai-results" style="display:none;margin-top:18px">
+        <div class="md-ai-results-label">Recommended Mentors</div>
+        <div id="ai-cards" class="md-ai-grid"></div>
+      </div>
     </div>
   </div>
-  <div style="display:flex;gap:10px;align-items:flex-end">
-    <textarea id="ai-goals" class="form-input" rows="2"
-              placeholder="e.g. I want to learn web development with PHP, improve data structures, and prepare for industry internships..."
-              style="flex:1;resize:none"></textarea>
-    <button type="button" onclick="findAiMatch()" id="ai-match-btn" class="btn btn-primary" style="white-space:nowrap;align-self:flex-end">Find Match</button>
-  </div>
-  <div id="ai-results" style="display:none;margin-top:20px">
-    <div style="font-size:0.82rem;font-weight:700;color:var(--blue-500);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">AI Recommended Mentors</div>
-    <div id="ai-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px"></div>
-  </div>
-</div>
 
-<div style="font-size:0.9rem;color:var(--text-3);margin-bottom:16px">
-  Showing <strong style="color:var(--text)">{{ $mentors->count() }} mentors</strong>
-</div>
+  <div class="md-result-count">Showing <strong>{{ $mentors->count() }}</strong> {{ $mentors->count() === 1 ? 'mentor' : 'mentors' }}</div>
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
-  @forelse($mentors as $m)
-  @php $mentor = $m['mentor']; $score = $m['score']; @endphp
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-    <div style="height:70px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));position:relative">
-      @if($mentor->is_active)<span class="badge badge-green" style="position:absolute;top:12px;right:12px"> Online</span>@endif
-      @if($score >= 80)<span class="badge badge-blue" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.2);color:#fff;border:none">{{ $score }}% Match</span>@endif
-    </div>
-    <div style="padding:0 20px 20px">
-      <div style="margin-top:-28px;margin-bottom:12px">
-        <div class="avatar avatar-lg" style="border:3px solid var(--surface)">{{ $mentor->initials }}</div>
+  {{-- Mentor cards --}}
+  <div class="md-grid">
+    @forelse($mentors as $m)
+    @php
+      $mentor = $m['mentor'];
+      $score  = $m['score'];
+      $tier   = $mentor->mentor_tier;
+    @endphp
+    <div class="md-card">
+      <div class="md-card-top">
+        @if($mentor->avatar_url)
+        <img src="{{ $mentor->avatar_url }}" alt="" class="md-avatar-img">
+        @else
+        <div class="md-avatar">{{ $mentor->initials }}</div>
+        @endif
+        <div class="md-card-id">
+          <div class="md-name-row">
+            <span class="md-name">{{ $mentor->full_name }}</span>
+            <span class="md-tier md-tier-{{ $tier }}">{{ $mentor->mentor_tier_label }}</span>
+          </div>
+          <div class="md-card-sub">{{ $mentor->level }} · {{ $mentor->department }}</div>
+        </div>
+        @if($mentor->is_active)
+        <span class="md-online" title="Online"><span class="md-online-dot"></span>Online</span>
+        @endif
       </div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap">
-        <div style="font-weight:800;font-size:1rem">{{ $mentor->full_name }}</div>
-        @php $tier = $mentor->mentor_tier; @endphp
-        <span style="font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:0.05em;
-          background:{{ $tier==='lead' ? '#fef3c7' : ($tier==='senior' ? '#ede9fe' : '#dbeafe') }};
-          color:{{ $tier==='lead' ? '#92400e' : ($tier==='senior' ? '#5b21b6' : '#1d4ed8') }}">
-          {{ $mentor->mentor_tier_icon }} {{ $mentor->mentor_tier_label }}
-        </span>
-      </div>
-      <div style="font-size:0.8rem;color:var(--text-3);margin-bottom:10px">{{ $mentor->level }} · {{ $mentor->department }}</div>
-      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px">
+
+      <div class="md-skills">
         @foreach($mentor->hasSkills->take(4) as $skill)
-          <span class="badge badge-blue">{{ $skill->name }}</span>
+        <span class="md-skill">{{ $skill->name }}</span>
         @endforeach
       </div>
-      <div style="display:flex;gap:16px;margin-bottom:14px">
-        <div style="text-align:center">
-          <div style="color:#f59e0b;font-size:0.9rem;letter-spacing:1px;line-height:1">
-            @for($s = 1; $s <= 5; $s++)
-              {{ $s <= round($mentor->average_rating) ? '' : '' }}
-            @endfor
-          </div>
-          <div style="font-size:0.68rem;color:var(--text-3);margin-top:2px">{{ $mentor->average_rating > 0 ? number_format($mentor->average_rating,1) : 'No ratings' }}</div>
+
+      <div class="md-stats">
+        <div class="md-stat">
+          <span class="md-stat-value">{{ $mentor->average_rating > 0 ? number_format($mentor->average_rating,1) : '—' }}</span>
+          <span class="md-stat-label">Rating</span>
         </div>
-        <div style="width:1px;background:var(--border)"></div>
-        <div style="text-align:center"><div style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem">{{ $mentor->mentorMentorships->count() }}</div><div style="font-size:0.7rem;color:var(--text-3)">Mentees</div></div>
+        <div class="md-stat-div"></div>
+        <div class="md-stat">
+          <span class="md-stat-value">{{ $mentor->mentorMentorships->count() }}</span>
+          <span class="md-stat-label">Mentees</span>
+        </div>
+        @if($score >= 80)
+        <span class="md-match-chip">{{ $score }}% match</span>
+        @endif
       </div>
+
       @if($mentor->bio)
-        <p style="font-size:0.82rem;color:var(--text-2);line-height:1.6;margin-bottom:14px">{{ Str::limit($mentor->bio, 100) }}</p>
+      <p class="md-bio">{{ Str::limit($mentor->bio, 110) }}</p>
       @endif
-      <div style="display:flex;gap:8px">
-        <a href="{{ route('mentors.show', $mentor) }}" class="btn btn-primary" style="flex:1;justify-content:center;font-size:0.85rem">View & Request</a>
-        <a href="{{ route('chat.index') }}" class="btn btn-outline" style="font-size:0.85rem">Message</a>
+
+      <div class="md-card-actions">
+        <a href="{{ route('mentors.show', $mentor) }}" class="md-btn md-btn-primary md-btn-grow">View &amp; Request</a>
+        <a href="{{ route('chat.index') }}" class="md-btn md-btn-secondary">Message</a>
       </div>
     </div>
+    @empty
+    <div class="md-empty">
+      <div class="md-empty-title">No mentors found</div>
+      <p class="md-empty-sub">Try adjusting your search or filters.</p>
+    </div>
+    @endforelse
   </div>
-  @empty
-  <div style="grid-column:span 3;text-align:center;padding:60px;color:var(--text-3)">
-      <p>No mentors found matching your criteria. Try adjusting your filters.</p>
-  </div>
-  @endforelse
 </div>
+@endsection
 
+@push('styles')
+<style>
+/* ============================================================
+   Mentor directory — corporate restyle, page-scoped .md
+   ============================================================ */
+.md { --m-navy:#1e3a8a; --m-navy-dark:#172554; --m-ink:#0f172a; --m-ink-2:#475569; --m-ink-3:#64748b;
+      --m-line:#e2e8f0; --m-panel:#ffffff; --m-panel-2:#f8fafc; --m-teal:#0f766e; --m-gold:#b45309;
+      font-family:'Inter',sans-serif; }
+[data-theme="dark"] .md { --m-ink:#f1f5f9; --m-ink-2:#cbd5e1; --m-ink-3:#94a3b8;
+      --m-line:#334155; --m-panel:#1e293b; --m-panel-2:#253044; --m-navy:#3b5bdb; }
+
+/* ---- Header ---- */
+.md-header { margin-bottom:20px; }
+.md-breadcrumb { font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--m-ink-3); margin-bottom:6px; }
+.md-title { font-size:1.45rem; font-weight:700; color:var(--m-ink); letter-spacing:-0.01em; margin:0 0 4px; }
+.md-sub { font-size:0.86rem; color:var(--m-ink-3); margin:0; }
+
+/* ---- Panels ---- */
+.md-panel { background:var(--m-panel); border:1px solid var(--m-line); border-radius:8px; margin-bottom:20px; }
+.md-panel-head { padding:14px 18px; border-bottom:1px solid var(--m-line); }
+.md-panel-title { font-size:0.92rem; font-weight:600; color:var(--m-ink); margin:0; }
+.md-panel-sub { font-size:0.78rem; color:var(--m-ink-3); margin-top:2px; }
+.md-panel-body { padding:16px 18px; }
+
+/* ---- Inputs & buttons ---- */
+.md-input { border:1px solid var(--m-line); border-radius:6px; padding:9px 12px; font-size:0.85rem;
+            font-family:'Inter',sans-serif; background:var(--m-panel); color:var(--m-ink); outline:none;
+            transition:border-color 0.15s; }
+.md-input:focus { border-color:var(--m-navy); }
+.md-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:9px 16px;
+          border-radius:6px; font-family:'Inter',sans-serif; font-weight:600; font-size:0.84rem;
+          cursor:pointer; border:1px solid transparent; text-decoration:none; transition:background 0.15s, border-color 0.15s; white-space:nowrap; }
+.md-btn-primary { background:var(--m-navy); color:#fff; }
+.md-btn-primary:hover { background:var(--m-navy-dark); }
+.md-btn-primary:disabled { opacity:0.6; cursor:not-allowed; }
+.md-btn-secondary { background:var(--m-panel); color:var(--m-ink-2); border-color:var(--m-line); }
+.md-btn-secondary:hover { border-color:var(--m-ink-3); color:var(--m-ink); }
+.md-btn-grow { flex:1; }
+
+/* ---- Filter bar ---- */
+.md-filterbar { display:flex; gap:10px; padding:12px 14px; align-items:center; flex-wrap:wrap; }
+.md-search { flex:1; min-width:200px; background:var(--m-panel-2); }
+.md-select { width:auto; background:var(--m-panel-2); }
+
+/* ---- AI match ---- */
+.md-ai-form { display:flex; gap:10px; align-items:flex-end; }
+.md-ai-form textarea { flex:1; resize:none; background:var(--m-panel-2); }
+.md-ai-results-label { font-size:0.74rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em;
+                       color:var(--m-ink-3); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--m-line); }
+.md-ai-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; }
+
+/* ---- Result count ---- */
+.md-result-count { font-size:0.84rem; color:var(--m-ink-3); margin-bottom:14px; }
+.md-result-count strong { color:var(--m-ink); }
+
+/* ---- Mentor cards ---- */
+.md-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+.md-card { background:var(--m-panel); border:1px solid var(--m-line); border-radius:8px; padding:20px; display:flex; flex-direction:column; }
+.md-card-top { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+.md-avatar { width:44px; height:44px; border-radius:6px; background:var(--m-panel-2); border:1px solid var(--m-line);
+             color:var(--m-ink-2); font-weight:600; font-size:0.85rem;
+             display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+.md-avatar-img { width:44px; height:44px; border-radius:6px; object-fit:cover; flex-shrink:0; }
+.md-card-id { flex:1; min-width:0; }
+.md-name-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.md-name { font-weight:600; font-size:0.95rem; color:var(--m-ink); }
+.md-card-sub { font-size:0.78rem; color:var(--m-ink-3); margin-top:2px; }
+
+/* Tier chips — quiet, earned-looking */
+.md-tier { font-size:0.66rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;
+           border:1px solid var(--m-line); border-radius:4px; padding:2px 7px; color:var(--m-ink-3); }
+.md-tier-senior { color:var(--m-navy); border-color:var(--m-navy); }
+.md-tier-lead   { color:var(--m-gold); border-color:var(--m-gold); }
+
+/* Online indicator */
+.md-online { display:inline-flex; align-items:center; gap:5px; font-size:0.72rem; font-weight:500; color:var(--m-teal); flex-shrink:0; }
+.md-online-dot { width:7px; height:7px; border-radius:50%; background:var(--m-teal); }
+
+/* Skills */
+.md-skills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; min-height:24px; }
+.md-skill { font-size:0.72rem; font-weight:500; padding:3px 9px; border-radius:4px;
+            background:var(--m-panel-2); border:1px solid var(--m-line); color:var(--m-ink-2); }
+
+/* Stats line */
+.md-stats { display:flex; align-items:center; gap:14px; padding:10px 0; border-top:1px solid var(--m-line); border-bottom:1px solid var(--m-line); margin-bottom:12px; }
+.md-stat { display:flex; align-items:baseline; gap:6px; }
+.md-stat-value { font-weight:700; font-size:0.95rem; color:var(--m-ink); }
+.md-stat-label { font-size:0.72rem; color:var(--m-ink-3); }
+.md-stat-div { width:1px; height:16px; background:var(--m-line); }
+.md-match-chip { margin-left:auto; font-size:0.72rem; font-weight:600; color:var(--m-navy);
+                 border:1px solid var(--m-navy); border-radius:4px; padding:2px 8px; }
+
+/* Bio */
+.md-bio { font-size:0.81rem; color:var(--m-ink-2); line-height:1.6; margin:0 0 14px; }
+
+/* Actions */
+.md-card-actions { display:flex; gap:8px; margin-top:auto; }
+
+/* AI result cards (JS-injected) */
+.md-ai-card { background:var(--m-panel-2); border:1px solid var(--m-line); border-radius:8px; padding:14px; }
+.md-ai-reason { font-size:0.75rem; color:var(--m-ink-2); background:var(--m-panel); border:1px solid var(--m-line);
+                border-radius:6px; padding:7px 10px; margin:8px 0; line-height:1.5; }
+.md-ai-reason strong { color:var(--m-navy); }
+
+/* Empty state */
+.md-empty { grid-column:1 / -1; text-align:center; padding:56px 20px; background:var(--m-panel); border:1px solid var(--m-line); border-radius:8px; }
+.md-empty-title { font-weight:600; font-size:0.95rem; color:var(--m-ink); margin-bottom:6px; }
+.md-empty-sub { font-size:0.82rem; color:var(--m-ink-3); margin:0; }
+
+@media (max-width:700px) { .md-ai-form { flex-direction:column; align-items:stretch; } }
+</style>
+@endpush
+
+@push('scripts')
 @php
 $mentorJson = $mentors->map(fn($m) => [
     'id'       => $m['mentor']->id,
@@ -133,7 +258,7 @@ async function findAiMatch() {
   if (!goals) { alert('Please describe your goals first.'); return; }
 
   const btn = document.getElementById('ai-match-btn');
-  btn.textContent = 'Analyzing...';
+  btn.textContent = 'Analyzing…';
   btn.disabled = true;
 
   try {
@@ -155,29 +280,25 @@ async function findAiMatch() {
       const mentor = mentorData.find(m => m.id === match.mentor_id);
       if (!mentor) return;
       const skills = (mentor.skills || []).slice(0, 3)
-        .map(s => `<span class="badge badge-blue" style="font-size:0.68rem">${s}</span>`).join(' ');
+        .map(s => `<span class="md-skill">${s}</span>`).join(' ');
       container.innerHTML += `
-        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:16px;overflow:hidden">
-          <div style="height:54px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));position:relative">
-            ${mentor.online ? '<span class="badge badge-green" style="position:absolute;top:8px;right:8px;font-size:0.65rem"> Online</span>' : ''}
-          </div>
-          <div style="padding:0 14px 14px">
-            <div style="margin-top:-20px;margin-bottom:8px">
-              <div class="avatar" style="width:40px;height:40px;font-size:0.8rem;border:3px solid var(--surface-2)">${mentor.initials}</div>
+        <div class="md-ai-card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+            <div class="md-avatar" style="width:36px;height:36px;font-size:0.72rem">${mentor.initials}</div>
+            <div style="min-width:0">
+              <div class="md-name" style="font-size:0.88rem">${mentor.name}</div>
+              <div class="md-card-sub">${mentor.level} · ${mentor.dept}</div>
             </div>
-            <div style="font-weight:800;font-size:0.9rem;margin-bottom:2px">${mentor.name}</div>
-            <div style="font-size:0.72rem;color:var(--text-3);margin-bottom:8px">${mentor.level} · ${mentor.dept}</div>
-            <div style="font-size:0.75rem;color:var(--text-2);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:8px;line-height:1.5">
-              <strong style="color:var(--blue-500)">AI:</strong> ${match.reason}
-            </div>
-            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">${skills}</div>
-            <a href="${mentor.url}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;font-size:0.82rem">View &amp; Request</a>
+            ${mentor.online ? '<span class="md-online" style="margin-left:auto"><span class="md-online-dot"></span></span>' : ''}
           </div>
+          <div class="md-ai-reason"><strong>Why:</strong> ${match.reason}</div>
+          <div class="md-skills" style="margin-bottom:10px">${skills}</div>
+          <a href="${mentor.url}" class="md-btn md-btn-primary" style="width:100%;font-size:0.8rem;padding:7px 12px">View &amp; Request</a>
         </div>`;
     });
 
     if (!(data.matches || []).length) {
-      container.innerHTML = '<p style="color:var(--text-3);font-size:0.85rem;grid-column:1/-1">No matches found. Try adjusting your goals description.</p>';
+      container.innerHTML = '<p style="color:var(--m-ink-3);font-size:0.85rem;grid-column:1/-1">No matches found. Try adjusting your goals description.</p>';
     }
 
     document.getElementById('ai-results').style.display = 'block';
@@ -190,4 +311,4 @@ async function findAiMatch() {
   }
 }
 </script>
-@endsection
+@endpush

@@ -218,6 +218,15 @@ Rules for suggestions:
 - Never repeat a suggestion that appeared earlier in the conversation
 SYSTEM;
 
+        // Defence-in-depth: hard-block the clearest probes (schema, stats,
+        // secrets, prompt-extraction) before the model can fabricate a reply.
+        if ($this->isOutOfScopeProbe($message)) {
+            return [
+                'reply'       => "I can only help with using PAAUMENTOR and with your academic or study questions — I can't share any internal system information or platform data. Is there something about mentorship, learning paths, sessions, or your studies I can help you with?",
+                'suggestions' => ['How do I find a mentor?', 'How does certification work?', 'How do I start learning?'],
+            ];
+        }
+
         $contents = array_map(
             fn($h) => [
                 'role'  => $h['role'] === 'assistant' ? 'model' : 'user',
@@ -241,6 +250,40 @@ SYSTEM;
             'reply'       => $raw ?: 'Sorry, I could not generate a response. Please try again.',
             'suggestions' => ['How do I find a mentor?', 'How does certification work?', 'How do I start learning?'],
         ];
+    }
+
+    /**
+     * Detect the highest-signal attempts to extract internal/system details or
+     * platform statistics — things the assistant must never answer. Patterns are
+     * deliberately narrow so genuine academic questions (e.g. "how do I learn
+     * SQL", "explain database normalisation") are NOT caught; those still reach
+     * the model, which is separately instructed to teach the topic generally.
+     */
+    private function isOutOfScopeProbe(string $message): bool
+    {
+        $patterns = [
+            // Schema / record probing against a live instance
+            '/\b(how many|number of|count of|list|show|display|dump|all)\s+(the\s+)?(tables?|records?|rows?|columns?|entries)\b/i',
+            '/\b(database|db|table)\s+(schema|structure|design|names?|list)\b/i',
+            '/\bschema\s+of\s+(the\s+)?(database|db|system|app|platform)\b/i',
+            // Platform statistics / user enumeration
+            '/\b(how many|number of|total|count of|list of)\s+(users?|students?|mentors?|mentees?|accounts?|members?|people)\b/i',
+            '/\b(list|show|give|dump|export)\s+(me\s+)?(all\s+)?(the\s+)?(users?|accounts?|emails?|members?)\b/i',
+            // Secrets / configuration / infrastructure
+            '/(\.env\b|env\s+file|api[_\s-]?key|secret\s+key|access\s+token|credentials?\b|password\s+hash)/i',
+            // Prompt / instruction extraction & injection
+            '/\b(system\s+prompt|your\s+(system\s+)?(prompt|instructions?|rules|configuration|guidelines))\b/i',
+            '/\b(reveal|show|repeat|print|tell me|what (is|are))\s+(your|the)\s+(prompt|instructions?|rules|system)\b/i',
+            '/\bignore\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|prompts?|rules)\b/i',
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $message)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function extractJson(string $text): string

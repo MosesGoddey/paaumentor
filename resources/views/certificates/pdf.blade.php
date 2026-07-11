@@ -36,249 +36,178 @@
       $primary = match(true) {
           $isMentor && $mentorTier === 'lead'   => '#7c3a00',
           $isMentor && $mentorTier === 'senior' => '#3b0764',
-          $isMentor                             => '#1a5c2e',
+          $isMentor                             => '#166534',
           default                               => '#1a3a6e',
       };
-      $accent = '#c9a227';
+      $accent = '#b8860b';
   }
 @endphp
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; }
 @page { size: A4 portrait; margin: 0; }
+body { font-family: Georgia, 'Times New Roman', serif; background: #fff; color: #1a1a1a; }
 
-html, body {
-  width: 210mm;
-  height: 297mm;
-  font-family: Georgia, 'Times New Roman', serif;
-  background: #fff;
-  color: #111;
-  font-size: 0;
-  line-height: 1;
-}
+/* Explicit content-box mm budget — DomPDF adds padding/border OUTSIDE the
+   declared size, so every dimension below is computed to total ≤ 297mm:
+   page 296 ≥ frame margin 9 + frame (268 + 2×1.2 border + 2×1.6 pad = 273.6)
+   frame content 268 ≥ frame-in (250 + 2×0.4 border + 2×8 pad = 266.8)      */
+.page      { position: absolute; top: 0; left: 0; width: 210mm; height: 296mm; overflow: hidden; }
+.frame     { width: 188mm; height: 268mm; margin: 9mm auto 0; border: 1.2mm solid {{ $primary }}; padding: 1.6mm; }
+.frame-in  { width: 163mm; height: 250mm; border: 0.4mm solid {{ $accent }}; padding: 8mm 12mm; text-align: center; }
 
-/* Only clip here — prevents a second page without clipping inner content */
-.page {
-  width: 210mm;
-  height: 297mm;
-  padding: 6mm;
-  background: #fff;
-  overflow: hidden;
-}
+.layout    { width: 100%; height: 248mm; border-collapse: collapse; }
 
-.outer-border {
-  width: 100%;
-  height: 100%;
-  border: 5px solid {{ $primary }};
-  padding: 2mm;
-}
+.rule-heavy { border-bottom: 0.8mm solid {{ $primary }}; font-size: 0; line-height: 0; }
+.rule-light { border-bottom: 0.25mm solid {{ $accent }}; font-size: 0; line-height: 0; }
 
-.inner-border {
-  width: 100%;
-  height: 100%;
-  border: 1.5px solid {{ $accent }};
-  padding: 6mm 12mm 4mm;
-  text-align: center;
-  position: relative;
-}
-
-.corner {
-  position: absolute;
-  width: 14mm;
-  height: 14mm;
-  border-style: solid;
-  border-color: {{ $primary }};
-}
-.corner-tl { top: -2px; left: -2px; border-width: 4px 0 0 4px; }
-.corner-tr { top: -2px; right: -2px; border-width: 4px 4px 0 0; }
-.corner-bl { bottom: -2px; left: -2px; border-width: 0 0 4px 4px; }
-.corner-br { bottom: -2px; right: -2px; border-width: 0 4px 4px 0; }
-
-.corner-inner {
-  position: absolute;
-  width: 8mm;
-  height: 8mm;
-  border-style: solid;
-  border-color: {{ $accent }};
-}
-.corner-inner-tl { top: 3mm; left: 3mm; border-width: 2px 0 0 2px; }
-.corner-inner-tr { top: 3mm; right: 3mm; border-width: 2px 2px 0 0; }
-.corner-inner-bl { bottom: 3mm; left: 3mm; border-width: 0 0 2px 2px; }
-.corner-inner-br { bottom: 3mm; right: 3mm; border-width: 0 2px 2px 0; }
+.sig-line { width: 42mm; height: 0.35mm; background-color: #333; margin: 0 auto 2.2mm; }
+.sig-role { font-family: Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px; color: #222; line-height: 1.4; }
+.sig-org  { font-family: Arial, Helvetica, sans-serif; font-size: 7pt; color: #777; margin-top: 0.8mm; line-height: 1.3; }
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="outer-border">
-    <div class="inner-border">
+  <div class="frame">
+    <div class="frame-in">
 
-      <div class="corner corner-tl"></div>
-      <div class="corner corner-tr"></div>
-      <div class="corner corner-bl"></div>
-      <div class="corner corner-br"></div>
-      <div class="corner-inner corner-inner-tl"></div>
-      <div class="corner-inner corner-inner-tr"></div>
-      <div class="corner-inner corner-inner-bl"></div>
-      <div class="corner-inner corner-inner-br"></div>
+      <table class="layout" cellpadding="0" cellspacing="0">
 
-      {{-- Certificate ID — top right (table-based for DomPDF compatibility) --}}
-      <table style="width:100%;border-collapse:collapse;margin-bottom:1mm" cellpadding="0" cellspacing="0">
+        {{-- ================= HEADER ================= --}}
         <tr>
-          <td style="font-size:0">&nbsp;</td>
-          <td style="vertical-align:top;text-align:center;border:1px solid {{ $accent }};padding:1.5mm 2.5mm">
-            <div style="font-family:Arial,sans-serif;font-size:4.5pt;font-weight:normal;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;line-height:1.3">Certificate ID</div>
-            <div style="font-family:Arial,sans-serif;font-size:5.5pt;font-weight:bold;color:{{ $primary }};line-height:1.3">{{ $certificate->certificate_id }}</div>
-          </td>
-        </tr>
-      </table>
+          <td style="vertical-align:top;text-align:center;height:72mm">
 
-      {{-- Logo --}}
-      @if($hasLogo)
-      <div style="margin-bottom:2mm;line-height:1">
-        <img src="{{ $logoPath }}" style="width:20mm;height:auto">
-      </div>
-      @else
-      <div style="width:20mm;height:20mm;border-radius:50%;background-color:{{ $primary }};margin:0 auto 2mm;line-height:20mm;text-align:center">
-        <span style="color:#fff;font-size:7pt;font-weight:bold;font-family:Arial,sans-serif">PAAU</span>
-      </div>
-      @endif
-
-      {{-- University name --}}
-      <div style="font-family:Arial,Helvetica,sans-serif;font-size:13pt;font-weight:bold;color:{{ $primary }};letter-spacing:1.5px;text-transform:uppercase;line-height:1.2;margin-bottom:1mm">
-        Prince Abubakar Audu University, Anyigba
-      </div>
-      <div style="font-family:Arial,Helvetica,sans-serif;font-size:7.5pt;font-weight:bold;color:{{ $accent }};letter-spacing:2px;text-transform:uppercase;line-height:1.3;margin-bottom:2.5mm">
-        Peer Mentorship Programme &nbsp;&bull;&nbsp; PAAUMENTOR
-      </div>
-
-      {{-- Top divider --}}
-      <table style="width:100%;border-collapse:collapse;margin-bottom:3.5mm" cellpadding="0" cellspacing="0">
-        <tr><td style="border-bottom:2px solid {{ $primary }};height:0;font-size:0;line-height:0">&nbsp;</td></tr>
-        <tr><td style="height:1.5mm;font-size:0">&nbsp;</td></tr>
-        <tr><td style="border-bottom:1px solid {{ $accent }};height:0;font-size:0;line-height:0">&nbsp;</td></tr>
-      </table>
-
-      {{-- "This is to certify that" --}}
-      <div style="font-size:10pt;color:#555;font-style:italic;line-height:1.3;margin-bottom:2.5mm">
-        This is to Certify that
-      </div>
-
-      {{-- Recipient name --}}
-      <div style="font-size:22pt;color:{{ $primary }};font-weight:bold;letter-spacing:3px;text-transform:uppercase;line-height:1.2;margin-bottom:1mm">
-        {{ $certificate->user->full_name }}
-      </div>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:3.5mm" cellpadding="0" cellspacing="0">
-        <tr><td style="border-bottom:1.5px solid {{ $primary }};height:0;font-size:0;line-height:0">&nbsp;</td></tr>
-      </table>
-
-      {{-- Certificate body --}}
-      @if($isHackathon)
-        @php $team = $certificate->hackathonTeam; $hackathon = $team->hackathon; @endphp
-        <div style="font-size:9pt;color:#555;font-style:italic;line-height:1.6;margin-bottom:1.5mm">
-          As a member of team
-        </div>
-        <div style="font-size:16pt;color:{{ $primary }};font-style:italic;letter-spacing:1px;line-height:1.2;margin-bottom:1.5mm">
-          {{ $team->name }}
-        </div>
-        <div style="font-size:9pt;color:#555;font-style:italic;line-height:1.4;margin-bottom:1.5mm">
-          @if($certificate->placement === 'participant')
-            having participated in
-          @else
-            having achieved <strong style="color:{{ $primary }}">{{ $certificate->placement }} Place</strong> in
-          @endif
-        </div>
-        <div style="font-size:20pt;color:{{ $primary }};font-style:italic;letter-spacing:1px;line-height:1.2;margin-bottom:2mm">
-          {{ $certTitle }}
-        </div>
-        <div style="font-size:8.5pt;color:#666;font-style:italic;line-height:1.4;margin-bottom:1.5mm">awarded for participation in</div>
-        <div style="font-family:Arial,Helvetica,sans-serif;font-size:11pt;font-weight:bold;color:{{ $primary }};text-transform:uppercase;letter-spacing:1px;line-height:1.4;margin-bottom:1.5mm">
-          {{ $hackathon->title }}
-        </div>
-        @if($hackathon->theme)
-        <div style="font-size:8.5pt;color:#666;font-style:italic;line-height:1.4;margin-bottom:1mm">Theme: {{ $hackathon->theme }}</div>
-        @endif
-        <div style="font-size:8pt;color:#666;line-height:1.6;margin-bottom:3.5mm">
-          Organised under the PAAUMENTOR Peer Mentorship Programme<br>
-          Prince Abubakar Audu University, Anyigba
-        </div>
-      @elseif($isMentor)
-        <div style="font-size:9pt;color:#555;font-style:italic;line-height:1.6;margin-bottom:1.5mm">
-          Having demonstrated exceptional dedication and commitment<br>
-          in guiding and mentoring
-        </div>
-        <div style="font-size:15pt;color:{{ $primary }};font-style:italic;letter-spacing:1px;line-height:1.2;margin-bottom:1.5mm">
-          {{ $certificate->learningPath->mentee->full_name }}
-        </div>
-        <div style="font-size:9pt;color:#555;font-style:italic;line-height:1.4;margin-bottom:1.5mm">
-          has been awarded a
-        </div>
-        <div style="font-size:20pt;color:{{ $primary }};font-style:italic;letter-spacing:1px;line-height:1.2;margin-bottom:2mm">
-          {{ $certTitle }}
-        </div>
-        <div style="font-size:8.5pt;color:#666;font-style:italic;line-height:1.4;margin-bottom:1.5mm">in</div>
-        <div style="font-family:Arial,Helvetica,sans-serif;font-size:11pt;font-weight:bold;color:{{ $primary }};text-transform:uppercase;letter-spacing:1px;line-height:1.4;margin-bottom:1.5mm">
-          {{ $certificate->learningPath->title }}
-        </div>
-        <div style="font-size:8pt;color:#666;line-height:1.6;margin-bottom:3.5mm">
-          In recognition of dedicated guidance and mentorship provided<br>
-          through the PAAUMENTOR Peer Mentorship Programme at PAAU
-        </div>
-      @else
-        <div style="font-size:9pt;color:#555;font-style:italic;line-height:1.6;margin-bottom:2mm">
-          Having successfully completed all tasks and requirements,<br>
-          has been awarded a
-        </div>
-        <div style="font-size:20pt;color:{{ $primary }};font-style:italic;letter-spacing:1px;line-height:1.2;margin-bottom:2mm">
-          Certificate of Completion
-        </div>
-        <div style="font-size:8.5pt;color:#666;font-style:italic;line-height:1.4;margin-bottom:1.5mm">in</div>
-        <div style="font-family:Arial,Helvetica,sans-serif;font-size:11pt;font-weight:bold;color:{{ $primary }};text-transform:uppercase;letter-spacing:1px;line-height:1.4;margin-bottom:1.5mm">
-          {{ $certificate->learningPath->title }}
-        </div>
-        <div style="font-size:8pt;color:#666;line-height:1.6;margin-bottom:3.5mm">
-          Under the mentorship of
-          <strong style="color:{{ $primary }}">{{ $certificate->learningPath->mentor->full_name }}</strong>
-        </div>
-      @endif
-
-      {{-- Date --}}
-      <div style="font-size:8.5pt;color:#444;font-style:italic;line-height:1.3;margin-bottom:3mm">
-        Issued on this {{ $certificate->issued_at->format('jS') }} Day of {{ $certificate->issued_at->format('F, Y') }}
-      </div>
-
-      {{-- Bottom divider --}}
-      <table style="width:100%;border-collapse:collapse;margin-bottom:2.5mm" cellpadding="0" cellspacing="0">
-        <tr><td style="border-bottom:1px solid {{ $accent }};height:0;font-size:0;line-height:0">&nbsp;</td></tr>
-        <tr><td style="height:1.5mm;font-size:0">&nbsp;</td></tr>
-        <tr><td style="border-bottom:2px solid {{ $primary }};height:0;font-size:0;line-height:0">&nbsp;</td></tr>
-      </table>
-
-      {{-- Footer: 3 columns --}}
-      <table style="width:100%;border-collapse:collapse;table-layout:fixed" cellpadding="0" cellspacing="0">
-        <tr>
-
-          {{-- Left: Programme Director --}}
-          <td style="width:28%;text-align:center;vertical-align:bottom;padding:0 2mm">
-            <div style="width:28mm;height:1px;background-color:{{ $primary }};margin:0 auto 2mm"></div>
-            <div style="font-family:Arial,Helvetica,sans-serif;font-size:6.5pt;text-transform:uppercase;letter-spacing:0.5px;color:#333;line-height:1.4;word-wrap:break-word">Programme Director</div>
-            <div style="font-family:Arial,Helvetica,sans-serif;font-size:5.5pt;color:#888;margin-top:0.5mm;line-height:1.4">PAAUMENTOR</div>
-          </td>
-
-          {{-- Center: QR only --}}
-          <td style="width:28%;text-align:center;vertical-align:bottom;padding:0 2mm">
-            @if($qrCode)
-              {!! $qrCode !!}
-              <div style="font-size:5pt;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;line-height:1.3;margin-top:1mm">Scan to verify</div>
+            @if($hasLogo)
+              <img src="{{ $logoPath }}" style="width:26mm;height:auto;margin-bottom:3mm">
+            @else
+              <div style="width:24mm;height:24mm;border:0.5mm solid {{ $primary }};border-radius:50%;margin:0 auto 3mm;line-height:23mm;text-align:center">
+                <span style="color:{{ $primary }};font-size:9pt;font-weight:bold;font-family:Arial,sans-serif">PAAU</span>
+              </div>
             @endif
-          </td>
 
-          {{-- Right: Vice Chancellor --}}
-          <td style="width:44%;text-align:center;vertical-align:bottom;padding:0 2mm">
-            <div style="width:36mm;height:1px;background-color:{{ $primary }};margin:0 auto 2mm"></div>
-            <div style="font-family:Arial,Helvetica,sans-serif;font-size:6.5pt;text-transform:uppercase;letter-spacing:0.5px;color:#333;line-height:1.4;word-wrap:break-word">Vice Chancellor</div>
-            <div style="font-family:Arial,Helvetica,sans-serif;font-size:5.5pt;color:#888;margin-top:0.5mm;line-height:1.4">PAAU, Anyigba</div>
-          </td>
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:16pt;font-weight:bold;color:{{ $primary }};letter-spacing:1px;text-transform:uppercase;line-height:1.25;margin-bottom:1.5mm">
+              Prince Abubakar Audu University
+            </div>
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:9pt;color:#555;letter-spacing:2.5px;text-transform:uppercase;line-height:1.3;margin-bottom:4mm">
+              Anyigba, Kogi State, Nigeria
+            </div>
 
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:12.5pt;font-weight:bold;color:#222;letter-spacing:1.5px;text-transform:uppercase;line-height:1.3;margin-bottom:1mm">
+              {{ $certTitle }}
+            </div>
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:8.5pt;font-weight:bold;color:{{ $accent }};letter-spacing:1px;text-transform:uppercase;line-height:1.4;margin-bottom:4mm">
+              Certificate No. {{ $certificate->certificate_id }}
+            </div>
+
+            <table style="width:60%;margin:0 auto;border-collapse:collapse" cellpadding="0" cellspacing="0">
+              <tr><td class="rule-heavy">&nbsp;</td></tr>
+            </table>
+
+          </td>
         </tr>
+
+        {{-- ================= BODY ================= --}}
+        <tr>
+          <td style="vertical-align:middle;text-align:center">
+
+            <div style="font-size:12pt;color:#444;font-style:italic;line-height:1.5;margin-bottom:4mm">
+              The PAAUMENTOR Peer Mentorship Programme hereby certifies that
+            </div>
+
+            <div style="font-size:26pt;color:{{ $primary }};font-weight:bold;letter-spacing:2.5px;text-transform:uppercase;line-height:1.25;margin-bottom:4.5mm">
+              {{ $certificate->user->full_name }}
+            </div>
+
+            @if($isHackathon)
+              @php $team = $certificate->hackathonTeam; $hackathon = $team->hackathon; @endphp
+              <div style="font-size:11pt;color:#444;font-style:italic;line-height:1.7;margin-bottom:3mm">
+                as a member of team <strong style="color:{{ $primary }};font-style:normal">{{ $team->name }}</strong>,
+                @if($certificate->placement === 'participant')
+                  participated in
+                @else
+                  achieved <strong style="color:{{ $primary }};font-style:normal">{{ $certificate->placement }} Place</strong> in
+                @endif
+              </div>
+              <div style="font-size:15pt;font-weight:bold;color:#222;text-transform:uppercase;letter-spacing:1px;line-height:1.4;margin-bottom:3mm">
+                {{ $hackathon->title }}
+              </div>
+              @if($hackathon->theme)
+              <div style="font-size:10pt;color:#666;font-style:italic;line-height:1.5;margin-bottom:3mm">Theme: {{ $hackathon->theme }}</div>
+              @endif
+              <div style="font-size:10.5pt;color:#555;line-height:1.7">
+                organised under the PAAUMENTOR Peer Mentorship Programme.
+              </div>
+            @elseif($isMentor)
+              <div style="font-size:11pt;color:#444;font-style:italic;line-height:1.7;margin-bottom:3mm">
+                has demonstrated exceptional dedication and commitment in guiding and mentoring
+              </div>
+              <div style="font-size:15pt;color:{{ $primary }};font-weight:bold;letter-spacing:0.5px;line-height:1.3;margin-bottom:3.5mm">
+                {{ $certificate->learningPath->mentee->full_name }}
+              </div>
+              <div style="font-size:11pt;color:#444;font-style:italic;line-height:1.6;margin-bottom:2.5mm">
+                to the successful completion of the learning path
+              </div>
+              <div style="font-size:15pt;font-weight:bold;color:#222;text-transform:uppercase;letter-spacing:1px;line-height:1.4;margin-bottom:4mm">
+                {{ $certificate->learningPath->title }}
+              </div>
+              <div style="font-size:10.5pt;color:#555;line-height:1.7">
+                in recognition of dedicated guidance and mentorship provided<br>
+                through the PAAUMENTOR Peer Mentorship Programme.
+              </div>
+            @else
+              <div style="font-size:11pt;color:#444;font-style:italic;line-height:1.7;margin-bottom:3mm">
+                has successfully completed all tasks, assessments and requirements<br>
+                of the learning path
+              </div>
+              <div style="font-size:15pt;font-weight:bold;color:#222;text-transform:uppercase;letter-spacing:1px;line-height:1.4;margin-bottom:4mm">
+                {{ $certificate->learningPath->title }}
+              </div>
+              <div style="font-size:10.5pt;color:#555;line-height:1.7">
+                under the mentorship of
+                <strong style="color:{{ $primary }}">{{ $certificate->learningPath->mentor->full_name }}</strong><br>
+                through the PAAUMENTOR Peer Mentorship Programme.
+              </div>
+            @endif
+
+            <div style="font-size:11pt;color:#333;font-style:italic;line-height:1.4;margin-top:6mm">
+              Given under the seal of the Programme this
+              {{ $certificate->issued_at->format('jS') }} day of {{ $certificate->issued_at->format('F, Y') }}
+            </div>
+
+          </td>
+        </tr>
+
+        {{-- ================= FOOTER ================= --}}
+        <tr>
+          <td style="vertical-align:bottom;height:52mm">
+
+            <table style="width:70%;margin:0 auto 6mm;border-collapse:collapse" cellpadding="0" cellspacing="0">
+              <tr><td class="rule-light">&nbsp;</td></tr>
+            </table>
+
+            <table style="width:100%;border-collapse:collapse;table-layout:fixed" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="width:33%;text-align:center;vertical-align:bottom;padding:0 3mm">
+                  <div class="sig-line"></div>
+                  <div class="sig-role">Programme Director</div>
+                  <div class="sig-org">PAAUMENTOR</div>
+                </td>
+                <td style="width:34%;text-align:center;vertical-align:bottom;padding:0 3mm">
+                  @if($qrCode)
+                    {!! $qrCode !!}
+                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:6.5pt;color:#999;text-transform:uppercase;letter-spacing:0.8px;line-height:1.4;margin-top:1.5mm">Scan to Verify</div>
+                  @endif
+                </td>
+                <td style="width:33%;text-align:center;vertical-align:bottom;padding:0 3mm">
+                  <div class="sig-line"></div>
+                  <div class="sig-role">Vice Chancellor</div>
+                  <div class="sig-org">PAAU, Anyigba</div>
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+
       </table>
 
     </div>

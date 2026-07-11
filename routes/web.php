@@ -21,6 +21,7 @@ use App\Http\Controllers\{
     CertificateRequestController,
     UpgradeAssessmentController,
     HackathonController,
+    LeaderboardController,
 };
 use Illuminate\Support\Facades\{Route, Auth};
 
@@ -150,6 +151,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/',                              [StudyGroupController::class, 'store'])->name('store');
         Route::get('/{studyGroup}',                  [StudyGroupController::class, 'show'])->name('show');
         Route::post('/{studyGroup}/join',             [StudyGroupController::class, 'join'])->name('join');
+        Route::post('/{studyGroup}/add-member',       [StudyGroupController::class, 'addMember'])->name('add-member');
         Route::delete('/{studyGroup}/leave',          [StudyGroupController::class, 'leave'])->name('leave');
         Route::post('/{studyGroup}/message',          [StudyGroupController::class, 'sendMessage'])->name('message');
         Route::post('/{studyGroup}/call',             [StudyGroupController::class, 'notifyCall'])->name('call');
@@ -249,6 +251,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/',                               [CertificateController::class, 'index'])->name('index');
         Route::get('/{certificate}/download',         [CertificateController::class, 'download'])->name('download');
         Route::post('/{certificate}/rate-mentor',     [CertificateController::class, 'rateMentor'])->name('rateMentor');
+    });
+
+    // ---- Leaderboards ----
+    Route::prefix('leaderboards')->name('leaderboards.')->group(function () {
+        Route::get('/mentors',      [LeaderboardController::class, 'mentors'])->name('mentors');
+        Route::get('/certificates', [LeaderboardController::class, 'certificates'])->name('certificates');
     });
 
     // ---- Notifications ----

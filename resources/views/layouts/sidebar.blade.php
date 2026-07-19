@@ -28,6 +28,36 @@
     @endif
 
 <div class="sidebar-nav">
+@if($isAdmin)
+    {{-- ======== ADMIN — platform operator nav ======== --}}
+    <div class="sidebar-label">Administration</div>
+    <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><x-icon name="layout-dashboard" :size="17" />Overview</a>
+    <a href="{{ route('admin.users') }}"     class="sidebar-link {{ request()->routeIs('admin.users') ? 'active' : '' }}"><x-icon name="users" :size="17" />Users</a>
+    <div class="sidebar-label">Moderation</div>
+    <a href="{{ route('verifier.index') }}" class="sidebar-link {{ request()->routeIs('verifier.*') ? 'active' : '' }}"><x-icon name="shield-check" :size="17" />Mentor Portfolios
+      @php $pendingCount = \App\Models\User::whereIn('role',['mentor','alumni'])->where('mentor_status','pending')->count(); @endphp
+      @if($pendingCount) <span class="count">{{ $pendingCount }}</span> @endif
+    </a>
+    <a href="{{ route('upgrade.admin') }}" class="sidebar-link {{ request()->routeIs('upgrade.admin') ? 'active' : '' }}"><x-icon name="user-check" :size="17" />Upgrade Requests</a>
+    <div class="sidebar-label">Platform</div>
+    <a href="{{ route('hackathons.index') }}" class="sidebar-link {{ request()->routeIs('hackathons.*') ? 'active' : '' }}"><x-icon name="trophy" :size="17" />Hackathons</a>
+    <a href="{{ route('leaderboards.mentors') }}" class="sidebar-link {{ request()->routeIs('leaderboards.*') ? 'active' : '' }}"><x-icon name="award" :size="17" />Leaderboards</a>
+    <div class="sidebar-label">Account</div>
+    <a href="{{ route('profile.edit') }}" class="sidebar-link"><x-icon name="settings" :size="17" />Settings</a>
+
+@elseif($isVerifier)
+    {{-- ======== VERIFIER — approvals-focused nav ======== --}}
+    <div class="sidebar-label">Verification</div>
+    <a href="{{ route('verifier.index') }}" class="sidebar-link {{ request()->routeIs('verifier.*') ? 'active' : '' }}"><x-icon name="shield-check" :size="17" />Portfolios &amp; Certificates
+      @php $pendingCount = \App\Models\User::whereIn('role',['mentor','alumni'])->where('mentor_status','pending')->count(); @endphp
+      @if($pendingCount) <span class="count">{{ $pendingCount }}</span> @endif
+    </a>
+    <a href="{{ route('upgrade.admin') }}" class="sidebar-link {{ request()->routeIs('upgrade.admin') ? 'active' : '' }}"><x-icon name="user-check" :size="17" />Upgrade Requests</a>
+    <div class="sidebar-label">Account</div>
+    <a href="{{ route('profile.edit') }}" class="sidebar-link"><x-icon name="settings" :size="17" />Settings</a>
+
+@else
+    {{-- ======== MENTEE / MENTOR / ALUMNI — participant nav ======== --}}
     <div class="sidebar-label">Main</div>
     <a href="{{ route('dashboard') }}"      class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"><x-icon name="layout-dashboard" :size="17" />Dashboard</a>
     @if($authUser->isMentee())
@@ -74,15 +104,8 @@
     @if($authUser->isMentee())
     <a href="{{ route('upgrade.show') }}" class="sidebar-link {{ request()->routeIs('upgrade.*') ? 'active' : '' }}" style="{{ request()->routeIs('upgrade.*') ? '' : 'color:#e8b45a' }}"><x-icon name="circle-arrow-up" :size="17" />Upgrade to Mentor</a>
     @endif
-    @if($isAdmin || $isVerifier)
-    <div class="sidebar-label">Verification</div>
-    <a href="{{ route('verifier.index') }}" class="sidebar-link {{ request()->routeIs('verifier.*') ? 'active' : '' }}"><x-icon name="shield-check" :size="17" />Mentor Portfolios
-      @php $pendingCount = \App\Models\User::whereIn('role',['mentor','alumni'])->where('mentor_status','pending')->count(); @endphp
-      @if($pendingCount) <span class="count">{{ $pendingCount }}</span> @endif
-    </a>
-    <a href="{{ route('upgrade.admin') }}" class="sidebar-link {{ request()->routeIs('upgrade.admin') ? 'active' : '' }}"><x-icon name="user-check" :size="17" />Upgrade Requests</a>
-    @endif
     <a href="{{ route('profile.edit') }}" class="sidebar-link"><x-icon name="settings" :size="17" />Settings</a>
+@endif
     </div>{{-- end scrollable nav --}}
     <a href="{{ route('profile.show', auth()->user()) }}" style="padding:8px 12px;border-top:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:10px;text-decoration:none;transition:background 0.15s;border-radius:0" onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='transparent'">
       @if(auth()->user()->avatar_url)
@@ -116,4 +139,5 @@
 </div>
 
 @include('partials.mentor-ai-widget')
+@include('partials.incoming-call')
 @endsection

@@ -319,6 +319,20 @@ Route::middleware('auth')->group(function () {
             ->where('created_at', '>=', now()->subMinutes(2))
             ->latest()
             ->first();
+
+        // A 1-to-1 ring is only valid while its session is still live.
+        // We skip this check for the first 10 seconds so a fast poll by the
+        // callee never races against the session being freshly created.
+        // Group-call notifications carry no session_id and always pass through.
+        if ($notif && ($sessionId = $notif->data['session_id'] ?? null)
+            && $notif->created_at->lt(now()->subSeconds(10))) {
+            $session = \App\Models\MentorSession::find($sessionId);
+            if (!$session || $session->status === 'cancelled' || $session->call_outcome !== null) {
+                $notif->update(['read_at' => now()]);
+                $notif = null;
+            }
+        }
+
         return response()->json(['call' => $notif]);
     })->name('notifications.pendingCall');
 });

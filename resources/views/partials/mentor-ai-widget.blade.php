@@ -290,8 +290,13 @@
 {{-- Load marked.js only if not already present --}}
 @once
 <script>
+/* Load marked.js asynchronously so it never blocks page rendering.
+   The chat code already falls back to plain text if marked isn't ready yet. */
 if (typeof window.marked === 'undefined') {
-  document.write('<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"><\/script>');
+  var _maiMarked = document.createElement('script');
+  _maiMarked.src   = 'https://cdn.jsdelivr.net/npm/marked@9/marked.min.js';
+  _maiMarked.async = true;
+  document.head.appendChild(_maiMarked);
 }
 </script>
 @endonce

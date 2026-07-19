@@ -11,6 +11,11 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
+        // Operators have their own home screens — the participant dashboard
+        // (mentors, sessions, learning paths) is meaningless for them.
+        if ($user->isAdmin())    return redirect()->route('admin.dashboard');
+        if ($user->isVerifier()) return redirect()->route('verifier.index');
+
         $mentorships = $user->isMentee()
             ? $user->menteeMentorships()->with('mentor')->where('status', 'active')->get()
             : $user->mentorMentorships()

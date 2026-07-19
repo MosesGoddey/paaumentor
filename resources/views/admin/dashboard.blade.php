@@ -1,22 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 @section('title','Admin Dashboard')
 
-@section('content')
-<div class="app-layout">
-  <aside class="sidebar">
-    <div class="sidebar-label">Admin</div>
-    <a href="{{ route('admin.dashboard') }}" class="sidebar-link active">Overview</a>
-    <a href="{{ route('admin.users') }}"     class="sidebar-link">Users</a>
-    <a href="{{ route('sessions.index') }}"  class="sidebar-link">Mentorships</a>
-    <a href="{{ route('certificates.index') }}" class="sidebar-link">Certificates</a>
-    <div class="sidebar-label">Moderation</div>
-    <a href="{{ route('verifier.index') }}"  class="sidebar-link">Approvals <span class="count">{{ $pendingMentors->count() }}</span></a>
-    <a href="{{ route('profile.edit') }}"    class="sidebar-link">Settings</a>
-    <form method="POST" action="{{ route('logout') }}" style="margin-top:auto" onsubmit="return confirm('Are you sure you want to sign out?')">
-      @csrf<button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:none;border:none;cursor:pointer">Sign Out</button>
-    </form>
-  </aside>
-  <main class="main-content">
+@section('page-content')
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;flex-wrap:wrap;gap:16px">
       <div>
         <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:4px">Admin Dashboard</h1>
@@ -92,22 +77,20 @@
       <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:16px"> Top Demanded Skills</div>
       <canvas id="skillsChart" width="900" height="220" style="max-width:100%"></canvas>
     </div>
-  </main>
-</div>
 @endsection
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  drawBarChart('sessionsChart', @json($monthlyData->keys()), @json($monthlyData->values()), '#2563eb');
+  drawBarChart('sessionsChart', @json($monthlyData->keys()), @json($monthlyData->values()), '#1e3a8a', 'sessions');
 
-  const roleColors = { mentee:'#2563eb', mentor:'#f5a623', alumni:'#10b981', admin:'#ef4444', verifier:'#8b5cf6' };
+  const roleColors = { mentee:'#1e3a8a', mentor:'#b45309', alumni:'#0f766e', admin:'#b91c1c', verifier:'#6d28d9' };
   const roles = @json($roleData);
-  const segments = Object.entries(roles).map(([r,v]) => ({ value:v, color: roleColors[r] || '#64748b' }));
+  const segments = Object.entries(roles).map(([r,v]) => ({ value:v, color: roleColors[r] || '#64748b', label: r.charAt(0).toUpperCase() + r.slice(1) }));
   drawDonutChart('rolesChart', segments);
 
   const skills = @json($topSkills->pluck('total','name'));
-  drawBarChart('skillsChart', Object.keys(skills), Object.values(skills), '#f97316');
+  drawBarChart('skillsChart', Object.keys(skills), Object.values(skills), '#b45309', 'users');
 });
 </script>
 @endpush

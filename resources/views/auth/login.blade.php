@@ -41,10 +41,10 @@
 <body>
 <div class="auth-page">
   <div class="auth-left">
-    <div style="display:flex;align-items:center;gap:12px;position:relative;z-index:1">
+    <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:12px;position:relative;z-index:1;text-decoration:none">
       <div style="width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;color:#fff;font-size:1.1rem;border:1px solid rgba(255,255,255,0.2)">PM</div>
       <span style="font-family:'Sora',sans-serif;font-weight:700;color:#fff;font-size:1.2rem">PAAU<span style="color:#f5a623">MENTOR</span></span>
-    </div>
+    </a>
     <div style="position:relative;z-index:1">
       <h2 style="font-size:2.4rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:16px">Your <span style="color:#fcd34d">academic success</span> starts here.</h2>
       <p style="color:rgba(255,255,255,0.7);font-size:0.95rem;line-height:1.7;margin-bottom:36px">Join PAAU's official peer mentorship platform — connect with senior students and alumni who've walked your path.</p>
@@ -62,6 +62,10 @@
 
   <div class="auth-right">
     <div class="auth-right-inner">
+      <a href="{{ route('home') }}" style="display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--text-3);text-decoration:none;font-weight:600;margin-bottom:28px;transition:color 0.15s" onmouseover="this.style.color='var(--blue-500)'" onmouseout="this.style.color='var(--text-3)'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Home
+      </a>
       @if($errors->any())
         <div style="background:#fee2e2;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#991b1b">
           @foreach($errors->all() as $e) <div> {{ $e }}</div> @endforeach

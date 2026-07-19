@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{StudyGroup, StudyGroupMember, StudyGroupMessage, User, Notification};
+use App\Models\{StudyGroup, StudyGroupMember, StudyGroupMessage, User, Mentorship, Notification};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,11 +29,14 @@ class StudyGroupController extends Controller
         $studyGroup->load(['creator', 'members.user']);
         $messages = $studyGroup->messages()->with('sender')->orderBy('created_at')->get();
 
-        // Group admins can add members directly — list users not yet in the group
+        // Group admins can add members — but only from their own active mentees
         $addableUsers = collect();
         if ($studyGroup->isAdmin($user)) {
-            $addableUsers = User::where('is_active', true)
-                ->whereNotIn('role', ['admin', 'verifier'])
+            $menteeIds = Mentorship::where('mentor_id', $user->id)
+                ->where('status', 'active')
+                ->pluck('mentee_id');
+
+            $addableUsers = User::whereIn('id', $menteeIds)
                 ->whereNotIn('id', $studyGroup->members->pluck('user_id'))
                 ->orderBy('first_name')
                 ->get(['id', 'first_name', 'last_name', 'level']);
@@ -48,6 +51,13 @@ class StudyGroupController extends Controller
         abort_unless($studyGroup->isAdmin($user), 403);
 
         $data = $request->validate(['user_id' => 'required|exists:users,id']);
+
+        // Ensure the user being added is an active mentee of the group admin
+        $isMentee = Mentorship::where('mentor_id', $user->id)
+            ->where('mentee_id', $data['user_id'])
+            ->where('status', 'active')
+            ->exists();
+        abort_unless($isMentee, 403);
 
         abort_if($studyGroup->members()->where('user_id', $data['user_id'])->exists(), 400);
         abort_if($studyGroup->members()->count() >= $studyGroup->max_members, 422);

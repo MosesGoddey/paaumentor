@@ -399,21 +399,21 @@ document.addEventListener('DOMContentLoaded', () => {
   //  Engagement chart
   const labels = @json($engagement->keys());
   const data   = @json($engagement->values());
-  if (labels.length) drawBarChart('engagementChart', labels, data, '#1e3a8a');
-  else drawBarChart('engagementChart', ['Aug','Sep','Oct','Nov','Dec','Jan'], [0,0,0,0,0,0], '#1e3a8a');
+  if (labels.length) drawBarChart('engagementChart', labels, data, '#1e3a8a', 'sessions');
+  else drawBarChart('engagementChart', ['Aug','Sep','Oct','Nov','Dec','Jan'], [0,0,0,0,0,0], '#1e3a8a', 'sessions');
 
   // Learning path donut
   drawDonutChart('pathDonut', [
-    { value: {{ $pathCompleted }},  color: '#0f766e' },
-    { value: {{ $pathInProgress }}, color: '#1e3a8a' },
-    { value: {{ $pathNotStarted }}, color: '#cbd5e1' },
+    { value: {{ $pathCompleted }},  color: '#0f766e', label: 'Completed' },
+    { value: {{ $pathInProgress }}, color: '#1e3a8a', label: 'In Progress' },
+    { value: {{ $pathNotStarted }}, color: '#cbd5e1', label: 'Not Started' },
   ]);
 
   // Session type donut
   const sessionTypes = @json($sessionsByType);
   const typeColors = { video: '#1e3a8a', voice: '#b45309', chat: '#0f766e' };
-  const typeSegments = Object.entries(sessionTypes).map(([t, v]) => ({ value: v, color: typeColors[t] || '#94a3b8' }));
-  drawDonutChart('typeDonut', typeSegments.length ? typeSegments : [{ value: 1, color: '#e2e8f0' }]);
+  const typeSegments = Object.entries(sessionTypes).map(([t, v]) => ({ value: v, color: typeColors[t] || '#94a3b8', label: t.charAt(0).toUpperCase() + t.slice(1) }));
+  drawDonutChart('typeDonut', typeSegments.length ? typeSegments : [{ value: 1, color: '#e2e8f0', label: 'No sessions yet' }]);
 
   //  Session countdown
   function updateCountdowns() {

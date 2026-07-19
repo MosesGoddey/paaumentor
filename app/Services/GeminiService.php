@@ -37,7 +37,10 @@ class GeminiService
                 ],
                 'generationConfig' => [
                     'temperature'     => 0.7,
-                    'maxOutputTokens' => 4096,
+                    // gemini-2.5-flash is a reasoning model — its "thinking" tokens are
+                    // billed against maxOutputTokens. 4096 is too small for 30 full MCQs
+                    // plus reasoning, which truncates the JSON to nothing. Give ample room.
+                    'maxOutputTokens' => 20000,
                 ],
             ]);
 
@@ -89,7 +92,9 @@ class GeminiService
                 ],
                 'generationConfig' => [
                     'temperature'     => 0.7,
-                    'maxOutputTokens' => 4096,
+                    // gemini-2.5-flash reasoning tokens count against maxOutputTokens;
+                    // 4096 truncates a 30-question payload to empty. Give ample room.
+                    'maxOutputTokens' => 20000,
                 ],
             ]);
 

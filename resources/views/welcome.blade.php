@@ -271,6 +271,47 @@
 }
 .mentor-card .btn { width: 100%; }
 
+/*  FAQ  */
+.faq-section { padding: 80px 20px; background: var(--bg); border-top: 1px solid var(--border); }
+.faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.faq-item[open] { border-color: var(--blue-400); }
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 22px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  user-select: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+';
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--blue-500);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p {
+  padding: 0 22px 18px;
+  font-size: 0.87rem;
+  color: var(--text-3);
+  line-height: 1.7;
+  margin: 0;
+}
+
 /*  CTA  */
 .cta-section {
   position: relative;
@@ -469,6 +510,42 @@
   </div>
 </div>
 @endif
+
+{{--  FAQ  --}}
+<div class="faq-section" id="faq">
+  <h2 class="section-heading">Frequently Asked Questions</h2>
+  <p class="section-sub-heading">Everything you need to know before getting started.</p>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>What is PAAUMENTOR and who is it for?</summary>
+      <p>PAAUMENTOR is the peer-mentorship platform for students of Prince Abubakar Audu University, Anyigba. It connects students who want to learn a skill (mentees) with fellow students who already have it (mentors) — for academic support, tech skills, and career growth. It is completely free.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How do I find and connect with a mentor?</summary>
+      <p>Create a free account, open <strong>Find Mentor</strong>, and browse mentors by skill, department, or rating. Send a mentorship request describing what you want to learn — once the mentor accepts, you can chat, share files, schedule sessions, and even make voice or video calls right inside the platform.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How do I become a mentor?</summary>
+      <p>Every student starts as a mentee. Once you can demonstrate a skill, apply for a mentor upgrade from your dashboard — you'll take a short assessment on your chosen skill, and a verifier reviews your application. When approved, your profile becomes visible to mentees across campus.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What are learning paths?</summary>
+      <p>A learning path is a structured programme your mentor creates for you — modules and practical tasks with deadlines. You submit each task on the platform, your mentor grades it and gives feedback, so both of you can track real progress instead of just having conversations.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Do I get a certificate?</summary>
+      <p>Yes. After completing a learning path, you can request a certificate. You'll take an assessment to prove what you've learned, and once you pass and your mentor approves, PAAUMENTOR issues you a verifiable certificate of completion.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What else can I do besides one-on-one mentorship?</summary>
+      <p>Quite a lot — join <strong>study groups</strong> with group chat and group calls, trade skills with other students through <strong>skill exchange</strong> (teach what you know, learn what you don't), compete in <strong>hackathons</strong>, browse shared <strong>resources</strong>, and ask <strong>Mentor AI</strong> anything, any time.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Is my data safe?</summary>
+      <p>Your conversations are private between you and your mentor, and your account is protected by your password. We only use your academic details (department, level) to match you with relevant mentors — nothing is shared outside the platform.</p>
+    </details>
+  </div>
+</div>
 
 {{--  CTA  --}}
 <div class="cta-section">

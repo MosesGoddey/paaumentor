@@ -13,11 +13,14 @@
 @endphp
 <style>
 :root{--role-color:{{ $roleColor }};--role-dark:{{ $roleDark }}}
-.chat-wrap{display:flex;gap:0;height:calc(100vh - 80px);border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--surface)}
+.chat-wrap{display:flex;gap:0;height:calc(100vh - 80px);height:calc(100dvh - 80px);border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--surface)}
 .chat-list{width:300px;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0}
 .chat-main{flex:1;display:flex;flex-direction:column;min-width:0}
 @media(max-width:768px){
-  .chat-wrap{height:calc(100vh - 60px);border-radius:12px}
+  /* 64px header + 16px top/bottom page padding; dvh tracks the real visible
+     viewport on mobile (vh includes the area behind the browser URL bar,
+     which was clipping the message input off-screen). */
+  .chat-wrap{height:calc(100vh - 96px);height:calc(100dvh - 96px);border-radius:12px}
   .chat-list{width:100%;border-right:none;position:absolute;inset:0;z-index:2;background:var(--surface);border-radius:12px}
   .chat-list.hidden{display:none}
   .chat-main{width:100%}
@@ -205,19 +208,23 @@
         <button type="button" onclick="stopRecording()" title="Send voice note"
                 style="width:36px;height:36px;border-radius:50%;background:#dc2626;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><x-icon name="send" :size="15" /></button>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button type="button" onclick="document.getElementById('chatFile').click()" title="Attach file"
-                style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3)"><x-icon name="paperclip" :size="18" /></button>
-        <button type="button" id="micBtn" onclick="toggleRecording()" title="Voice note"
-                style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3)"><x-icon name="mic" :size="18" /></button>
-        <button type="button" onclick="startCall('video')" title="Start video call"
-                style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3)"><x-icon name="video" :size="18" /></button>
-        <button type="button" onclick="startCall('voice')" title="Start voice call"
-                style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3)"><x-icon name="phone" :size="18" /></button>
-        <button type="button" onclick="startCall('screen')" title="Share screen"
-                style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3)"><x-icon name="monitor-up" :size="18" /></button>
-        <input type="text" name="body" id="chatBody" class="form-input" placeholder="Type a message..." style="flex:1" autocomplete="off">
-        <button type="submit" class="btn btn-sm" style="background:var(--role-color);color:#fff;border:none">Send</button>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div class="chat-tools" style="display:flex;gap:4px;align-items:center;flex-shrink:0">
+          <button type="button" onclick="document.getElementById('chatFile').click()" title="Attach file"
+                  style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3);flex-shrink:0"><x-icon name="paperclip" :size="18" /></button>
+          <button type="button" id="micBtn" onclick="toggleRecording()" title="Voice note"
+                  style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3);flex-shrink:0"><x-icon name="mic" :size="18" /></button>
+          <button type="button" onclick="startCall('video')" title="Start video call"
+                  style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3);flex-shrink:0"><x-icon name="video" :size="18" /></button>
+          <button type="button" onclick="startCall('voice')" title="Start voice call"
+                  style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3);flex-shrink:0"><x-icon name="phone" :size="18" /></button>
+          <button type="button" onclick="startCall('screen')" title="Share screen"
+                  style="background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;padding:4px 6px;color:var(--text-3);flex-shrink:0"><x-icon name="monitor-up" :size="18" /></button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex:1;min-width:180px">
+          <input type="text" name="body" id="chatBody" class="form-input" placeholder="Type a message..." style="flex:1;min-width:0" autocomplete="off">
+          <button type="submit" class="btn btn-sm" style="background:var(--role-color);color:#fff;border:none;flex-shrink:0">Send</button>
+        </div>
       </div>
     </form>
     @else
@@ -367,7 +374,7 @@ async function startCall(type) {
 
     _callPollTimer = setInterval(async () => {
       try {
-        const sr = await fetch('/sessions/' + _mySessionId + '/status');
+        const sr = await fetch('/sessions/' + _mySessionId + '/status', {headers: {'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest'}});
         const sd = await sr.json();
         if (sd.call_outcome === 'missed' || sd.status === 'cancelled') {
           _stopCallTimers();
@@ -376,6 +383,7 @@ async function startCall(type) {
         } else if (sd.call_outcome === 'answered') {
           _stopCallTimers();
           _hideCallingOverlay();
+          _mySessionId = null;
         }
       } catch (_) {}
     }, 2500);
@@ -433,96 +441,10 @@ function endCall() {
   document.getElementById('callModal').style.display = 'none';
 }
 
-//  Incoming call polling 
-let _callBannerNotifId = null;
+{{-- Incoming-call banner + polling now lives in partials/incoming-call.blade.php,
+     included globally by the sidebar layout so calls ring on every page. --}}
 
-function showCallBanner(notif) {
-  if (document.getElementById('callBanner')) return;
-  _callBannerNotifId = notif.id;
-  const data = notif.data || {};
-  const typeLabels = {video: 'Video Call', voice: 'Voice Call', screen: 'Screen Share'};
-  const typeLabel = typeLabels[data.call_type] || 'Incoming Call';
-  const banner = document.createElement('div');
-  banner.id = 'callBanner';
-  banner.dataset.sessionId = data.session_id || '';
-  banner.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:20000;background:#1e293b;color:#fff;border-radius:16px;padding:18px 22px;box-shadow:0 8px 32px rgba(0,0,0,0.4);display:flex;flex-direction:column;gap:10px;min-width:280px;max-width:320px;animation:slideUp 0.3s ease';
-  banner.innerHTML = `
-    <style>@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}</style>
-    <div style="display:flex;align-items:center;gap:10px">
-      <div style="background:rgba(255,255,255,0.12);border-radius:8px;padding:6px 10px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0">${typeLabel}</div>
-      <div>
-        <div style="font-weight:700;font-size:0.95rem">${notif.title}</div>
-        <div style="font-size:0.78rem;opacity:0.7;margin-top:2px">${notif.body}</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button onclick="joinIncomingCall('${data.room}','${data.call_type}','${data.session_id || ''}')"
-              style="flex:1;background:#2563eb;color:#fff;border:none;padding:8px 0;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.88rem">Join</button>
-      <button onclick="dismissCallBanner()"
-              style="flex:1;background:rgba(255,255,255,0.12);color:#fff;border:none;padding:8px 0;border-radius:8px;cursor:pointer;font-size:0.88rem">Dismiss</button>
-    </div>`;
-  document.body.appendChild(banner);
-  setTimeout(() => dismissCallBanner(), 90000);
-}
-
-function joinIncomingCall(room, type, sessionId) {
-  if (sessionId) {
-    fetch('/sessions/' + sessionId + '/answered', {
-      method: 'POST',
-      headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-    });
-  }
-  let url = `https://meet.jit.si/${room}#config.prejoinPageEnabled=false&config.startWithVideoMuted=${type !== 'video'}&config.startWithAudioMuted=false&userInfo.displayName="{{ urlencode(auth()->user()->full_name) }}"`;
-  if (type === 'screen') url += '&config.startScreenSharing=true';
-  window.open(url, '_blank');
-  _dismissBanner(false);
-}
-
-function dismissCallBanner() {
-  _dismissBanner(true);
-}
-
-function _dismissBanner(markMissed) {
-  const banner = document.getElementById('callBanner');
-  const sid = banner ? banner.dataset.sessionId : null;
-  if (banner) banner.remove();
-  if (markMissed && sid) {
-    fetch('/sessions/' + sid + '/missed', {
-      method: 'POST',
-      headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-    });
-  }
-  if (_callBannerNotifId) {
-    fetch('/notifications/' + _callBannerNotifId + '/read', {
-      method: 'POST',
-      headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-    });
-    _callBannerNotifId = null;
-  }
-}
-
-async function pollForIncomingCall() {
-  try {
-    const res = await fetch('{{ route("notifications.pendingCall") }}');
-    const data = await res.json();
-    if (data.call && !document.getElementById('callBanner')) {
-      showCallBanner(data.call);
-    }
-    const banner = document.getElementById('callBanner');
-    if (banner && banner.dataset.sessionId) {
-      const sr = await fetch('/sessions/' + banner.dataset.sessionId + '/status');
-      const sd = await sr.json();
-      if (sd.status === 'cancelled') {
-        _dismissBanner(false);
-      }
-    }
-  } catch (_) {}
-}
-
-setInterval(pollForIncomingCall, 5000);
-pollForIncomingCall();
-
-//  Typing indicator 
+//  Typing indicator
 @isset($activeConversation)
 let _typingTimer = null;
 const _csrfToken = '{{ csrf_token() }}';
@@ -538,7 +460,7 @@ document.getElementById('chatBody')?.addEventListener('input', () => {
 
 async function pollTyping() {
   try {
-    const res  = await fetch('{{ route("chat.isTyping", $activeConversation) }}');
+    const res  = await fetch('{{ route("chat.isTyping", $activeConversation) }}', {headers: {'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest'}});
     const data = await res.json();
     const el   = document.getElementById('typingIndicator');
     if (el) {
@@ -559,7 +481,7 @@ pollTyping();
 //  Read receipt polling 
 async function pollReadStatus() {
   try {
-    const res  = await fetch('{{ route("chat.readStatus", $activeConversation) }}');
+    const res  = await fetch('{{ route("chat.readStatus", $activeConversation) }}', {headers: {'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest'}});
     const data = await res.json();
     (data.read_ids || []).forEach(id => {
       const tick = document.querySelector(`.msg-tick[data-id="${id}"]`);
@@ -603,10 +525,27 @@ function vnInit(container) {
   const bars = wave.querySelectorAll('.vn-bar');
 
   audio.addEventListener('loadedmetadata', () => {
-    timeEl.textContent = vnFmt(audio.duration);
+    if (isFinite(audio.duration)) {
+      timeEl.textContent = vnFmt(audio.duration);
+    } else {
+      // Chrome reports Infinity for recorded WebM until the file has been
+      // seeked to the end once — force that, then durationchange fires with
+      // the real value and we jump back to the start.
+      audio._vnFixing = true;
+      audio.currentTime = 1e101;
+    }
+  });
+
+  audio.addEventListener('durationchange', () => {
+    if (audio._vnFixing && isFinite(audio.duration)) {
+      audio._vnFixing = false;
+      audio.currentTime = 0;
+      timeEl.textContent = vnFmt(audio.duration);
+    }
   });
 
   audio.addEventListener('timeupdate', () => {
+    if (audio._vnFixing || !isFinite(audio.duration)) return;
     const pct = audio.currentTime / (audio.duration || 1);
     bars.forEach((bar, i) => {
       bar.style.background = i / VN_BARS <= pct
@@ -643,7 +582,7 @@ function vnToggle(btn) {
 }
 
 function vnFmt(s) {
-  if (!s || isNaN(s)) return '0:00';
+  if (!s || !isFinite(s)) return '0:00';
   return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
 }
 

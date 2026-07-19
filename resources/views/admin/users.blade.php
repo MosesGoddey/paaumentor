@@ -1,17 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 @section('title','Manage Users — Admin')
 
-@section('content')
-<div class="app-layout">
-  <aside class="sidebar">
-    <div class="sidebar-label">Admin</div>
-    <a href="{{ route('admin.dashboard') }}" class="sidebar-link"><span class="icon"></span> Overview</a>
-    <a href="{{ route('admin.users') }}"     class="sidebar-link active"><span class="icon"></span> Users</a>
-    <form method="POST" action="{{ route('logout') }}" style="margin-top:auto" onsubmit="return confirm('Are you sure you want to sign out?')">
-      @csrf<button type="submit" class="sidebar-link" style="width:100%;text-align:left;background:none;border:none;cursor:pointer"><span class="icon"></span> Sign Out</button>
-    </form>
-  </aside>
-  <main class="main-content">
+@section('page-content')
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
       <h1 style="font-size:1.6rem;font-weight:800;margin:0">All Users</h1>
       <button onclick="document.getElementById('verifierModal').style.display='flex'" class="btn btn-primary btn-sm">+ Add Verifier</button>
@@ -111,8 +101,6 @@
       </div>
       <div style="padding:16px">{{ $users->withQueryString()->links() }}</div>
     </div>
-  </main>
-</div>
 @if($errors->any())
 <script>document.getElementById('verifierModal').style.display = 'flex';</script>
 @endif

@@ -10,10 +10,10 @@
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:28px">
-      <div class="stat-card"><div class="stat-icon" style="background:#dbeafe"></div><div class="stat-value">{{ $stats['users'] }}</div><div class="stat-label">Total Users</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#d1fae5"></div><div class="stat-value">{{ $stats['mentorships'] }}</div><div class="stat-label">Active Mentorships</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#fef3c7"></div><div class="stat-value">{{ $stats['sessions'] }}</div><div class="stat-label">Sessions Done</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#ede9fe"></div><div class="stat-value">{{ $stats['certificates'] }}</div><div class="stat-label">Certificates</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#dbeafe;color:#2563eb"><x-icon name="users" :size="22" /></div><div class="stat-value">{{ $stats['users'] }}</div><div class="stat-label">Total Users</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#d1fae5;color:#059669"><x-icon name="user-check" :size="22" /></div><div class="stat-value">{{ $stats['mentorships'] }}</div><div class="stat-label">Active Mentorships</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#fef3c7;color:#d97706"><x-icon name="video" :size="22" /></div><div class="stat-value">{{ $stats['sessions'] }}</div><div class="stat-label">Sessions Done</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#ede9fe;color:#7c3aed"><x-icon name="award" :size="22" /></div><div class="stat-value">{{ $stats['certificates'] }}</div><div class="stat-label">Certificates</div></div>
     </div>
 
     @if($pendingMentors->count())

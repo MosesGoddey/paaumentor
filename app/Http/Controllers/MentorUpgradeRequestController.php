@@ -140,8 +140,8 @@ class MentorUpgradeRequestController extends Controller
             'mentor_recommended_at'  => now(),
         ]);
 
-        // Notify admins and verifiers
-        \App\Models\User::whereIn('role', ['admin', 'verifier'])->each(function ($admin) use ($upgradeRequest) {
+        // Notify admins (mentor-promotion decisions are admin-only)
+        \App\Models\User::where('role', 'admin')->each(function ($admin) use ($upgradeRequest) {
             Notification::create([
                 'user_id' => $admin->id,
                 'type'    => 'upgrade_pending_review',
@@ -154,10 +154,10 @@ class MentorUpgradeRequestController extends Controller
         return redirect()->route('sessions.index')->with('success', 'Recommendation submitted. An admin will review the request.');
     }
 
-    // Admin/Verifier: list all requests
+    // Admin: list all requests (mentor-promotion decisions are admin-only)
     public function adminIndex()
     {
-        abort_unless(Auth::user()->isAdmin() || Auth::user()->isVerifier(), 403);
+        abort_unless(Auth::user()->isAdmin(), 403);
 
         $requests = MentorUpgradeRequest::with('mentee', 'mentor', 'admin')
             ->orderByRaw("FIELD(status, 'recommended', 'pending', 'approved', 'rejected')")
@@ -167,10 +167,10 @@ class MentorUpgradeRequestController extends Controller
         return view('upgrade.admin', compact('requests'));
     }
 
-    // Admin/Verifier: approve
+    // Admin: approve
     public function approve(Request $request, MentorUpgradeRequest $upgradeRequest)
     {
-        abort_unless(Auth::user()->isAdmin() || Auth::user()->isVerifier(), 403);
+        abort_unless(Auth::user()->isAdmin(), 403);
         abort_unless($upgradeRequest->isRecommended(), 422);
 
         $data = $request->validate([
@@ -199,10 +199,10 @@ class MentorUpgradeRequestController extends Controller
         return back()->with('success', "{$upgradeRequest->mentee->full_name} has been upgraded to mentor.");
     }
 
-    // Admin/Verifier: reject
+    // Admin: reject
     public function reject(Request $request, MentorUpgradeRequest $upgradeRequest)
     {
-        abort_unless(Auth::user()->isAdmin() || Auth::user()->isVerifier(), 403);
+        abort_unless(Auth::user()->isAdmin(), 403);
         abort_unless(in_array($upgradeRequest->status, ['pending', 'recommended']), 422);
 
         $data = $request->validate([

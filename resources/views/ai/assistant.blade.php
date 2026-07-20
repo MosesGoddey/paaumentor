@@ -75,7 +75,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+<script src="{{ asset('vendor/marked/marked.min.js') }}"></script>
 <script>
 const area   = document.getElementById('msgArea');
 const input  = document.getElementById('msgInput');

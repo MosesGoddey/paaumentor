@@ -294,7 +294,7 @@
    The chat code already falls back to plain text if marked isn't ready yet. */
 if (typeof window.marked === 'undefined') {
   var _maiMarked = document.createElement('script');
-  _maiMarked.src   = 'https://cdn.jsdelivr.net/npm/marked@9/marked.min.js';
+  _maiMarked.src   = '{{ asset('vendor/marked/marked.min.js') }}';
   _maiMarked.async = true;
   document.head.appendChild(_maiMarked);
 }

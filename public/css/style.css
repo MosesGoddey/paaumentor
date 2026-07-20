@@ -2,7 +2,8 @@
    PAAUMENTOR — Global Stylesheet
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+/* Self-hosted so fonts render offline (was Google Fonts CDN). */
+@import url('../vendor/fonts/app-fonts.css');
 
 /* ---------- CSS Variables ---------- */
 :root {

@@ -3,12 +3,18 @@
 @section('breadcrumbs')<span style="opacity:0.5">›</span> <span>Verifier Panel</span>@endsection
 
 @section('page-content')
+@php $isAdminViewer = auth()->user()->isAdmin(); @endphp
 <div style="margin-bottom:28px">
-  <h1 style="font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:800;margin:0">Verifier Panel</h1>
-  <p style="color:var(--text-3);font-size:0.88rem;margin:6px 0 0">Review mentor portfolios and approve or reject new mentor accounts.</p>
+  <h1 style="font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:800;margin:0">{{ $isAdminViewer ? 'Verification Panel' : 'Certificate Verification' }}</h1>
+  <p style="color:var(--text-3);font-size:0.88rem;margin:6px 0 0">
+    {{ $isAdminViewer
+        ? 'Review mentor portfolios, approve certificates, and manage upgrade requests.'
+        : 'Review and issue certificates for mentees who have completed their learning paths.' }}
+  </p>
 </div>
 
-{{--  Pending direct-registration mentors  --}}
+{{--  Pending direct-registration mentors — ADMIN ONLY  --}}
+@if($isAdminViewer)
 <div class="card" style="margin-bottom:24px">
   <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:18px;display:flex;align-items:center;gap:10px">
     Pending Mentor Portfolios
@@ -97,6 +103,7 @@
   </div>
   @endforelse
 </div>
+@endif
 
 {{--  Certificate Requests Pending Verifier Review  --}}
 <div class="card" style="margin-bottom:24px">
@@ -212,10 +219,12 @@
   @endforelse
 </div>
 
-{{--  Upgrade requests (redirect to existing admin view)  --}}
+{{--  Upgrade requests (redirect to existing admin view) — ADMIN ONLY  --}}
+@if($isAdminViewer)
 <div class="card">
-  <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:8px">Mentee  Mentor Upgrade Requests</div>
+  <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:8px">Mentee → Mentor Upgrade Requests</div>
   <p style="font-size:0.85rem;color:var(--text-3);margin:0 0 14px">Review mentees who have been recommended by their mentor for promotion.</p>
-  <a href="{{ route('upgrade.admin') }}" class="btn btn-outline btn-sm">Open Upgrade Requests </a>
+  <a href="{{ route('upgrade.admin') }}" class="btn btn-outline btn-sm">Open Upgrade Requests</a>
 </div>
+@endif
 @endsection

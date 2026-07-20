@@ -283,7 +283,7 @@
 </div>
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+<script src="{{ asset('vendor/mammoth/mammoth.browser.min.js') }}"></script>
 <script>
 const area = document.getElementById('messageArea');
 if (area) area.scrollTop = area.scrollHeight;

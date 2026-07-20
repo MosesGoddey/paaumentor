@@ -26,5 +26,14 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // A stale/expired CSRF token (419 Page Expired) should never show the
+        // bare error page. Send the user to login with a friendly note — the
+        // session was already invalid, so re-authenticating is the right fix.
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Session expired. Please refresh.'], 419);
+            }
+            return redirect()->route('login')
+                ->withErrors(['login' => 'Your session expired for security. Please sign in again.']);
+        });
     })->create();

@@ -73,7 +73,8 @@ class LearningPathController extends Controller
         abort_unless($user->isMentor(), 403);
 
         $data = $request->validate([
-            'mentee_id'                     => 'required|exists:users,id',
+            'mentee_ids'                    => 'required|array|min:1',
+            'mentee_ids.*'                  => 'required|exists:users,id',
             'title'                         => 'required|string|max:200',
             'description'                   => 'nullable|string|max:2000',
             'due_date'                      => 'nullable|date',
@@ -86,42 +87,60 @@ class LearningPathController extends Controller
             'modules.*.tasks.*.is_locked'   => 'nullable',
         ]);
 
+        // Every selected mentee must be an active mentee of this mentor.
+        $menteeIds = array_values(array_unique($data['mentee_ids']));
+        $validMentees = $user->mentorMentorships()
+                             ->where('status', 'active')
+                             ->whereIn('mentee_id', $menteeIds)
+                             ->pluck('mentee_id')
+                             ->all();
+
         abort_unless(
-            $user->mentorMentorships()->where('status', 'active')->where('mentee_id', $data['mentee_id'])->exists(),
-            403, 'This user is not your active mentee.'
+            count($validMentees) === count($menteeIds),
+            403, 'One or more selected users are not your active mentees.'
         );
 
-        $path = LearningPath::create([
-            'mentor_id'   => $user->id,
-            'mentee_id'   => $data['mentee_id'],
-            'title'       => $data['title'],
-            'description' => $data['description'] ?? null,
-            'due_date'    => $data['due_date'] ?? null,
-            'status'      => 'active',
-        ]);
+        // Create an independent copy of the path (with its own modules, tasks
+        // and progress) for each mentee, so grading and certificates stay
+        // per-mentee.
+        foreach ($menteeIds as $menteeId) {
+            $path = LearningPath::create([
+                'mentor_id'   => $user->id,
+                'mentee_id'   => $menteeId,
+                'title'       => $data['title'],
+                'description' => $data['description'] ?? null,
+                'due_date'    => $data['due_date'] ?? null,
+                'status'      => 'active',
+            ]);
 
-        foreach ($data['modules'] as $mOrder => $moduleData) {
-            $module = $path->modules()->create(['title' => $moduleData['title'], 'order' => $mOrder]);
-            foreach (($moduleData['tasks'] ?? []) as $tOrder => $taskData) {
-                $module->tasks()->create([
-                    'title'       => $taskData['title'],
-                    'description' => $taskData['description'] ?? null,
-                    'max_score'   => $taskData['max_score'] ?? 100,
-                    'is_locked'   => isset($taskData['is_locked']),
-                    'order'       => $tOrder,
-                ]);
+            foreach ($data['modules'] as $mOrder => $moduleData) {
+                $module = $path->modules()->create(['title' => $moduleData['title'], 'order' => $mOrder]);
+                foreach (($moduleData['tasks'] ?? []) as $tOrder => $taskData) {
+                    $module->tasks()->create([
+                        'title'       => $taskData['title'],
+                        'description' => $taskData['description'] ?? null,
+                        'max_score'   => $taskData['max_score'] ?? 100,
+                        'is_locked'   => isset($taskData['is_locked']),
+                        'order'       => $tOrder,
+                    ]);
+                }
             }
+
+            Notification::create([
+                'user_id' => $menteeId,
+                'type'    => 'learning_path_created',
+                'title'   => 'New Learning Path Assigned!',
+                'body'    => "{$user->full_name} created a new learning path \"{$path->title}\" for you.",
+                'data'    => ['learning_path_id' => $path->id],
+            ]);
         }
 
-        Notification::create([
-            'user_id' => $data['mentee_id'],
-            'type'    => 'learning_path_created',
-            'title'   => 'New Learning Path Assigned!',
-            'body'    => "{$user->full_name} created a new learning path \"{$path->title}\" for you.",
-            'data'    => ['learning_path_id' => $path->id],
-        ]);
+        $count = count($menteeIds);
+        $msg = $count === 1
+            ? 'Learning path created successfully!'
+            : "Learning path created for {$count} mentees successfully!";
 
-        return redirect()->route('learning.index')->with('success', 'Learning path created successfully!');
+        return redirect()->route('learning.index')->with('success', $msg);
     }
 
     public function edit(LearningPath $learningPath)

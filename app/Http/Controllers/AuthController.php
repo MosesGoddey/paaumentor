@@ -44,6 +44,14 @@ class AuthController extends Controller
         }
 
         $request->session()->regenerate();
+
+        // Never land the user on a background/JSON endpoint that a stray
+        // poller may have stored as the intended URL while logged out.
+        $intended = $request->session()->get('url.intended', '');
+        if (preg_match('#/(notifications/pending-call|sessions/\d+/status)#', $intended)) {
+            $request->session()->forget('url.intended');
+        }
+
         return redirect()->intended(
             $user->isAdmin()    ? route('admin.dashboard') :
             ($user->isVerifier() ? route('verifier.index')  :

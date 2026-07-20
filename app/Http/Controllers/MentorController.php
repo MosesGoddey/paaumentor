@@ -90,7 +90,14 @@ class MentorController extends Controller
             $ratingBreakdown[$i] = $mentor->ratings()->where('score', $i)->count();
         }
 
-        return view('mentors.show', compact('mentor', 'reviews', 'ratingBreakdown'));
+        // Existing relationship (if any) so the page can show the correct
+        // state instead of always offering the request form.
+        $existingMentorship = Mentorship::where('mentor_id', $mentor->id)
+                                        ->where('mentee_id', Auth::id())
+                                        ->whereIn('status', ['pending', 'active'])
+                                        ->first();
+
+        return view('mentors.show', compact('mentor', 'reviews', 'ratingBreakdown', 'existingMentorship'));
     }
 
     public function requestMentorship(Request $request, User $mentor)
@@ -136,7 +143,11 @@ class MentorController extends Controller
             ));
         } catch (\Exception) {}
 
-        return redirect()->route('chat.index')
+        // Stay on the mentor's profile so the success toast is shown and the
+        // button flips to the "pending" state. A pending request has no chat
+        // yet, so redirecting to chat.index was wrong (and dropped the flash
+        // message on chat.index's follow-up redirect to the first conversation).
+        return redirect()->route('mentors.show', $mentor)
                          ->with('success', 'Mentorship request sent! You will be notified when they respond.');
     }
 

@@ -12,10 +12,14 @@ class VerifierController extends Controller
     {
         abort_unless(Auth::user()->isAdmin() || Auth::user()->isVerifier(), 403);
 
-        $pendingMentors = User::whereIn('role', ['mentor', 'alumni'])
-            ->where('mentor_status', 'pending')
-            ->latest()
-            ->get();
+        // Mentor registration approvals are admin-only. A certificate verifier
+        // handles certificates exclusively, so they never load pending mentors.
+        $pendingMentors = Auth::user()->isAdmin()
+            ? User::whereIn('role', ['mentor', 'alumni'])
+                ->where('mentor_status', 'pending')
+                ->latest()
+                ->get()
+            : collect();
 
         $pendingCertRequests = CertificateRequest::where('status', 'pending_verifier')
             ->with(['mentee', 'mentor', 'learningPath'])
@@ -29,7 +33,8 @@ class VerifierController extends Controller
 
     public function approve(User $user)
     {
-        abort_unless(Auth::user()->isAdmin() || Auth::user()->isVerifier(), 403);
+        // Mentor registration approvals are reserved for admins.
+        abort_unless(Auth::user()->isAdmin(), 403);
         abort_unless($user->isPendingVerification(), 422);
 
         $user->update(['mentor_status' => 'active']);
@@ -47,7 +52,8 @@ class VerifierController extends Controller
 
     public function reject(Request $request, User $user)
     {
-        abort_unless(Auth::user()->isAdmin() || Auth::user()->isVerifier(), 403);
+        // Mentor registration approvals are reserved for admins.
+        abort_unless(Auth::user()->isAdmin(), 403);
         abort_unless($user->isPendingVerification(), 422);
 
         $data = $request->validate([

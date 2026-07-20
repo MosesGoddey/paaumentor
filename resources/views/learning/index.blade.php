@@ -13,12 +13,11 @@
   @forelse($paths as $lp)
   @php $path = $lp['path']; $progress = $lp['progress']; @endphp
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform 0.25s" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
-    <div style="height:80px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));position:relative;display:flex;align-items:flex-end;padding:12px 16px">
-      <span style="position:absolute;top:16px;left:16px;font-size:2rem">{{ $progress == 100 ? '' : '' }}</span>
-      <span class="badge {{ $progress == 100 ? 'badge-green' : 'badge-blue' }}" style="margin-left:auto">{{ $progress == 100 ? ' Completed' : 'In Progress' }}</span>
-    </div>
     <div style="padding:16px">
-      <div style="font-weight:800;font-size:1rem;margin-bottom:4px">{{ $path->title }}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:4px">
+        <div style="font-weight:800;font-size:1rem">{{ $path->title }}</div>
+        <span class="badge {{ $progress == 100 ? 'badge-green' : 'badge-blue' }}" style="flex-shrink:0">{{ $progress == 100 ? ' Completed' : 'In Progress' }}</span>
+      </div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-bottom:10px;display:flex;align-items:center;gap:6px">
         <div class="avatar avatar-sm">{{ $path->mentor->initials }}</div> {{ $path->mentor->full_name }}
       </div>

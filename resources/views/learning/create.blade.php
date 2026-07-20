@@ -27,15 +27,23 @@
   <div style="font-weight:700;font-size:0.95rem;margin-bottom:16px">Path Details</div>
 
   <div class="form-group">
-    <label class="form-label">Mentee</label>
-    <select name="mentee_id" class="form-input" required>
-      <option value="">Select a mentee...</option>
-      @foreach($mentees as $mentee)
-      <option value="{{ $mentee->id }}" {{ old('mentee_id') == $mentee->id ? 'selected' : '' }}>
-        {{ $mentee->full_name }} &mdash; {{ $mentee->department }}
-      </option>
-      @endforeach
-    </select>
+    <label class="form-label">Mentee(s) <span style="color:var(--text-3);font-weight:400">— select one or more</span></label>
+    @if($mentees->isEmpty())
+      <p style="font-size:0.85rem;color:var(--text-3);margin:0">You have no active mentees yet. Accept a mentorship request first.</p>
+    @else
+      @php $oldMentees = (array) old('mentee_ids', []); @endphp
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        @foreach($mentees as $mentee)
+        <label style="display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:10px;padding:8px 14px;cursor:pointer;font-size:0.85rem;background:var(--surface-2);user-select:none">
+          <input type="checkbox" name="mentee_ids[]" value="{{ $mentee->id }}"
+                 style="accent-color:var(--blue-500);width:16px;height:16px"
+                 {{ in_array($mentee->id, $oldMentees) ? 'checked' : '' }}>
+          <span>{{ $mentee->full_name }} <span style="color:var(--text-3)">&mdash; {{ $mentee->department }}</span></span>
+        </label>
+        @endforeach
+      </div>
+      <p style="font-size:0.75rem;color:var(--text-3);margin:8px 0 0">Selecting several mentees creates a separate copy of this path for each — they each progress and are graded independently.</p>
+    @endif
   </div>
 
   <div class="form-group">

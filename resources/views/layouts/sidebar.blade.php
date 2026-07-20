@@ -46,13 +46,12 @@
     <a href="{{ route('profile.edit') }}" class="sidebar-link"><x-icon name="settings" :size="17" />Settings</a>
 
 @elseif($isVerifier)
-    {{-- ======== VERIFIER — approvals-focused nav ======== --}}
+    {{-- ======== VERIFIER — certificate verification only ======== --}}
     <div class="sidebar-label">Verification</div>
-    <a href="{{ route('verifier.index') }}" class="sidebar-link {{ request()->routeIs('verifier.*') ? 'active' : '' }}"><x-icon name="shield-check" :size="17" />Portfolios &amp; Certificates
-      @php $pendingCount = \App\Models\User::whereIn('role',['mentor','alumni'])->where('mentor_status','pending')->count(); @endphp
+    <a href="{{ route('verifier.index') }}" class="sidebar-link {{ request()->routeIs('verifier.*') ? 'active' : '' }}"><x-icon name="shield-check" :size="17" />Certificate Requests
+      @php $pendingCount = \App\Models\CertificateRequest::where('status','pending_verifier')->count(); @endphp
       @if($pendingCount) <span class="count">{{ $pendingCount }}</span> @endif
     </a>
-    <a href="{{ route('upgrade.admin') }}" class="sidebar-link {{ request()->routeIs('upgrade.admin') ? 'active' : '' }}"><x-icon name="user-check" :size="17" />Upgrade Requests</a>
     <div class="sidebar-label">Account</div>
     <a href="{{ route('profile.edit') }}" class="sidebar-link"><x-icon name="settings" :size="17" />Settings</a>
 

@@ -7,7 +7,7 @@
 <title>@yield('title', 'PAAUMENTOR') — Prince Abubakar Audu University</title>
 <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
 <style>
 /*  Page transition  */
 body { animation: pageFadeIn 0.25s ease both; }
@@ -81,7 +81,7 @@ body { animation: pageFadeIn 0.25s ease both; }
 @yield('content')
 
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
 /*  Progress bar  */
 (function(){

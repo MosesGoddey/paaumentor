@@ -30,6 +30,20 @@
       <div><div style="font-family:'Sora',sans-serif;font-weight:800;font-size:1.3rem">{{ $mentor->mentorMentorships->count() }}</div><div style="font-size:0.75rem;color:var(--text-3)">Mentees</div></div>
     </div>
 
+    @if(isset($existingMentorship) && $existingMentorship)
+      @if($existingMentorship->status === 'pending')
+      <div style="background:var(--surface-2);border-radius:14px;padding:20px;text-align:center">
+        <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:6px">Request Pending</div>
+        <p style="font-size:0.85rem;color:var(--text-3);margin-bottom:0">Your mentorship request has been sent. You'll be notified when {{ $mentor->first_name }} responds.</p>
+      </div>
+      @else
+      <div style="background:var(--surface-2);border-radius:14px;padding:20px;text-align:center">
+        <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:10px">You're connected 🎉</div>
+        <p style="font-size:0.85rem;color:var(--text-3);margin-bottom:14px">{{ $mentor->first_name }} is your mentor. Head to Messages to chat.</p>
+        <a href="{{ route('chat.index') }}" class="btn btn-primary" style="width:100%;justify-content:center">Open Chat</a>
+      </div>
+      @endif
+    @else
     <form method="POST" action="{{ route('mentors.request', $mentor) }}" style="background:var(--surface-2);border-radius:14px;padding:20px">
       @csrf
       <div style="font-family:'Sora',sans-serif;font-weight:700;margin-bottom:16px">Request Mentorship</div>
@@ -37,6 +51,7 @@
       <div class="form-group"><label class="form-label">Your Goal</label><textarea name="goal" class="form-input" rows="3" placeholder="What do you want to achieve?"></textarea></div>
       <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Mentorship Request</button>
     </form>
+    @endif
   </div>
 </div>
 

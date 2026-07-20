@@ -19,12 +19,13 @@
     @foreach($requests as $req)
     @php
       $statusColors = [
-        'pending'     => ['bg'=>'#fef9c3','text'=>'#854d0e','border'=>'#fde68a','label'=>' Awaiting Recommendation'],
-        'recommended' => ['bg'=>'#eff6ff','text'=>'#1d4ed8','border'=>'#bfdbfe','label'=>' Ready for Review'],
-        'approved'    => ['bg'=>'#f0fdf4','text'=>'#166534','border'=>'#86efac','label'=>' Approved'],
-        'rejected'    => ['bg'=>'#fef2f2','text'=>'#991b1b','border'=>'#fecaca','label'=>' Rejected'],
+        'pending_assessment' => ['bg'=>'#fce7f3','text'=>'#831843','border'=>'#fbcfe8','label'=>' Taking Assessment'],
+        'pending'            => ['bg'=>'#fef9c3','text'=>'#854d0e','border'=>'#fde68a','label'=>' Awaiting Recommendation'],
+        'recommended'        => ['bg'=>'#eff6ff','text'=>'#1d4ed8','border'=>'#bfdbfe','label'=>' Ready for Review'],
+        'approved'           => ['bg'=>'#f0fdf4','text'=>'#166534','border'=>'#86efac','label'=>' Approved'],
+        'rejected'           => ['bg'=>'#fef2f2','text'=>'#991b1b','border'=>'#fecaca','label'=>' Rejected'],
       ];
-      $sc = $statusColors[$req->status];
+      $sc = $statusColors[$req->status] ?? $statusColors['pending'];
     @endphp
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden">
 

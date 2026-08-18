@@ -84,14 +84,8 @@ php artisan serve
 
 ## Demo Credentials
 
-| Role | Login | Password |
-|---|---|---|
-| Admin | admin@paau.edu.ng | password |
-| Mentee | 23CS1004 *(student ID)* | password |
-| Mentor | amaka@paau.edu.ng | password |
-| Verifier | verifier@paau.edu.ng | password |
-
----
+## Demo Access
+Demo credentials are available on request reach out via [mosesgoddey521@gmail.com/https://www.linkedin.com/in/moses-goddey-855490358/] for a live walkthrough or temporary login.
 
 ## Project Structure
 
@@ -121,30 +115,6 @@ Mentee completes all tasks → Mentor grades → AI generates 30-question assess
 **Mentor Upgrade**
 Mentee meets requirements (5 sessions, 1 certificate, 1 completed path, active mentor) → AI generates upgrade assessment → Mentee passes → Mentor writes recommendation → Admin approves → Role upgraded to mentor
 
----
-
-## Environment Variables
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=
-DB_USERNAME=root
-DB_PASSWORD=
-
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your@gmail.com
-MAIL_PASSWORD=your_app_password
-
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-Get a free Gemini API key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
-
----
 
 ## Developed By
 

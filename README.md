@@ -122,7 +122,8 @@ Mentee meets requirements (5 sessions, 1 certificate, 1 completed path, active m
 Department of Computer Science  
 Prince Abubakar Audu University, Anyigba, Nigeria  
 
-Supervisor: Mr. Richard Akomodi
+
+
 
 ---
 

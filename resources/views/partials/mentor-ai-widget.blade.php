@@ -3,7 +3,7 @@
      Powered by Google Gemini · Available to guests and users
      ============================================================ --}}
 <style>
-/* wrapper — position: fixed, isolated from page layout */
+/* wrapper: position: fixed, isolated from page layout */
 #mai-wrap {
   position: fixed;
   bottom: 28px;
@@ -334,7 +334,7 @@ if (typeof window.marked === 'undefined') {
   /* ---- welcome message ---- */
   function maiWelcome() {
     maiAppendAi(
-      "Hi there! I'm **Mentor AI** — your PAAUMENTOR assistant.\n\nI can help you with:\n- Finding and requesting a mentor\n- Understanding learning paths and tasks\n- The certificate and assessment process\n- Scheduling sessions\n- Academic questions\n\nWhat would you like to know?",
+      "Hi there! I'm **Mentor AI**, your PAAUMENTOR assistant.\n\nI can help you with:\n- Finding and requesting a mentor\n- Understanding learning paths and tasks\n- The certificate and assessment process\n- Scheduling sessions\n- Academic questions\n\nWhat would you like to know?",
       INIT_CHIPS
     );
   }

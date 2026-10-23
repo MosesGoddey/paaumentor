@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PAAUMENTOR — Peer Mentorship Platform</title>
-<meta name="description" content="Peer and alumni mentorship for Prince Abubakar Audu University — matched by AI, verified by humans.">
+<title>PAAUMENTOR | Peer Mentorship Platform</title>
+<meta name="description" content="Peer and alumni mentorship for Prince Abubakar Audu University. Matched by AI, verified by humans.">
 <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <style>
-/* Transparent navbar over hero image — turns solid once the page scrolls */
+/* Transparent navbar over hero image; turns solid once the page scrolls */
 .navbar { transition: background 0.25s, border-color 0.25s, box-shadow 0.25s; }
 .navbar:not(.is-scrolled) {
   background: rgba(255,255,255,0.15) !important;
@@ -78,7 +78,7 @@
   background-color: #1a3a5c;
 }
 
-/* Background image — sized to full height so no vertical cropping */
+/* Background image: sized to full height so no vertical cropping */
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -89,7 +89,7 @@
   filter: brightness(0.85);
 }
 
-/* Gradient overlay — darkens left side for card readability, fades out on the right */
+/* Gradient overlay: darkens left side for card readability, fades out on the right */
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -273,7 +273,7 @@
 }
 .section-head .section-sub-heading { margin-bottom: 0; }
 
-/*  Features — bento grid  */
+/*  Features: bento grid  */
 .features { padding: 88px 20px; background: var(--bg); }
 .bento {
   display: grid;
@@ -748,7 +748,7 @@
   <div class="hero-card" data-reveal>
     <div class="hero-badge"><span class="pulse"></span> Prince Abubakar Audu University, Anyigba</div>
     <h1>Your Academic Success <span>Starts Here</span></h1>
-    <p>Connect with senior students and alumni who've walked your path — <strong>matched by AI, verified by humans</strong>, guided through structured learning paths, and finished with a certificate anyone can verify.</p>
+    <p>Connect with senior students and alumni who've walked your path. <strong>Matched by AI, verified by humans</strong>, guided through structured learning paths, and finished with a certificate anyone can verify.</p>
     <div class="hero-actions">
       @auth
         <a href="{{ route('dashboard') }}" class="btn-hero-primary">
@@ -801,12 +801,12 @@
   </div>
 </div>
 
-{{--  Features — bento grid  --}}
+{{--  Features: bento grid  --}}
 <section class="features" id="features">
   <div class="section-head" data-reveal>
     <div class="eyebrow">The Platform</div>
     <h2 class="section-heading">Everything You Need to Grow, in One Place</h2>
-    <p class="section-sub-heading">From your first AI match to a verifiable certificate — the whole journey is structured, social, and built for real outcomes.</p>
+    <p class="section-sub-heading">From your first AI match to a verifiable certificate, the whole journey is structured, social, and built for real outcomes.</p>
   </div>
 
   <div class="bento">
@@ -815,7 +815,7 @@
       <div class="bento-icon"><x-icon name="sparkles" :size="22" /></div>
       <div class="bento-kicker">AI-assisted</div>
       <h3>Smart Mentor Matching</h3>
-      <p>Tell us what you want to learn. We weigh skill overlap, department, level and availability — and AI reads your goals in plain words — to surface the people most likely to move you forward.</p>
+      <p>Tell us what you want to learn. We weigh skill overlap, department, level and availability, and AI reads your goals in plain words to surface the people most likely to move you forward.</p>
       <div class="bento-visual">
         <div class="constellation" aria-hidden="true">
           <svg viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -872,7 +872,7 @@
       <div class="bento-icon"><x-icon name="video" :size="22" /></div>
       <div class="bento-kicker">Real-time</div>
       <h3>Chat, Voice & Video Sessions</h3>
-      <p>Message your mentor, share files, and schedule video calls, voice calls or chat-only sessions — with a full history of every meeting.</p>
+      <p>Message your mentor, share files, and schedule video calls, voice calls or chat-only sessions, with a full history of every meeting.</p>
       <div class="bento-visual rows" aria-hidden="true">
         <div class="row">
           <span class="row-left"><x-icon name="video" :size="15" style="color:#ec4899" /> 1:1 with your mentor</span>
@@ -890,7 +890,7 @@
       <div class="bento-icon"><x-icon name="award" :size="22" /></div>
       <div class="bento-kicker">Verified</div>
       <h3>Certificates That Survive Scrutiny</h3>
-      <p>Every certificate passes an assessment, a mentor's sign-off and a verifier's approval — then ships with a QR code anyone can scan to confirm it's genuine.</p>
+      <p>Every certificate passes an assessment, a mentor's sign-off and a verifier's approval, then ships with a QR code anyone can scan to confirm it's genuine.</p>
       <div class="bento-visual chain" aria-hidden="true">
         <span class="chain-step"><x-icon name="check" :size="14" :stroke="3" /> Assessment</span>
         <span class="chain-arrow">→</span>
@@ -942,13 +942,13 @@
   <div class="section-head" data-reveal>
     <div class="eyebrow">How it works</div>
     <h2 class="section-heading">From Sign-up to Certificate in Four Steps</h2>
-    <p class="section-sub-heading">A clear path for every student — and a way to give back once you've made it.</p>
+    <p class="section-sub-heading">A clear path for every student, and a way to give back once you've made it.</p>
   </div>
   <ol class="how-steps">
     <li class="how-step" data-reveal>
       <div class="how-num">01</div>
       <h3>Create your free account</h3>
-      <p>Add your department, level and the skills you want to learn — that's what we match on.</p>
+      <p>Add your department, level and the skills you want to learn. That's what we match on.</p>
     </li>
     <li class="how-step" data-reveal>
       <div class="how-num">02</div>
@@ -963,7 +963,7 @@
     <li class="how-step" data-reveal>
       <div class="how-num">04</div>
       <h3>Earn your certificate</h3>
-      <p>Pass the assessment, get approved, and receive a QR-verified certificate — then mentor others.</p>
+      <p>Pass the assessment, get approved, and receive a QR-verified certificate, then mentor others.</p>
     </li>
   </ol>
 </section>
@@ -994,14 +994,14 @@
     <div data-reveal>
       <div class="eyebrow">Verification chain</div>
       <h2 class="section-heading">A Certificate Worth Showing Off</h2>
-      <p class="section-sub-heading">Each PAAUMENTOR certificate goes through three checks before it's issued — and anyone can scan its QR code to confirm it's real.</p>
+      <p class="section-sub-heading">Each PAAUMENTOR certificate goes through three checks before it's issued, and anyone can scan its QR code to confirm it's real.</p>
 
       <ol class="chain-list">
         <li class="chain-item">
           <div class="chain-icon" style="--accent:#7c3aed"><x-icon name="sparkles" :size="20" /></div>
           <div>
             <h3>Assessment <x-icon name="check" :size="16" :stroke="3" /></h3>
-            <p>An AI-generated assessment on what your learning path covered — you need to pass to move on.</p>
+            <p>An AI-generated assessment on what your learning path covered. You need to pass to move on.</p>
           </div>
         </li>
         <li class="chain-item">
@@ -1080,19 +1080,19 @@
   <div class="faq-list" data-reveal>
     <details class="faq-item">
       <summary>What is PAAUMENTOR and who is it for?</summary>
-      <p>PAAUMENTOR is the peer-mentorship platform for students of Prince Abubakar Audu University, Anyigba. It connects students who want to learn a skill (mentees) with fellow students who already have it (mentors) — for academic support, tech skills, and career growth. It is completely free.</p>
+      <p>PAAUMENTOR is the peer-mentorship platform for students of Prince Abubakar Audu University, Anyigba. It connects students who want to learn a skill (mentees) with fellow students who already have it (mentors), for academic support, tech skills, and career growth. It is completely free.</p>
     </details>
     <details class="faq-item">
       <summary>How do I find and connect with a mentor?</summary>
-      <p>Create a free account, open <strong>Find Mentor</strong>, and browse mentors by skill, department, or rating. Send a mentorship request describing what you want to learn — once the mentor accepts, you can chat, share files, schedule sessions, and even make voice or video calls right inside the platform.</p>
+      <p>Create a free account, open <strong>Find Mentor</strong>, and browse mentors by skill, department, or rating. Send a mentorship request describing what you want to learn. Once the mentor accepts, you can chat, share files, schedule sessions, and even make voice or video calls right inside the platform.</p>
     </details>
     <details class="faq-item">
       <summary>How do I become a mentor?</summary>
-      <p>Every student starts as a mentee. Once you can demonstrate a skill, apply for a mentor upgrade from your dashboard — you'll take a short assessment on your chosen skill, and a verifier reviews your application. When approved, your profile becomes visible to mentees across campus.</p>
+      <p>Every student starts as a mentee. Once you can demonstrate a skill, apply for a mentor upgrade from your dashboard. You'll take a short assessment on your chosen skill, and a verifier reviews your application. When approved, your profile becomes visible to mentees across campus.</p>
     </details>
     <details class="faq-item">
       <summary>What are learning paths?</summary>
-      <p>A learning path is a structured programme your mentor creates for you — modules and practical tasks with deadlines. You submit each task on the platform, your mentor grades it and gives feedback, so both of you can track real progress instead of just having conversations.</p>
+      <p>A learning path is a structured programme your mentor creates for you: modules and practical tasks with deadlines. You submit each task on the platform, your mentor grades it and gives feedback, so both of you can track real progress instead of just having conversations.</p>
     </details>
     <details class="faq-item">
       <summary>Do I get a certificate?</summary>
@@ -1100,11 +1100,11 @@
     </details>
     <details class="faq-item">
       <summary>What else can I do besides one-on-one mentorship?</summary>
-      <p>Quite a lot — join <strong>study groups</strong> with group chat and group calls, trade skills with other students through <strong>skill exchange</strong> (teach what you know, learn what you don't), compete in <strong>hackathons</strong>, browse shared <strong>resources</strong>, and ask <strong>Mentor AI</strong> anything, any time.</p>
+      <p>Quite a lot! Join <strong>study groups</strong> with group chat and group calls, trade skills with other students through <strong>skill exchange</strong> (teach what you know, learn what you don't), compete in <strong>hackathons</strong>, browse shared <strong>resources</strong>, and ask <strong>Mentor AI</strong> anything, any time.</p>
     </details>
     <details class="faq-item">
       <summary>Is my data safe?</summary>
-      <p>Your conversations are private between you and your mentor, and your account is protected by your password. We only use your academic details (department, level) to match you with relevant mentors — nothing is shared outside the platform.</p>
+      <p>Your conversations are private between you and your mentor, and your account is protected by your password. We only use your academic details (department, level) to match you with relevant mentors. Nothing is shared outside the platform.</p>
     </details>
   </div>
 </section>
@@ -1128,7 +1128,7 @@
   <div class="footer-top">
     <div>
       <div class="footer-brand"><div class="nav-logo">PM</div> PAAUMENTOR</div>
-      <p class="footer-tag">Peer and alumni mentorship for Prince Abubakar Audu University, Anyigba — matched by AI, verified by humans.</p>
+      <p class="footer-tag">Peer and alumni mentorship for Prince Abubakar Audu University, Anyigba. Matched by AI, verified by humans.</p>
     </div>
     <div class="footer-col">
       <h4>Platform</h4>
@@ -1148,11 +1148,9 @@
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Project</h4>
+      <h4>Built by</h4>
       <ul>
         <li>Moses Goddey Joseph</li>
-        <li>23CS1004</li>
-        <li>Supervisor: Mr. Richard Akomodi</li>
       </ul>
     </div>
   </div>
@@ -1165,7 +1163,7 @@
 @include('partials.mentor-ai-widget')
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
-// Count-up stats — replays every time the stats scroll back into view
+// Count-up stats: replays every time the stats scroll back into view
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     const el     = entry.target;

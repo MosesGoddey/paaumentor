@@ -42,7 +42,17 @@ Route::get('/', function () {
         ->take(4)
         ->values();
 
-    return view('welcome', compact('featuredMentors'));
+    $stats = [
+        'mentors'      => \App\Models\User::whereIn('role', ['mentor', 'alumni'])->where('mentor_status', 'active')->count(),
+        'students'     => \App\Models\User::where('is_active', true)->count(),
+        'skills'       => \App\Models\Skill::count(),
+        'certificates' => \App\Models\Certificate::count(),
+        'mentorships'  => \App\Models\Mentorship::count(),
+    ];
+
+    $skillCloud = \App\Models\Skill::orderBy('name')->take(9)->pluck('name');
+
+    return view('welcome', compact('featuredMentors', 'stats', 'skillCloud'));
 })->name('home');
 
 
